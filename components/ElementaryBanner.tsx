@@ -20,23 +20,21 @@ const ElementaryBanner: React.FC = () => {
   return (
     // Hidden on mobile (md:block) to match HomeBanner style as requested "版面同首頁"
     <section className="w-full bg-slate-50 hidden md:block">
-      <div className="relative w-full overflow-hidden group">
+      <div className="relative w-full overflow-hidden group aspect-[3/1]">
         {IMAGES.map((img, index) => (
           <div
             key={index}
-            // Logic: The active image is 'relative' to dictate container height naturally.
-            // Inactive images are 'absolute' to overlap without taking space.
-            className={`transition-opacity duration-1000 ease-in-out w-full ${
+            className={`transition-opacity duration-1000 ease-in-out absolute inset-0 w-full h-full ${
               index === currentIndex 
-                ? 'relative opacity-100 z-10' 
-                : 'absolute top-0 left-0 opacity-0 z-0'
+                ? 'opacity-100 z-10' 
+                : 'opacity-0 z-0'
             }`}
           >
-            {/* w-full h-auto -> Ensures full width and natural height (no crop) */}
+            {/* object-cover ensures container fills the aspect ratio */}
             <img 
               src={img} 
               alt={`Elementary Banner ${index + 1}`} 
-              className="w-full h-auto block" 
+              className="w-full h-full object-cover block" 
             />
           </div>
         ))}

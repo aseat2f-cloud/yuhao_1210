@@ -106,7 +106,7 @@ const JuniorTeacherCarousel: React.FC = () => {
   const visibleTeachers = getVisibleTeachers();
 
   return (
-    <section id="teachers" className="py-20 bg-slate-50 scroll-mt-24">
+    <section id="junior-teachers" className="py-20 bg-slate-50 scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-blue-600 font-bold tracking-wide uppercase text-sm mb-3">名師領航</h2>

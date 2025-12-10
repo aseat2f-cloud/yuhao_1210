@@ -29,7 +29,7 @@ interface ProgramData {
   sectionBg: string;
   headerLabelColor: string;
   activeTabStyle: string;
-  activeButtonClass: string; // New: Specific style for active category button
+  activeButtonClass: string;
   page: PageType;
   categories: CourseCategory[];
   teacherSectionId: string;
@@ -68,17 +68,28 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
   const handleNavAndScroll = (page: PageType, sectionId: string) => {
     onNavigate(page);
     
-    const scrollToElement = () => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-            element.scrollIntoView({ behavior: 'auto', block: 'start' });
-        }
+    // Use a polling mechanism to scroll ONLY ONCE when the element appears
+    // This prevents the "double jump" or "flashing" effect caused by multiple setTimeouts
+    let attempts = 0;
+    const maxAttempts = 20; // Try for up to 2 seconds (20 * 100ms)
+    
+    const pollElement = () => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        // Element found! Scroll to it once and stop.
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      
+      attempts++;
+      if (attempts < maxAttempts) {
+        // Element not found yet (page transition in progress), check again shortly
+        setTimeout(pollElement, 100);
+      }
     };
 
-    setTimeout(scrollToElement, 100);
-    setTimeout(scrollToElement, 300);
-    setTimeout(scrollToElement, 600);
-    setTimeout(scrollToElement, 1000);
+    // Start polling after a tiny delay to allow React state to begin updating
+    setTimeout(pollElement, 50);
   };
 
   const scrollLeft = () => {
@@ -164,7 +175,7 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
       activeTabStyle: 'bg-white text-blue-700 shadow-lg',
       activeButtonClass: 'bg-blue-600 text-white border-blue-600 ring-2 ring-blue-200',
       page: 'junior',
-      teacherSectionId: 'teachers',
+      teacherSectionId: 'junior-teachers',
       categories: [
         {
           id: 'math',
@@ -221,7 +232,7 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
       activeTabStyle: 'bg-white text-purple-700 shadow-lg',
       activeButtonClass: 'bg-purple-600 text-white border-purple-600 ring-2 ring-purple-200',
       page: 'senior',
-      teacherSectionId: 'teachers',
+      teacherSectionId: 'senior-teachers',
       categories: [
         {
           id: 'g10',

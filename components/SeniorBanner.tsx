@@ -18,20 +18,20 @@ const SeniorBanner: React.FC = () => {
 
   return (
     <section className="w-full bg-slate-50 hidden md:block">
-      <div className="relative w-full overflow-hidden group">
+      <div className="relative w-full overflow-hidden group aspect-[3/1]">
         {IMAGES.map((img, index) => (
           <div
             key={index}
-            className={`transition-opacity duration-1000 ease-in-out w-full ${
+            className={`transition-opacity duration-1000 ease-in-out absolute inset-0 w-full h-full ${
               index === currentIndex 
-                ? 'relative opacity-100 z-10' 
-                : 'absolute top-0 left-0 opacity-0 z-0'
+                ? 'opacity-100 z-10' 
+                : 'opacity-0 z-0'
             }`}
           >
             <img 
               src={img} 
               alt={`Senior Banner ${index + 1}`} 
-              className="w-full h-auto block" 
+              className="w-full h-full object-cover block" 
             />
           </div>
         ))}

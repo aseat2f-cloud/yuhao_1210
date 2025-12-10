@@ -23,9 +23,6 @@ const MobileFloatingNav: React.FC<MobileFloatingNavProps> = ({
   showScrollTop,
   onScrollTop
 }) => {
-  // Hide on Bulletin page or if currentPage is not one of the main landing pages
-  if (currentPage === 'bulletin') return null;
-
   // Define links based on page
   const getLinks = (): QuickLink[] => {
     switch (currentPage) {
@@ -50,6 +47,9 @@ const MobileFloatingNav: React.FC<MobileFloatingNavProps> = ({
           { label: '師資陣容', href: '#teachers' },
           { label: '家長見證', href: '#testimonials' },
         ];
+      case 'bulletin':
+        // No quick links for bulletin, only action buttons on the right
+        return [];
       case 'home':
       default:
         return [
@@ -93,8 +93,8 @@ const MobileFloatingNav: React.FC<MobileFloatingNavProps> = ({
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white border-t border-gray-100 shadow-[0_-2px_10px_rgba(0,0,0,0.03)] pb-4 pt-3">
-      <div className="flex justify-center items-center gap-2 px-1">
-        {/* 4 Nav Links */}
+      <div className={`flex items-center px-1 ${currentPage === 'bulletin' ? 'justify-end pr-6 gap-3' : 'justify-center gap-2'}`}>
+        {/* Nav Links - Only show if links exist */}
         {links.map((link, index) => (
           <a
             key={index}
@@ -133,3 +133,4 @@ const MobileFloatingNav: React.FC<MobileFloatingNavProps> = ({
 };
 
 export default MobileFloatingNav;
+    

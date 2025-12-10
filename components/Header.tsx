@@ -45,7 +45,12 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // Removed unused activeDropdown state
+
+  // Prepare Mobile Nav Items (Bulletin First)
+  const mobileNavItems = [
+    NAV_ITEMS.find(item => item.page === 'bulletin')!,
+    ...NAV_ITEMS.filter(item => item.page !== 'bulletin')
+  ];
 
   const handleNavClick = (page: PageType, sectionId?: string) => {
     onNavigate(page);
@@ -191,7 +196,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) 
         }`}
       >
         <div className="flex flex-col p-4 gap-2 pb-24">
-          {NAV_ITEMS.map((item) => (
+          {mobileNavItems.map((item) => (
             <div key={item.label}>
               <button
                 className={`w-full text-left text-lg font-bold py-3 border-b border-gray-50 flex justify-between items-center ${
@@ -245,3 +250,4 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) 
 };
 
 export default Header;
+    
