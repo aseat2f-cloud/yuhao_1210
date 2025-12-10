@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 const IMAGES = [
@@ -16,7 +15,7 @@ const HomeBanner: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % IMAGES.length);
-    }, 5000);
+    }, 2500); // Speed up slightly (3000 -> 2500)
     return () => clearInterval(timer);
   }, []);
 

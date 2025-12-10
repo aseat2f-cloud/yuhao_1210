@@ -35,62 +35,196 @@ interface ProgramData {
   teacherSectionId: string;
 }
 
-const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
-  const [activeTab, setActiveTab] = useState<'elementary' | 'junior' | 'senior'>('elementary');
+const convertDropboxLink = (url: string) => url.replace('dl=0', 'raw=1');
+
+const PROGRAMS_DATA: Record<string, ProgramData> = {
+  elementary: {
+    id: 'elementary',
+    title: '國小部',
+    grade: '幼兒大班 ~ 小六',
+    subtitle: '啟發天賦，快樂成長',
+    desc: '育豪資優國小部打造全方位學習環境，透過具象化教學與遊戲，將抽象概念轉化為孩子易懂的語言。結合艾森樂美語的全美語沉浸環境與小育豪資優數學的啟發式教學，不僅重視學科能力，更強調品格與思考習慣。讓學習成為樂趣，陪伴孩子自信成長，為未來升學奠定堅實基礎。',
+    themeColor: 'text-green-700',
+    borderColor: 'border-green-100',
+    sectionBg: 'bg-green-600',
+    headerLabelColor: 'text-green-100',
+    activeTabStyle: 'bg-white text-green-700 shadow-lg',
+    activeButtonClass: 'bg-green-600 text-white border-green-600 ring-2 ring-green-200',
+    page: 'elementary',
+    teacherSectionId: 'teacher-carousel',
+    categories: [
+      {
+        id: 'math',
+        name: '數學',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/r2nuseglslav14h71mm7c/008-705x470.jpg?rlkey=wprqc04pifmsd63wmmbm9r5xj&dl=0'), caption: '獨創圖解教學法，將抽象數學具象化，讓孩子透過操作與觀察，輕鬆理解複雜觀念，建立紮實邏輯基礎。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '透過教具操作與互動討論，引導孩子主動提問，培養多角度思考與邏輯推理能力，激發對數學的熱情。' }
+        ]
+      },
+      {
+        id: 'english',
+        name: '美語',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '全美語沉浸式環境，專業外師引導，讓孩子在自然情境中開口說英語，建立自信表達能力與國際視野。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/4px2b55be2s0amq614egi/001.jpg?rlkey=ar6i96aujzyr2s1cnuybkpf7r&dl=0'), caption: '結合繪本閱讀與節慶活動，透過生動有趣的故事教學，讓語言學習融入生活，快樂中培養語感。' }
+        ]
+      },
+      {
+        id: 'chinese',
+        name: '國語文',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/jmiw89xm3x3ssmeu5looh/013-1-705x470.jpg?rlkey=12g0x8zayag3oi5oabwtjsjyy&dl=0'), caption: '精選文學作品導讀，引導孩子深入思考與鑑賞，透過討論分享，提升閱讀素養、理解力與表達能力。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/fqw7ec8xo52m15q54ummf/011-705x470.jpg?rlkey=yixf8ceylh559b0rd1lu66wx1&dl=0'), caption: '心智圖構思與寫作技巧指導，激發想像力，引導孩子觀察生活細節，寫出有溫度、有深度的文章。' }
+        ]
+      },
+      {
+        id: 'gifted',
+        name: '資優升學',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/kseqyb5rsjz98d8leqbnp/009-705x470.jpg?rlkey=a12jhis4kqn5uf5tzdu18ew84&dl=0'), caption: '針對資優鑑定與私中入學考，提供精準命題分析與解題策略，強化邏輯思維與應試技巧，自信應考。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '模擬面試與實作演練，透過高強度訓練提升抗壓性，全面提升競爭力，助孩子在升學戰場脫穎而出。' }
+        ]
+      },
+      {
+        id: 'player',
+        name: '小玩家',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '多元主題營隊，結合科學實驗、藝術創作與體能活動，讓孩子在探索中發現興趣，激發無限潛能。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '寓教於樂的戶外教學與團體活動，透過實際體驗與團隊合作，培養孩子解決問題的能力與人際互動技巧。' }
+        ]
+      }
+    ]
+  },
+  junior: {
+    id: 'junior',
+    title: '國中部',
+    grade: '國七 ~ 國九',
+    subtitle: '關鍵三年，會考制勝',
+    desc: '面對會考挑戰，育豪國中部提供專業全科輔導。針對命題趨勢分析，結合個別化弱點診斷，幫助學生突破盲點。強調觀念理解與舉一反三的解題力，而非死背。從數理資優培訓到考前衝刺規劃，我們有完整課程體系，陪伴青春期的孩子度過升學難關，建立自信，成就非凡佳績。',
+    themeColor: 'text-blue-700',
+    borderColor: 'border-blue-100',
+    sectionBg: 'bg-blue-600',
+    headerLabelColor: 'text-blue-100',
+    activeTabStyle: 'bg-white text-blue-700 shadow-lg',
+    activeButtonClass: 'bg-blue-600 text-white border-blue-600 ring-2 ring-blue-200',
+    page: 'junior',
+    teacherSectionId: 'junior-teachers',
+    categories: [
+      {
+        id: 'math',
+        name: '數學',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/xn6tfjmjfz57t1a0o97dy/2-705x529.jpg?rlkey=0qxghaoz9h96lu75498vg8ryb&dl=0'), caption: '從代數運算到幾何證明，循序漸進建立嚴謹邏輯架構，透過觀念釐清與題型演練，奠定紮實數學基礎。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '分組討論與上台解題，鼓勵學生清晰表達解題思路，訓練邏輯表達力，培養自信溝通與互助學習精神。' }
+        ]
+      },
+      {
+        id: 'english',
+        name: '英文',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/e6pxao76lqifuwu3vk8r5/IMG_1920-705x474.jpg?rlkey=kqmzy1fqcjfstovoo4tag22ow&dl=0'), caption: '強化文法架構與閱讀測驗技巧，透過系統化教學累積單字量，提升閱讀速度與精準度，厚植應試實力。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/jmiw89xm3x3ssmeu5looh/013-1-705x470.jpg?rlkey=12g0x8zayag3oi5oabwtjsjyy&dl=0'), caption: '透過主題式教學與時事探討，提升聽力與閱讀理解能力，將英語應用於實際生活，讓語言成為升學優勢。' }
+        ]
+      },
+      {
+        id: 'chinese',
+        name: '國文',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/9r90b7r8b4jtyvetn12rt/IMG_7539-705x529.jpg?rlkey=zdlzwqbvsv5mk2t79c0wc5dvt&dl=0'), caption: '精選文言文與白話文閱讀篇章，深入解析文章意涵，提升閱讀素養與批判性思考，精準掌握考點。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/kseqyb5rsjz98d8leqbnp/009-705x470.jpg?rlkey=a12jhis4kqn5uf5tzdu18ew84&dl=0'), caption: '加強寫作技巧指導，引導運用修辭與名言佳句，透過結構佈局與情感抒發，輕鬆拿下作文高分。' }
+        ]
+      },
+      {
+        id: 'science',
+        name: '自然',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/d7hrj9aboqtl04nt87b7g/IMG_7486-2-705x503.jpg?rlkey=o2niogjjr4tj7yzyu06jmeqkh&dl=0'), caption: '結合生物、理化與地科，透過實驗演示輔助教學，將抽象原理具象化，加深記憶並培養科學探究精神。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/9r90b7r8b4jtyvetn12rt/IMG_7539-705x529.jpg?rlkey=zdlzwqbvsv5mk2t79c0wc5dvt&dl=0'), caption: '強調觀念理解而非死背，引導學生思考自然現象背後的原理，靈活運用知識，從容應對會考素養題。' }
+        ]
+      },
+      {
+        id: 'sprint',
+        name: '寒暑衝刺',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/z30qj5je1q6gew92obd3j/020.jpg?rlkey=37gi6a9ncyfuk16xi6lhfc42j&dl=0'), caption: '利用寒暑假黃金時間，進行超前進度學習或重點複習，幫助學生調整讀書節奏，贏在起跑點。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ztq96vz6vf6aggmu801ne/021.jpg?rlkey=9755nld1ujkgmp8sg8xkjsb0p&dl=0'), caption: '提供安靜舒適的K書環境與專人輔導機制，營造專注學習氛圍，讓學生能心無旁骛，學習更有效率。' }
+        ]
+      }
+    ]
+  },
+  senior: {
+    id: 'senior',
+    title: '高中部',
+    grade: '高一 ~ 高三',
+    subtitle: '素養導向，前進頂大',
+    desc: '育豪菁英高中部提供學測與分科測驗雙軌規劃，強化新課綱素養導向的觀念深度。提供一對一學習歷程指導與科系探索諮詢，從高一銜接、高二選組到高三衝刺，以強大師資團隊協助學生精準掌握考試重點，發掘個人優勢。全力輔導學生錄取理想頂尖大學，開啟璀璨未來。',
+    themeColor: 'text-purple-700',
+    borderColor: 'border-purple-100',
+    sectionBg: 'bg-purple-600',
+    headerLabelColor: 'text-purple-100',
+    activeTabStyle: 'bg-white text-purple-700 shadow-lg',
+    activeButtonClass: 'bg-purple-600 text-white border-purple-600 ring-2 ring-purple-200',
+    page: 'senior',
+    teacherSectionId: 'senior-teachers',
+    categories: [
+      {
+        id: 'g10',
+        name: '升高一',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ngastj91xhedgevtfi8tn/_-33-705x381.jpg?rlkey=6sv7heubjzfbz5p5h4uyrqbw1&dl=0'), caption: '銜接國高中課程落差，強化核心觀念，引導學生調整讀書方法，培養自主學習與探究實作能力。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/41a52kh3dmp5a7j5kol8b/_-35-705x381.jpg?rlkey=wuyxh4koljibq9d0apzi3xg9n&dl=0'), caption: '針對新課綱素養導向，透過跨科整合與實作練習，奠定紮實學科基礎，為高中三年學習做好充分準備。' }
+        ]
+      },
+      {
+        id: 'g11',
+        name: '升高二',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/z30qj5je1q6gew92obd3j/020.jpg?rlkey=37gi6a9ncyfuk16xi6lhfc42j&dl=0'), caption: '深化學科知識，面對選組分流挑戰，提供加深加廣課程，全面提升各科實力，建立學科自信。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ztq96vz6vf6aggmu801ne/021.jpg?rlkey=9755nld1ujkgmp8sg8xkjsb0p&dl=0'), caption: '同步累積學習歷程檔案與科系探索，透過專業諮詢協助學生釐清志向，為學測與申請入學累積優勢。' }
+        ]
+      },
+      {
+        id: 'g12',
+        name: '升高三',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/o9k3hmtz0mr7kfalig4nn/022.jpg?rlkey=k0yw6prgpjcpechkew5tbv6py&dl=0'), caption: '全方位學測複習與模考演練，精準掌握最新命題趨勢，透過大量題型練習提升解題速度與準確率。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/arxryojkkdhwn6q3wxbhk/023.jpg?rlkey=0t51d4noouc516yypd8tsgiuu&dl=0'), caption: '針對個人弱點進行精準補強，搭配申請入學模擬面試與備審資料輔導，全力協助學生直攻頂尖大學。' }
+        ]
+      },
+      {
+        id: 'sprint',
+        name: '寒暑衝刺',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/arxryojkkdhwn6q3wxbhk/023.jpg?rlkey=0t51d4noouc516yypd8tsgiuu&dl=0'), caption: '把握寒暑假黃金期，集中火力進行高強度衝刺，透過密集訓練與規律作息，讓成績大幅躍進。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ngastj91xhedgevtfi8tn/_-33-705x381.jpg?rlkey=6sv7heubjzfbz5p5h4uyrqbw1&dl=0'), caption: '提供規律的作息安排與高強度的學習規劃，營造良性競爭氛圍，激發學生的最大潛能與鬥志。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/41a52kh3dmp5a7j5kol8b/_-35-705x381.jpg?rlkey=wuyxh4koljibq9d0apzi3xg9n&dl=0'), caption: '專業導師全程陪伴，即時解決學習疑難，透過個別化指導與心理建設，讓學生保持最佳備考狀態。' }
+        ]
+      }
+    ]
+  }
+};
+
+/**
+ * ProgramContent Component
+ * Renders the content card for a specific program.
+ * Maintains its own state for category and image selection.
+ * Pre-renders ALL images to ensure instant switching.
+ */
+const ProgramContent: React.FC<{ 
+  program: ProgramData; 
+  isActive: boolean; 
+}> = ({ 
+  program, 
+  isActive 
+}) => {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Reset indices when tab changes
-  useEffect(() => {
-    setActiveCategoryIndex(0);
-    setActiveImageIndex(0);
-  }, [activeTab]);
-
-  const convertDropboxLink = (url: string) => url.replace('dl=0', 'raw=1');
-
-  const renderCategoryName = (name: string) => {
-    if (name.length === 4) {
-      return (
-        <span className="leading-tight">
-          {name.substring(0, 2)}<br />{name.substring(2)}
-        </span>
-      );
-    }
-    return <span>{name}</span>;
-  };
-
-  const handleCategoryChange = (index: number) => {
-    setActiveCategoryIndex(index);
-    setActiveImageIndex(0);
-  };
-
-  const handleNavAndScroll = (page: PageType, sectionId: string) => {
-    onNavigate(page);
-    
-    // Use a polling mechanism to scroll ONLY ONCE when the element appears
-    // This prevents the "double jump" or "flashing" effect caused by multiple setTimeouts
-    let attempts = 0;
-    const maxAttempts = 20; // Try for up to 2 seconds (20 * 100ms)
-    
-    const pollElement = () => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        // Element found! Scroll to it once and stop.
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return;
-      }
-      
-      attempts++;
-      if (attempts < maxAttempts) {
-        // Element not found yet (page transition in progress), check again shortly
-        setTimeout(pollElement, 100);
-      }
-    };
-
-    // Start polling after a tiny delay to allow React state to begin updating
-    setTimeout(pollElement, 50);
-  };
+  // Derived
+  const activeCategory = program.categories[activeCategoryIndex];
+  const activeImages = activeCategory.images;
+  const currentImage = activeImages[activeImageIndex];
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -104,177 +238,10 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
     }
   };
 
-  const programs: Record<string, ProgramData> = {
-    elementary: {
-      id: 'elementary',
-      title: '國小部',
-      grade: '幼兒大班 ~ 小六',
-      subtitle: '啟發天賦，快樂成長',
-      desc: '育豪資優國小部打造全方位學習環境，透過具象化教學與遊戲，將抽象概念轉化為孩子易懂的語言。結合艾森樂美語的全美語沉浸環境與小育豪資優數學的啟發式教學，不僅重視學科能力，更強調品格與思考習慣。讓學習成為樂趣，陪伴孩子自信成長，為未來升學奠定堅實基礎。',
-      themeColor: 'text-green-700',
-      borderColor: 'border-green-100',
-      sectionBg: 'bg-green-600',
-      headerLabelColor: 'text-green-100',
-      activeTabStyle: 'bg-white text-green-700 shadow-lg',
-      activeButtonClass: 'bg-green-600 text-white border-green-600 ring-2 ring-green-200',
-      page: 'elementary',
-      teacherSectionId: 'teacher-carousel',
-      categories: [
-        {
-          id: 'math',
-          name: '數學',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/r2nuseglslav14h71mm7c/008-705x470.jpg?rlkey=wprqc04pifmsd63wmmbm9r5xj&dl=0'), caption: '獨創圖解教學法，將抽象數學具象化，讓孩子透過操作與觀察，輕鬆理解複雜觀念，建立紮實邏輯基礎。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '透過教具操作與互動討論，引導孩子主動提問，培養多角度思考與邏輯推理能力，激發對數學的熱情。' }
-          ]
-        },
-        {
-          id: 'english',
-          name: '美語',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '全美語沉浸式環境，專業外師引導，讓孩子在自然情境中開口說英語，建立自信表達能力與國際視野。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/4px2b55be2s0amq614egi/001.jpg?rlkey=ar6i96aujzyr2s1cnuybkpf7r&dl=0'), caption: '結合繪本閱讀與節慶活動，透過生動有趣的故事教學，讓語言學習融入生活，快樂中培養語感。' }
-          ]
-        },
-        {
-          id: 'chinese',
-          name: '國語文',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/jmiw89xm3x3ssmeu5looh/013-1-705x470.jpg?rlkey=12g0x8zayag3oi5oabwtjsjyy&dl=0'), caption: '精選文學作品導讀，引導孩子深入思考與鑑賞，透過討論分享，提升閱讀素養、理解力與表達能力。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/fqw7ec8xo52m15q54ummf/011-705x470.jpg?rlkey=yixf8ceylh559b0rd1lu66wx1&dl=0'), caption: '心智圖構思與寫作技巧指導，激發想像力，引導孩子觀察生活細節，寫出有溫度、有深度的文章。' }
-          ]
-        },
-        {
-          id: 'gifted',
-          name: '資優升學',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/kseqyb5rsjz98d8leqbnp/009-705x470.jpg?rlkey=a12jhis4kqn5uf5tzdu18ew84&dl=0'), caption: '針對資優鑑定與私中入學考，提供精準命題分析與解題策略，強化邏輯思維與應試技巧，自信應考。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '模擬面試與實作演練，透過高強度訓練提升抗壓性，全面提升競爭力，助孩子在升學戰場脫穎而出。' }
-          ]
-        },
-        {
-          id: 'player',
-          name: '小玩家',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '多元主題營隊，結合科學實驗、藝術創作與體能活動，讓孩子在探索中發現興趣，激發無限潛能。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '寓教於樂的戶外教學與團體活動，透過實際體驗與團隊合作，培養孩子解決問題的能力與人際互動技巧。' }
-          ]
-        }
-      ]
-    },
-    junior: {
-      id: 'junior',
-      title: '國中部',
-      grade: '國七 ~ 國九',
-      subtitle: '關鍵三年，會考制勝',
-      desc: '面對會考挑戰，育豪國中部提供專業全科輔導。針對命題趨勢分析，結合個別化弱點診斷，幫助學生突破盲點。強調觀念理解與舉一反三的解題力，而非死背。從數理資優培訓到考前衝刺規劃，我們有完整課程體系，陪伴青春期的孩子度過升學難關，建立自信，成就非凡佳績。',
-      themeColor: 'text-blue-700',
-      borderColor: 'border-blue-100',
-      sectionBg: 'bg-blue-600',
-      headerLabelColor: 'text-blue-100',
-      activeTabStyle: 'bg-white text-blue-700 shadow-lg',
-      activeButtonClass: 'bg-blue-600 text-white border-blue-600 ring-2 ring-blue-200',
-      page: 'junior',
-      teacherSectionId: 'junior-teachers',
-      categories: [
-        {
-          id: 'math',
-          name: '數學',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/xn6tfjmjfz57t1a0o97dy/2-705x529.jpg?rlkey=0qxghaoz9h96lu75498vg8ryb&dl=0'), caption: '從代數運算到幾何證明，循序漸進建立嚴謹邏輯架構，透過觀念釐清與題型演練，奠定紮實數學基礎。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '分組討論與上台解題，鼓勵學生清晰表達解題思路，訓練邏輯表達力，培養自信溝通與互助學習精神。' }
-          ]
-        },
-        {
-          id: 'english',
-          name: '英文',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/e6pxao76lqifuwu3vk8r5/IMG_1920-705x474.jpg?rlkey=kqmzy1fqcjfstovoo4tag22ow&dl=0'), caption: '強化文法架構與閱讀測驗技巧，透過系統化教學累積單字量，提升閱讀速度與精準度，厚植應試實力。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/jmiw89xm3x3ssmeu5looh/013-1-705x470.jpg?rlkey=12g0x8zayag3oi5oabwtjsjyy&dl=0'), caption: '透過主題式教學與時事探討，提升聽力與閱讀理解能力，將英語應用於實際生活，讓語言成為升學優勢。' }
-          ]
-        },
-        {
-          id: 'chinese',
-          name: '國文',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/9r90b7r8b4jtyvetn12rt/IMG_7539-705x529.jpg?rlkey=zdlzwqbvsv5mk2t79c0wc5dvt&dl=0'), caption: '精選文言文與白話文閱讀篇章，深入解析文章意涵，提升閱讀素養與批判性思考，精準掌握考點。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/kseqyb5rsjz98d8leqbnp/009-705x470.jpg?rlkey=a12jhis4kqn5uf5tzdu18ew84&dl=0'), caption: '加強寫作技巧指導，引導運用修辭與名言佳句，透過結構佈局與情感抒發，輕鬆拿下作文高分。' }
-          ]
-        },
-        {
-          id: 'science',
-          name: '自然',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/d7hrj9aboqtl04nt87b7g/IMG_7486-2-705x503.jpg?rlkey=o2niogjjr4tj7yzyu06jmeqkh&dl=0'), caption: '結合生物、理化與地科，透過實驗演示輔助教學，將抽象原理具象化，加深記憶並培養科學探究精神。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/9r90b7r8b4jtyvetn12rt/IMG_7539-705x529.jpg?rlkey=zdlzwqbvsv5mk2t79c0wc5dvt&dl=0'), caption: '強調觀念理解而非死背，引導學生思考自然現象背後的原理，靈活運用知識，從容應對會考素養題。' }
-          ]
-        },
-        {
-          id: 'sprint',
-          name: '寒暑衝刺',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/z30qj5je1q6gew92obd3j/020.jpg?rlkey=37gi6a9ncyfuk16xi6lhfc42j&dl=0'), caption: '利用寒暑假黃金時間，進行超前進度學習或重點複習，幫助學生調整讀書節奏，贏在起跑點。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ztq96vz6vf6aggmu801ne/021.jpg?rlkey=9755nld1ujkgmp8sg8xkjsb0p&dl=0'), caption: '提供安靜舒適的K書環境與專人輔導機制，營造專注學習氛圍，讓學生能心無旁骛，學習更有效率。' }
-          ]
-        }
-      ]
-    },
-    senior: {
-      id: 'senior',
-      title: '高中部',
-      grade: '高一 ~ 高三',
-      subtitle: '素養導向，前進頂大',
-      desc: '育豪菁英高中部提供學測與分科測驗雙軌規劃，強化新課綱素養導向的觀念深度。提供一對一學習歷程指導與科系探索諮詢，從高一銜接、高二選組到高三衝刺，以強大師資團隊協助學生精準掌握考試重點，發掘個人優勢。全力輔導學生錄取理想頂尖大學，開啟璀璨未來。',
-      themeColor: 'text-purple-700',
-      borderColor: 'border-purple-100',
-      sectionBg: 'bg-purple-600',
-      headerLabelColor: 'text-purple-100',
-      activeTabStyle: 'bg-white text-purple-700 shadow-lg',
-      activeButtonClass: 'bg-purple-600 text-white border-purple-600 ring-2 ring-purple-200',
-      page: 'senior',
-      teacherSectionId: 'senior-teachers',
-      categories: [
-        {
-          id: 'g10',
-          name: '升高一',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ngastj91xhedgevtfi8tn/_-33-705x381.jpg?rlkey=6sv7heubjzfbz5p5h4uyrqbw1&dl=0'), caption: '銜接國高中課程落差，強化核心觀念，引導學生調整讀書方法，培養自主學習與探究實作能力。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/41a52kh3dmp5a7j5kol8b/_-35-705x381.jpg?rlkey=wuyxh4koljibq9d0apzi3xg9n&dl=0'), caption: '針對新課綱素養導向，透過跨科整合與實作練習，奠定紮實學科基礎，為高中三年學習做好充分準備。' }
-          ]
-        },
-        {
-          id: 'g11',
-          name: '升高二',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/z30qj5je1q6gew92obd3j/020.jpg?rlkey=37gi6a9ncyfuk16xi6lhfc42j&dl=0'), caption: '深化學科知識，面對選組分流挑戰，提供加深加廣課程，全面提升各科實力，建立學科自信。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ztq96vz6vf6aggmu801ne/021.jpg?rlkey=9755nld1ujkgmp8sg8xkjsb0p&dl=0'), caption: '同步累積學習歷程檔案與科系探索，透過專業諮詢協助學生釐清志向，為學測與申請入學累積優勢。' }
-          ]
-        },
-        {
-          id: 'g12',
-          name: '升高三',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/o9k3hmtz0mr7kfalig4nn/022.jpg?rlkey=k0yw6prgpjcpechkew5tbv6py&dl=0'), caption: '全方位學測複習與模考演練，精準掌握最新命題趨勢，透過大量題型練習提升解題速度與準確率。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/arxryojkkdhwn6q3wxbhk/023.jpg?rlkey=0t51d4noouc516yypd8tsgiuu&dl=0'), caption: '針對個人弱點進行精準補強，搭配申請入學模擬面試與備審資料輔導，全力協助學生直攻頂尖大學。' }
-          ]
-        },
-        {
-          id: 'sprint',
-          name: '寒暑衝刺',
-          images: [
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/arxryojkkdhwn6q3wxbhk/023.jpg?rlkey=0t51d4noouc516yypd8tsgiuu&dl=0'), caption: '把握寒暑假黃金期，集中火力進行高強度衝刺，透過密集訓練與規律作息，讓成績大幅躍進。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ngastj91xhedgevtfi8tn/_-33-705x381.jpg?rlkey=6sv7heubjzfbz5p5h4uyrqbw1&dl=0'), caption: '提供規律的作息安排與高強度的學習規劃，營造良性競爭氛圍，激發學生的最大潛能與鬥志。' },
-            { url: convertDropboxLink('https://www.dropbox.com/scl/fi/41a52kh3dmp5a7j5kol8b/_-35-705x381.jpg?rlkey=wuyxh4koljibq9d0apzi3xg9n&dl=0'), caption: '專業導師全程陪伴，即時解決學習疑難，透過個別化指導與心理建設，讓學生保持最佳備考狀態。' }
-          ]
-        }
-      ]
-    }
+  const handleCategoryChange = (index: number) => {
+    setActiveCategoryIndex(index);
+    setActiveImageIndex(0);
   };
-
-  const currentProgram = programs[activeTab];
-  const activeCategory = currentProgram.categories[activeCategoryIndex];
-  const activeImages = activeCategory.images;
-  const currentImage = activeImages[activeImageIndex];
 
   const handleImagePrev = () => {
     setActiveImageIndex(prev => (prev - 1 + activeImages.length) % activeImages.length);
@@ -283,6 +250,215 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
   const handleImageNext = () => {
     setActiveImageIndex(prev => (prev + 1) % activeImages.length);
   };
+
+  const renderCategoryName = (name: string) => {
+    if (name.length === 4) {
+      return (
+        <span className="leading-tight">
+          {name.substring(0, 2)}<br />{name.substring(2)}
+        </span>
+      );
+    }
+    return <span>{name}</span>;
+  };
+
+  return (
+    <div 
+      className={`rounded-3xl border ${program.borderColor} bg-white shadow-2xl shadow-black/10 overflow-hidden flex flex-col lg:flex-row transition-colors duration-300`}
+      style={{ display: isActive ? 'flex' : 'none' }}
+    >
+      {/* Left Side: Info & Categories (50% Width) */}
+      <div className="p-6 lg:p-10 lg:w-1/2 flex flex-col relative z-10 bg-white border-b lg:border-b-0 lg:border-r border-slate-100">
+        
+        {/* Header */}
+        <div className="flex flex-row flex-wrap items-center gap-4 mb-4">
+          <h4 className="text-3xl font-extrabold text-slate-900 shrink-0">{program.title}</h4>
+          <span className={`px-4 py-1.5 rounded-lg text-sm font-bold shrink-0 bg-slate-100 ${program.themeColor}`}>
+              {program.grade}
+          </span>
+        </div>
+
+        {/* Subtitle with line ABOVE */}
+        <div className={`mb-6 ${program.themeColor}`}>
+           <div className="w-full h-[1px] bg-current opacity-40 mb-4"></div>
+           <h5 className="text-3xl font-extrabold">
+              {program.subtitle}
+           </h5>
+        </div>
+
+        {/* Description */}
+        <p className="text-slate-600 text-lg leading-relaxed text-justify mb-8">
+          {program.desc}
+        </p>
+
+        {/* Course Categories Grid */}
+        <div className="mb-0 mt-auto">
+          <h5 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+             <div className="w-8 h-[1px] bg-slate-300"></div>
+             課程規劃
+             <div className="flex-1 h-[1px] bg-slate-300"></div>
+          </h5>
+          
+          <div className="flex items-center gap-1 sm:block">
+              {/* Left Arrow (Mobile Only) */}
+              <button 
+                  onClick={scrollLeft}
+                  className="sm:hidden p-1 mr-1 text-slate-400 hover:text-slate-600 shrink-0"
+                  aria-label="Scroll left"
+              >
+                  <ChevronLeft size={24} />
+              </button>
+
+              <div 
+                  ref={scrollContainerRef}
+                  className="flex-1 flex flex-nowrap overflow-x-auto gap-2 sm:gap-4 sm:flex-wrap sm:overflow-visible scrollbar-hide py-2"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                <style>{`
+                    .scrollbar-hide::-webkit-scrollbar {
+                        display: none;
+                    }
+                `}</style>
+                {program.categories.map((cat, idx) => {
+                  const isCatActive = idx === activeCategoryIndex;
+                  return (
+                     <button 
+                      key={cat.id}
+                      onClick={() => handleCategoryChange(idx)}
+                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-center font-bold text-sm transition-all duration-200 border-2 shrink-0 ${
+                        isCatActive 
+                            ? `${program.activeButtonClass} shadow-md`
+                            : 'bg-white border-slate-100 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-200'
+                      }`}
+                     >
+                       {renderCategoryName(cat.name)}
+                     </button>
+                  )
+                })}
+              </div>
+
+              {/* Right Arrow (Mobile Only) */}
+              <button 
+                  onClick={scrollRight}
+                  className="sm:hidden p-1 ml-1 text-slate-400 hover:text-slate-600 shrink-0"
+                  aria-label="Scroll right"
+              >
+                  <ChevronRight size={24} />
+              </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side: Image Display (50% Width) */}
+      <div className="lg:w-1/2 bg-slate-50 flex flex-col justify-start">
+         <div className="w-full relative group"> 
+            
+            {/* RENDER ALL IMAGES (Hidden vs Block) to prevent flickering */}
+            {program.categories.map((cat, catIdx) => (
+                cat.images.map((img, imgIdx) => {
+                    // Only show the image if both category and image index match
+                    const isVisible = (catIdx === activeCategoryIndex && imgIdx === activeImageIndex);
+                    return (
+                        <div key={`${cat.id}-${imgIdx}`} className={isVisible ? 'block' : 'hidden'}>
+                            <img 
+                              src={img.url} 
+                              alt={cat.name} 
+                              className="w-full h-auto object-contain block"
+                              loading="eager"
+                            />
+                        </div>
+                    );
+                })
+            ))}
+            
+            {/* Category Badge - Always visible, updates text based on state */}
+            <span className={`absolute top-4 right-4 px-4 py-1.5 bg-white/90 backdrop-blur-sm text-slate-800 text-sm font-bold rounded-full shadow-sm border ${program.borderColor} z-10`}>
+                {activeCategory.name}
+            </span>
+
+            {/* Navigation Controls - Always visible */}
+            <div className="absolute bottom-4 right-4 flex gap-2 z-20">
+              <button 
+                onClick={handleImagePrev}
+                className="p-2.5 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-md transition-all hover:scale-105"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={18} />
+              </button>
+
+              <button 
+                onClick={handleImageNext}
+                className="p-2.5 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-md transition-all hover:scale-105"
+                aria-label="Next image"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+         </div>
+
+         {/* Caption Wrapper */}
+         <div className="p-6 flex flex-col items-center justify-center text-center bg-slate-50/50 flex-1">
+            <p className="text-slate-600 text-base font-medium leading-relaxed text-justify w-full max-w-md mx-auto">
+                {currentImage.caption}
+            </p>
+
+            {/* Dots Indicator */}
+            <div className="flex gap-2 mt-4">
+              {activeImages.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                    idx === activeImageIndex ? 'bg-slate-800 w-4' : 'bg-slate-300 hover:bg-slate-400'
+                  }`}
+                  aria-label={`Go to image ${idx + 1}`}
+                />
+              ))}
+            </div>
+         </div>
+      </div>
+    </div>
+  );
+};
+
+const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
+  const [activeTab, setActiveTab] = useState<'elementary' | 'junior' | 'senior'>('elementary');
+
+  // Preload all images to prevent flickering/delay
+  useEffect(() => {
+    const allImages = Object.values(PROGRAMS_DATA).flatMap(program => 
+      program.categories.flatMap(category => 
+        category.images.map(img => img.url)
+      )
+    );
+    
+    // Create Image objects to force browser cache
+    allImages.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+  }, []);
+
+  const handleNavAndScroll = (page: PageType, sectionId: string) => {
+    onNavigate(page);
+    let attempts = 0;
+    const maxAttempts = 20; 
+    
+    const pollElement = () => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(pollElement, 100);
+      }
+    };
+    setTimeout(pollElement, 50);
+  };
+
+  const currentProgram = PROGRAMS_DATA[activeTab];
 
   return (
     <section id="program-planning" className={`py-24 transition-colors duration-500 ${currentProgram.sectionBg} scroll-mt-24 relative overflow-hidden`}>
@@ -299,7 +475,7 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
         <div className="flex justify-center mb-8">
           <div className="bg-black/20 p-1.5 rounded-full inline-flex gap-2 border border-white/10 backdrop-blur-sm shadow-inner overflow-x-auto max-w-full">
             {(['elementary', 'junior', 'senior'] as const).map((key) => {
-              const prog = programs[key];
+              const prog = PROGRAMS_DATA[key];
               const isActive = activeTab === key;
               return (
                 <button
@@ -318,164 +494,19 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* Content Card */}
+        {/* Content Card Wrapper */}
         <div className="relative animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className={`rounded-3xl border ${currentProgram.borderColor} bg-white shadow-2xl shadow-black/10 overflow-hidden flex flex-col lg:flex-row transition-colors duration-300`}>
-            
-            {/* Left Side: Info & Categories (50% Width) */}
-            <div className="p-6 lg:p-10 lg:w-1/2 flex flex-col relative z-10 bg-white border-b lg:border-b-0 lg:border-r border-slate-100">
-              
-              {/* Header */}
-              <div className="flex flex-row flex-wrap items-center gap-4 mb-4">
-                <h4 className="text-3xl font-extrabold text-slate-900 shrink-0">{currentProgram.title}</h4>
-                <span className={`px-4 py-1.5 rounded-lg text-sm font-bold shrink-0 bg-slate-100 ${currentProgram.themeColor}`}>
-                    {currentProgram.grade}
-                </span>
-              </div>
+          
+          {/* Render all 3 Program Contents, toggling display */}
+          {['elementary', 'junior', 'senior'].map((key) => (
+             <ProgramContent
+                key={key}
+                program={PROGRAMS_DATA[key]}
+                isActive={activeTab === key}
+             />
+          ))}
 
-              {/* Subtitle with line ABOVE */}
-              <div className={`mb-6 ${currentProgram.themeColor}`}>
-                 {/* The Line */}
-                 <div className="w-full h-[1px] bg-current opacity-40 mb-4"></div>
-                 
-                 {/* The Text */}
-                 <h5 className="text-3xl font-extrabold">
-                    {currentProgram.subtitle}
-                 </h5>
-              </div>
-
-              {/* Description */}
-              <p className="text-slate-600 text-lg leading-relaxed text-justify mb-8">
-                {currentProgram.desc}
-              </p>
-
-              {/* Course Categories Grid */}
-              <div className="mb-0 mt-auto">
-                <h5 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                   <div className="w-8 h-[1px] bg-slate-300"></div>
-                   課程規劃
-                   <div className="flex-1 h-[1px] bg-slate-300"></div>
-                </h5>
-                
-                {/* Mobile Arrows Navigation for Categories */}
-                <div className="flex items-center gap-1 sm:block">
-                    {/* Left Arrow (Mobile Only) */}
-                    <button 
-                        onClick={scrollLeft}
-                        className="sm:hidden p-1 mr-1 text-slate-400 hover:text-slate-600 shrink-0"
-                        aria-label="Scroll left"
-                    >
-                        <ChevronLeft size={24} />
-                    </button>
-
-                    <div 
-                        ref={scrollContainerRef}
-                        className="flex-1 flex flex-nowrap overflow-x-auto gap-2 sm:gap-4 sm:flex-wrap sm:overflow-visible scrollbar-hide py-2"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                    >
-                      <style>{`
-                          .scrollbar-hide::-webkit-scrollbar {
-                              display: none;
-                          }
-                      `}</style>
-                      {currentProgram.categories.map((cat, idx) => {
-                        const isActive = idx === activeCategoryIndex;
-                        return (
-                           <button 
-                            key={cat.id}
-                            onClick={() => handleCategoryChange(idx)}
-                            className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-center font-bold text-sm transition-all duration-200 border-2 shrink-0 ${
-                                isActive 
-                                  ? `${currentProgram.activeButtonClass} shadow-md` // Solid color, no zoom
-                                  : 'bg-white border-slate-100 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-200'
-                            }`}
-                           >
-                             {renderCategoryName(cat.name)}
-                           </button>
-                        )
-                      })}
-                    </div>
-
-                    {/* Right Arrow (Mobile Only) */}
-                    <button 
-                        onClick={scrollRight}
-                        className="sm:hidden p-1 ml-1 text-slate-400 hover:text-slate-600 shrink-0"
-                        aria-label="Scroll right"
-                    >
-                        <ChevronRight size={24} />
-                    </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side: Image Display (50% Width) */}
-            <div className="lg:w-1/2 bg-slate-50 flex flex-col justify-start">
-               {/* Preload ALL images for the current program */}
-               <div className="hidden">
-                  {currentProgram.categories.flatMap(c => c.images).map((img, i) => (
-                     <img key={`preload-${i}`} src={img.url} alt="preload" />
-                  ))}
-               </div>
-
-               {/* Image Wrapper */}
-               <div className="w-full relative group"> 
-                  <img 
-                    src={currentImage.url} 
-                    alt={activeCategory.name} 
-                    className="w-full h-auto object-contain transition-opacity duration-300 block"
-                  />
-                  
-                  {/* Category Badge */}
-                  <span className={`absolute top-4 right-4 px-4 py-1.5 bg-white/90 backdrop-blur-sm text-slate-800 text-sm font-bold rounded-full shadow-sm border ${currentProgram.borderColor} z-10`}>
-                      {activeCategory.name}
-                  </span>
-
-                  {/* Navigation Controls */}
-                  <div className="absolute bottom-4 right-4 flex gap-2 z-20">
-                    <button 
-                      onClick={handleImagePrev}
-                      className="p-2.5 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-md transition-all hover:scale-105"
-                      aria-label="Previous image"
-                    >
-                      <ChevronLeft size={18} />
-                    </button>
-
-                    <button 
-                      onClick={handleImageNext}
-                      className="p-2.5 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-md transition-all hover:scale-105"
-                      aria-label="Next image"
-                    >
-                      <ChevronRight size={18} />
-                    </button>
-                  </div>
-               </div>
-
-               {/* Caption Wrapper */}
-               <div className="p-6 flex flex-col items-center justify-center text-center bg-slate-50/50 flex-1">
-                  
-                  <p className="text-slate-600 text-base font-medium leading-relaxed text-justify w-full max-w-md mx-auto">
-                      {currentImage.caption}
-                  </p>
-
-                  {/* Dots Indicator */}
-                  <div className="flex gap-2 mt-4">
-                    {activeImages.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setActiveImageIndex(idx)}
-                        className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                          idx === activeImageIndex ? 'bg-slate-800 w-4' : 'bg-slate-300 hover:bg-slate-400'
-                        }`}
-                        aria-label={`Go to image ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-               </div>
-            </div>
-
-          </div>
-
-          {/* Bottom Buttons */}
+          {/* Bottom Buttons - Dependent on activeTab logic */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 max-w-4xl mx-auto px-4">
              <button 
               onClick={() => handleNavAndScroll(currentProgram.page, 'course-roadmap')}
