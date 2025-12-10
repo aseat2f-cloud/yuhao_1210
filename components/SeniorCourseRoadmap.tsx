@@ -99,8 +99,8 @@ const SeniorCourseRoadmap: React.FC = () => {
                 <ChevronLeft size={24} />
               </button>
               <div className="flex items-center gap-2">
-                <span className={`p-2 rounded-full ${COURSE_DATA[activeTab].color.replace('text-', 'bg-').replace('500', '900')} text-white`}>
-                  {React.cloneElement(COURSE_DATA[activeTab].icon as React.ReactElement, { size: 20 })}
+                <span className={`p-2 rounded-full ${COURSE_DATA[activeTab].color.replace('text-', 'bg-').replace('500', '100')} text-purple-900`}>
+                  {React.cloneElement(COURSE_DATA[activeTab].icon as React.ReactElement, { size: 20, className: 'text-purple-900' })}
                 </span>
                 <span className="text-xl font-bold text-white">{COURSE_DATA[activeTab].label}</span>
               </div>
