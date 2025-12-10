@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Send, CheckCircle, Loader2, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle, Loader2 } from 'lucide-react';
 
 const GRADES = [
   '國小一年級', '國小二年級', '國小三年級', '國小四年級', '國小五年級', '國小六年級',

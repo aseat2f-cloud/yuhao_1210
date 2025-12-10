@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { EventItem } from '../types';
-import { Calendar, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface EventsPageProps {
   upcomingEvents: EventItem[];

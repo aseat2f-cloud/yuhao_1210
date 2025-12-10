@@ -45,12 +45,11 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  // Removed unused activeDropdown state
 
   const handleNavClick = (page: PageType, sectionId?: string) => {
     onNavigate(page);
     setIsMenuOpen(false);
-    setActiveDropdown(null);
     if (sectionId) {
       setTimeout(() => {
         const element = document.getElementById(sectionId);
@@ -122,8 +121,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) 
                 <div 
                   key={item.label} 
                   className="relative group px-1"
-                  onMouseEnter={() => setActiveDropdown(item.label)}
-                  onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
                     onClick={() => handleNavClick(item.page)}

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -17,7 +17,7 @@ import OutstandingResults from './components/OutstandingResults';
 import HonorRoll from './components/HonorRoll';
 import ParentTestimonials from './components/ParentTestimonials';
 import MobileFloatingNav from './components/MobileFloatingNav';
-import { PageType, NewsItem, Teacher } from './types';
+import { PageType, NewsItem } from './types';
 
 // --- MOCK DATA ---
 

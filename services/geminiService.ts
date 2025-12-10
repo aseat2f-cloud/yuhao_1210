@@ -1,5 +1,9 @@
+
 import { GoogleGenAI } from "@google/genai";
 import { ChatMessage } from "../types";
+
+// Declare process for TS environment that doesn't have @types/node
+declare const process: { env: { [key: string]: string | undefined } };
 
 const SYSTEM_INSTRUCTION = `
 你是「育豪資優」(Yuhao Gifted Education) 的 AI 課程顧問。

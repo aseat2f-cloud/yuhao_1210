@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Calculator, Languages, BookOpen, Rocket, ArrowRight, Video, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Smile } from 'lucide-react';
+import { Calculator, Languages, BookOpen, Rocket, ArrowRight, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Smile } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
 
 const BROCHURE_IMAGES = [
