@@ -8,6 +8,14 @@ const GRADES = [
   '高中一年級', '高中二年級', '高中三年級'
 ];
 
+const ANIMATION_IMAGES = [
+  "https://www.dropbox.com/scl/fi/7aw47z09uku0ol2ydxnh5/Y.svg?rlkey=2d52kglqn8nkfqs704zy3fq13&raw=1",
+  "https://www.dropbox.com/scl/fi/70pcndj17wbgoujjbphzb/U.svg?rlkey=0wph677wnabdjoz0yd0cp92wm&raw=1",
+  "https://www.dropbox.com/scl/fi/boiljwzvsues3ai6svtxv/H.svg?rlkey=geeqhyox3itg72o6hy9yjw496&raw=1",
+  "https://www.dropbox.com/scl/fi/l0deq9hx3vji5fu6hsqi5/A.svg?rlkey=8cmggn02klwe07ujo0cgqd97i&raw=1",
+  "https://www.dropbox.com/scl/fi/koia886j728lniy2ybcre/O.svg?rlkey=w27c9rjvgh08dathnw042aa1f&raw=1"
+];
+
 interface ContactFormProps {
   theme?: 'primary' | 'green' | 'blue' | 'purple';
 }
@@ -62,7 +70,83 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
   }
 
   return (
-    <section id="contact" className={`py-24 bg-${t}-600 relative overflow-hidden transition-colors duration-500`}>
+    // Increased bottom padding to accommodate the animation without overlap
+    <section id="contact" className={`pt-24 pb-64 bg-${t}-600 relative overflow-hidden transition-colors duration-500`}>
+      <style>{`
+        @keyframes rollBounceRun {
+          0% {
+            left: 100%;
+            transform: translateX(0) rotate(0deg);
+          }
+          /* First Move (Roll 2 turns) */
+          25% {
+            left: 100%;
+            transform: translateX(-30vw) rotate(-720deg);
+          }
+          /* First Bounce */
+          27% {
+            left: 100%;
+            transform: translateX(-30vw) translateY(-40px) rotate(-720deg);
+          }
+          29% {
+            left: 100%;
+            transform: translateX(-30vw) translateY(0) rotate(-720deg);
+          }
+          31% {
+            left: 100%;
+            transform: translateX(-30vw) translateY(-20px) rotate(-720deg);
+          }
+          33% {
+            left: 100%;
+            transform: translateX(-30vw) translateY(0) rotate(-720deg);
+          }
+          
+          /* Second Move (Roll 2 turns) */
+          58% {
+            left: 100%;
+            transform: translateX(-65vw) rotate(-1440deg);
+          }
+          /* Second Bounce */
+          60% {
+            left: 100%;
+            transform: translateX(-65vw) translateY(-40px) rotate(-1440deg);
+          }
+          62% {
+            left: 100%;
+            transform: translateX(-65vw) translateY(0) rotate(-1440deg);
+          }
+          64% {
+            left: 100%;
+            transform: translateX(-65vw) translateY(-20px) rotate(-1440deg);
+          }
+          66% {
+            left: 100%;
+            transform: translateX(-65vw) translateY(0) rotate(-1440deg);
+          }
+
+          /* Exit */
+          100% {
+            left: 100%;
+            transform: translateX(-130vw) rotate(-2160deg);
+          }
+        }
+        
+        .yuhao-anim-item {
+          position: absolute;
+          width: 50px;
+          height: 50px;
+          animation: rollBounceRun 15s linear infinite; /* Slower speed */
+        }
+
+        /* Staggered Vertical Positions for "Scattered" look */
+        .yuhao-anim-item:nth-child(1) { bottom: 0px; }
+        .yuhao-anim-item:nth-child(2) { bottom: 12px; }
+        .yuhao-anim-item:nth-child(3) { bottom: 4px; }
+        .yuhao-anim-item:nth-child(4) { bottom: 15px; }
+        .yuhao-anim-item:nth-child(5) { bottom: 2px; }
+
+      `}</style>
+
       <div className="absolute inset-0 opacity-10 pattern-dots"></div>
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -201,6 +285,21 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
             </form>
           </div>
         </div>
+      </div>
+
+      {/* Animation Layer at the Bottom - Flush with footer */}
+      <div className="absolute bottom-0 left-0 w-full h-24 overflow-hidden pointer-events-none z-0">
+        {ANIMATION_IMAGES.map((src, index) => (
+          <img 
+            key={index}
+            src={src}
+            alt="animation char"
+            className="yuhao-anim-item"
+            style={{ 
+              animationDelay: `${index * 2}s`, // Increase delay to stagger them nicely across the long duration
+            }}
+          />
+        ))}
       </div>
     </section>
   );

@@ -60,7 +60,7 @@ const StudentTestimonials: React.FC<StudentTestimonialsProps> = ({ theme = 'gree
         {/* Header Centered */}
         <div className="flex flex-col items-center mb-12 text-center">
           <div className="mb-6">
-            <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-2`}>學習分享</h2>
+            <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-2`}>學員心得分享</h2>
             <h3 className="text-3xl font-extrabold text-slate-900">快樂學習 • 自信成長</h3>
           </div>
           
