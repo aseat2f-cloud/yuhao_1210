@@ -25,6 +25,14 @@ interface HeroProps {
   secondaryBtnIcon?: React.ReactNode;
 }
 
+const ANIMATION_IMAGES = [
+  "https://www.dropbox.com/scl/fi/7aw47z09uku0ol2ydxnh5/Y.svg?rlkey=2d52kglqn8nkfqs704zy3fq13&raw=1",
+  "https://www.dropbox.com/scl/fi/70pcndj17wbgoujjbphzb/U.svg?rlkey=0wph677wnabdjoz0yd0cp92wm&raw=1",
+  "https://www.dropbox.com/scl/fi/boiljwzvsues3ai6svtxv/H.svg?rlkey=geeqhyox3itg72o6hy9yjw496&raw=1",
+  "https://www.dropbox.com/scl/fi/l0deq9hx3vji5fu6hsqi5/A.svg?rlkey=8cmggn02klwe07ujo0cgqd97i&raw=1",
+  "https://www.dropbox.com/scl/fi/koia886j728lniy2ybcre/O.svg?rlkey=w27c9rjvgh08dathnw042aa1f&raw=1"
+];
+
 const Hero: React.FC<HeroProps> = ({ 
   title, 
   subtitle, 
@@ -75,6 +83,75 @@ const Hero: React.FC<HeroProps> = ({
 
   return (
     <section className="relative pt-[40px] pb-16 lg:pt-0 lg:pb-0 lg:h-[97vh] lg:min-h-[684px] overflow-hidden bg-white bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:24px_24px]">
+      <style>{`
+        @keyframes complexRunHero {
+          0% {
+            left: 100%;
+            transform: translateX(0) rotate(0deg);
+          }
+          /* RUN IN: Roll to ~Center Right */
+          30% {
+            left: 100%;
+            transform: translateX(-40vw) rotate(-720deg); /* 2 turns */
+          }
+          
+          /* BOUNCE: Jump twice */
+          32% {
+            left: 100%;
+            transform: translateX(-42vw) translateY(-60px) rotate(-720deg);
+          }
+          34% {
+            left: 100%;
+            transform: translateX(-44vw) translateY(0) rotate(-720deg);
+          }
+          36% {
+            left: 100%;
+            transform: translateX(-46vw) translateY(-30px) rotate(-720deg);
+          }
+          38% {
+            left: 100%;
+            transform: translateX(-48vw) translateY(0) rotate(-720deg);
+          }
+
+          /* WIGGLE: Stop X movement, shake rotation */
+          39% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-740deg);
+          }
+          41% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-700deg);
+          }
+          43% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-730deg);
+          }
+          45% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-710deg);
+          }
+          47% {
+             left: 100%;
+             transform: translateX(-48vw) rotate(-720deg); /* Back to upright */
+          }
+
+          /* RUN OUT: Roll off screen */
+          100% {
+            left: 100%;
+            transform: translateX(-150vw) rotate(-1440deg);
+          }
+        }
+        
+        .yuhao-anim-item-hero {
+          position: absolute;
+          bottom: 0;
+          width: 50px;
+          height: 50px;
+          animation: complexRunHero 15s linear infinite;
+          z-index: 20;
+        }
+      `}</style>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-auto lg:h-full">
         {/* Main Flex Container: vertically centered and stretched height */}
         <div className="flex flex-col-reverse lg:flex-row items-center lg:items-center gap-12 lg:gap-16 h-auto lg:h-full">
@@ -172,6 +249,21 @@ const Hero: React.FC<HeroProps> = ({
           </div>
 
         </div>
+      </div>
+
+      {/* Animation Layer at the Bottom of Hero */}
+      <div className="absolute bottom-0 left-0 w-full h-40 overflow-hidden pointer-events-none z-20">
+        {ANIMATION_IMAGES.map((src, index) => (
+          <img 
+            key={index}
+            src={src}
+            alt="animation char"
+            className="yuhao-anim-item-hero"
+            style={{ 
+              animationDelay: `${index * 2}s`, 
+            }}
+          />
+        ))}
       </div>
     </section>
   );
