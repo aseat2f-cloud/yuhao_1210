@@ -73,78 +73,71 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
     // Increased bottom padding to accommodate the animation without overlap
     <section id="contact" className={`pt-24 pb-64 bg-${t}-600 relative overflow-hidden transition-colors duration-500`}>
       <style>{`
-        @keyframes rollBounceRun {
+        @keyframes complexRun {
           0% {
             left: 100%;
             transform: translateX(0) rotate(0deg);
           }
-          /* First Move (Roll 2 turns) */
-          25% {
+          /* RUN IN: Roll to ~Center Right */
+          30% {
             left: 100%;
-            transform: translateX(-30vw) rotate(-720deg);
-          }
-          /* First Bounce */
-          27% {
-            left: 100%;
-            transform: translateX(-30vw) translateY(-40px) rotate(-720deg);
-          }
-          29% {
-            left: 100%;
-            transform: translateX(-30vw) translateY(0) rotate(-720deg);
-          }
-          31% {
-            left: 100%;
-            transform: translateX(-30vw) translateY(-20px) rotate(-720deg);
-          }
-          33% {
-            left: 100%;
-            transform: translateX(-30vw) translateY(0) rotate(-720deg);
+            transform: translateX(-40vw) rotate(-720deg); /* 2 turns */
           }
           
-          /* Second Move (Roll 2 turns) */
-          58% {
+          /* BOUNCE: Jump twice */
+          32% {
             left: 100%;
-            transform: translateX(-65vw) rotate(-1440deg);
+            transform: translateX(-42vw) translateY(-60px) rotate(-720deg);
           }
-          /* Second Bounce */
-          60% {
+          34% {
             left: 100%;
-            transform: translateX(-65vw) translateY(-40px) rotate(-1440deg);
+            transform: translateX(-44vw) translateY(0) rotate(-720deg);
           }
-          62% {
+          36% {
             left: 100%;
-            transform: translateX(-65vw) translateY(0) rotate(-1440deg);
+            transform: translateX(-46vw) translateY(-30px) rotate(-720deg);
           }
-          64% {
+          38% {
             left: 100%;
-            transform: translateX(-65vw) translateY(-20px) rotate(-1440deg);
-          }
-          66% {
-            left: 100%;
-            transform: translateX(-65vw) translateY(0) rotate(-1440deg);
+            transform: translateX(-48vw) translateY(0) rotate(-720deg);
           }
 
-          /* Exit */
+          /* WIGGLE: Stop X movement, shake rotation */
+          39% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-740deg);
+          }
+          41% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-700deg);
+          }
+          43% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-730deg);
+          }
+          45% {
+            left: 100%;
+            transform: translateX(-48vw) rotate(-710deg);
+          }
+          47% {
+             left: 100%;
+             transform: translateX(-48vw) rotate(-720deg); /* Back to upright */
+          }
+
+          /* RUN OUT: Roll off screen */
           100% {
             left: 100%;
-            transform: translateX(-130vw) rotate(-2160deg);
+            transform: translateX(-150vw) rotate(-1440deg);
           }
         }
         
         .yuhao-anim-item {
           position: absolute;
+          bottom: 0; /* Align all to bottom */
           width: 50px;
           height: 50px;
-          animation: rollBounceRun 15s linear infinite; /* Slower speed */
+          animation: complexRun 15s linear infinite;
         }
-
-        /* Staggered Vertical Positions for "Scattered" look */
-        .yuhao-anim-item:nth-child(1) { bottom: 0px; }
-        .yuhao-anim-item:nth-child(2) { bottom: 12px; }
-        .yuhao-anim-item:nth-child(3) { bottom: 4px; }
-        .yuhao-anim-item:nth-child(4) { bottom: 15px; }
-        .yuhao-anim-item:nth-child(5) { bottom: 2px; }
-
       `}</style>
 
       <div className="absolute inset-0 opacity-10 pattern-dots"></div>
@@ -288,7 +281,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
       </div>
 
       {/* Animation Layer at the Bottom - Flush with footer */}
-      <div className="absolute bottom-0 left-0 w-full h-24 overflow-hidden pointer-events-none z-0">
+      {/* Increased height to h-40 to prevent bounce clipping */}
+      <div className="absolute bottom-0 left-0 w-full h-40 overflow-hidden pointer-events-none z-0">
         {ANIMATION_IMAGES.map((src, index) => (
           <img 
             key={index}
@@ -296,7 +290,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
             alt="animation char"
             className="yuhao-anim-item"
             style={{ 
-              animationDelay: `${index * 2}s`, // Increase delay to stagger them nicely across the long duration
+              animationDelay: `${index * 2}s`, // Stagger delay
             }}
           />
         ))}
