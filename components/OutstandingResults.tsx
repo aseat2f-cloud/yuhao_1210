@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Trophy, Users, Star, GraduationCap, TrendingUp, Award, BookCheck, ThumbsUp } from 'lucide-react';
 
 const STATS = [
@@ -12,6 +12,131 @@ const STATS = [
   { icon: <BookCheck />, value: '250+', label: '醫科牙醫錄取', color: 'text-teal-600', bg: 'bg-teal-50' },
   { icon: <ThumbsUp />, value: '4.9', label: '家長滿意度', color: 'text-orange-600', bg: 'bg-orange-50' },
 ];
+
+const AnimatedCounter = ({ value }: { value: string }) => {
+  const [displayValue, setDisplayValue] = useState("");
+  const [hasStarted, setHasStarted] = useState(false);
+  const elementRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 } // Trigger when 10% visible
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    // Parse inside effect to ensure stability and avoid dependency loops
+    const match = value.match(/^(\D*)(\d[\d,.]*)(\D*)$/);
+    if (!match) {
+        setDisplayValue(value);
+        return;
+    }
+
+    const [, prefix, numStr, suffix] = match;
+    const isFloat = numStr.includes('.');
+    const target = parseFloat(numStr.replace(/,/g, ''));
+    const decimalPlaces = isFloat ? (numStr.split('.')[1] || []).length : 0;
+    
+    // Animation Configuration
+    let start = 0;
+    let end = target;
+    
+    // Adaptive Duration: Smaller numbers animate slower to match visual weight of large numbers
+    let duration = 2000; // Base for large numbers (>1000)
+
+    if (target <= 1000) {
+        duration = 2500; // Slower for medium numbers
+    }
+    if (target <= 100) {
+        duration = 3000; // Even slower for small numbers
+    }
+
+    // Special logic for Rankings (e.g., No.1): Count down from 8
+    if (prefix.includes('No.')) {
+      start = 8;
+      end = target;
+      duration = 3500; // Slowest for ranking countdown
+    }
+
+    let startTime: number | null = null;
+    let animationFrameId: number;
+
+    const update = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Ease Out Expo function for "premium" feel
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      
+      const current = start + (end - start) * ease;
+
+      let formattedNum = current.toFixed(decimalPlaces);
+      
+      // Add commas if needed
+      if (numStr.includes(',') || (end >= 1000 && !prefix.includes('No.'))) {
+        const parts = formattedNum.split('.');
+        parts[0] = parseInt(parts[0]).toLocaleString('en-US');
+        formattedNum = parts.join('.');
+      }
+
+      setDisplayValue(`${prefix}${formattedNum}${suffix}`);
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(update);
+      } else {
+        // Ensure final value is exact string passed in prop
+        setDisplayValue(value);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(update);
+
+    return () => {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, [hasStarted, value]);
+
+  // Determine initial state for render
+  const match = value.match(/^(\D*)(\d[\d,.]*)(\D*)$/);
+  
+  if (!match) {
+    return <span ref={elementRef} className="tabular-nums inline-block">{value}</span>;
+  }
+
+  const [, prefix, numStr, suffix] = match;
+  
+  // Calculate initial state based on type
+  let startVal = 0;
+  if (prefix.includes('No.')) {
+    startVal = 8;
+  }
+
+  const isFloat = numStr.includes('.');
+  const decimalPlaces = isFloat ? (numStr.split('.')[1] || []).length : 0;
+  const initialNumStr = startVal.toFixed(decimalPlaces);
+  const initialState = `${prefix}${initialNumStr}${suffix}`;
+
+  return (
+    <span ref={elementRef} className="tabular-nums inline-block">
+      {hasStarted && displayValue ? displayValue : initialState}
+    </span>
+  );
+};
 
 interface OutstandingResultsProps {
   theme?: 'primary' | 'green' | 'blue' | 'purple';
@@ -42,7 +167,7 @@ const OutstandingResults: React.FC<OutstandingResultsProps> = ({ theme = 'primar
                 {React.cloneElement(stat.icon as React.ReactElement, { size: 24, className: "w-6 h-6 md:w-7 md:h-7" })}
               </div>
               <div className={`text-3xl md:text-4xl lg:text-4xl font-extrabold mb-2 ${stat.color} tracking-tight`}>
-                {stat.value}
+                <AnimatedCounter value={stat.value} />
               </div>
               <div className="text-slate-500 font-medium text-sm md:text-base">
                 {stat.label}
