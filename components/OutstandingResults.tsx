@@ -23,7 +23,9 @@ const AnimatedCounter = ({ value }: { value: string }) => {
       (entries) => {
         if (entries[0].isIntersecting) {
           setHasStarted(true);
-          observer.disconnect();
+          // Removed observer.disconnect() to allow re-animation on re-entry
+        } else {
+          setHasStarted(false); // Reset animation when out of view
         }
       },
       { threshold: 0.1 } // Trigger when 10% visible
