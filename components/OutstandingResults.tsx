@@ -13,9 +13,10 @@ const STATS = [
   { icon: <ThumbsUp />, value: '4.9', label: '家長滿意度', color: 'text-orange-600', bg: 'bg-orange-50' },
 ];
 
-const AnimatedCounter = ({ value }: { value: string }) => {
+const AnimatedCounter: React.FC<{ value: string }> = ({ value }) => {
   const [displayValue, setDisplayValue] = useState("");
   const [hasStarted, setHasStarted] = useState(false);
+  const [isPopping, setIsPopping] = useState(false);
   const elementRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -23,7 +24,6 @@ const AnimatedCounter = ({ value }: { value: string }) => {
       (entries) => {
         if (entries[0].isIntersecting) {
           setHasStarted(true);
-          // Removed observer.disconnect() to allow re-animation on re-entry
         } else {
           setHasStarted(false); // Reset animation when out of view
         }
@@ -57,22 +57,33 @@ const AnimatedCounter = ({ value }: { value: string }) => {
     let start = 0;
     let end = target;
     
-    // Adaptive Duration: Smaller numbers animate slower to match visual weight of large numbers
-    let duration = 2000; // Base for large numbers (>1000)
+    // Adaptive Duration (Accelerated by additional 30%)
+    let mainDuration = 1200; // Base duration (was 1700)
+    if (target <= 1000) mainDuration = 1500; // (was 2100)
+    if (target <= 100) mainDuration = 1750; // (was 2500)
 
-    if (target <= 1000) {
-        duration = 2500; // Slower for medium numbers
-    }
-    if (target <= 100) {
-        duration = 3000; // Even slower for small numbers
-    }
-
-    // Special logic for Rankings (e.g., No.1): Count down from 8
+    // Special logic for Rankings (e.g., No.1): Count down from 99
     if (prefix.includes('No.')) {
-      start = 8;
+      start = 99;
       end = target;
-      duration = 3500; // Slowest for ranking countdown
+      mainDuration = 1500; // (was 2100)
     }
+
+    // Step Logic: Calculate value before the last digit flips
+    // e.g. 1250 -> pause at 1249
+    // e.g. 4.9 -> pause at 4.8
+    const step = Math.pow(10, -decimalPlaces);
+    const direction = end > start ? 1 : -1;
+    const range = Math.abs(end - start);
+    
+    // If range is large enough, set intermediate target to (End - 1 step)
+    const offset = range > step ? step : 0;
+    const intermediate = end - (direction * offset);
+
+    // Timeline Settings
+    // Updated: Faster pause and final step (~30% faster)
+    const pauseDuration = 40; // (was 60)
+    const finalStepDuration = 70; // (was 100)
 
     let startTime: number | null = null;
     let animationFrameId: number;
@@ -80,12 +91,28 @@ const AnimatedCounter = ({ value }: { value: string }) => {
     const update = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
       
-      // Ease Out Expo function for "premium" feel
-      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      
-      const current = start + (end - start) * ease;
+      let current;
+
+      if (elapsed < mainDuration) {
+        // Phase 1: Animate to Intermediate
+        const progress = elapsed / mainDuration;
+        // Ease Out Expo
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        current = start + (intermediate - start) * ease;
+      } else if (elapsed < mainDuration + pauseDuration) {
+        // Phase 2: Pause (Hold Intermediate)
+        current = intermediate;
+      } else if (elapsed < mainDuration + pauseDuration + finalStepDuration) {
+        // Phase 3: Animate Intermediate -> End
+        const finalProgress = (elapsed - mainDuration - pauseDuration) / finalStepDuration;
+        // Simple Ease Out for short duration
+        const ease = 1 - (1 - finalProgress) * (1 - finalProgress);
+        current = intermediate + (end - intermediate) * ease;
+      } else {
+        // Phase 4: Finished
+        current = end;
+      }
 
       let formattedNum = current.toFixed(decimalPlaces);
       
@@ -98,11 +125,12 @@ const AnimatedCounter = ({ value }: { value: string }) => {
 
       setDisplayValue(`${prefix}${formattedNum}${suffix}`);
 
-      if (progress < 1) {
+      if (elapsed < mainDuration + pauseDuration + finalStepDuration) {
         animationFrameId = requestAnimationFrame(update);
       } else {
-        // Ensure final value is exact string passed in prop
+        // Ensure final value is exact string passed in prop (to handle any formatting quirks)
         setDisplayValue(value);
+        setIsPopping(true); // Trigger pop effect
       }
     };
 
@@ -112,6 +140,16 @@ const AnimatedCounter = ({ value }: { value: string }) => {
         if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [hasStarted, value]);
+
+  // Reset popping state after animation
+  useEffect(() => {
+    if (isPopping) {
+        const timer = setTimeout(() => {
+            setIsPopping(false);
+        }, 300); // Matches transition duration
+        return () => clearTimeout(timer);
+    }
+  }, [isPopping]);
 
   // Determine initial state for render
   const match = value.match(/^(\D*)(\d[\d,.]*)(\D*)$/);
@@ -125,7 +163,7 @@ const AnimatedCounter = ({ value }: { value: string }) => {
   // Calculate initial state based on type
   let startVal = 0;
   if (prefix.includes('No.')) {
-    startVal = 8;
+    startVal = 99;
   }
 
   const isFloat = numStr.includes('.');
@@ -134,7 +172,10 @@ const AnimatedCounter = ({ value }: { value: string }) => {
   const initialState = `${prefix}${initialNumStr}${suffix}`;
 
   return (
-    <span ref={elementRef} className="tabular-nums inline-block">
+    <span 
+        ref={elementRef} 
+        className={`tabular-nums inline-block transition-transform duration-300 ease-out ${isPopping ? 'scale-125' : 'scale-100'}`}
+    >
       {hasStarted && displayValue ? displayValue : initialState}
     </span>
   );
@@ -146,6 +187,14 @@ interface OutstandingResultsProps {
 
 const OutstandingResults: React.FC<OutstandingResultsProps> = ({ theme = 'primary' }) => {
   const t = theme === 'primary' ? 'primary' : theme;
+  const [replayCounts, setReplayCounts] = useState<Record<number, number>>({});
+
+  const handleReplay = (index: number) => {
+    setReplayCounts(prev => ({
+      ...prev,
+      [index]: (prev[index] || 0) + 1
+    }));
+  };
   
   return (
     <section id="outstanding-results" className="py-24 bg-slate-50 relative overflow-hidden scroll-mt-24">
@@ -163,13 +212,15 @@ const OutstandingResults: React.FC<OutstandingResultsProps> = ({ theme = 'primar
           {STATS.map((stat, index) => (
             <div 
               key={index} 
-              className="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-center text-center group hover:-translate-y-1"
+              onClick={() => handleReplay(index)}
+              className="bg-white p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-center text-center group hover:-translate-y-1 cursor-pointer active:scale-95 active:bg-slate-50"
+              title="點擊重新播放動畫"
             >
               <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                 {React.cloneElement(stat.icon as React.ReactElement, { size: 24, className: "w-6 h-6 md:w-7 md:h-7" })}
               </div>
               <div className={`text-3xl md:text-4xl lg:text-4xl font-extrabold mb-2 ${stat.color} tracking-tight`}>
-                <AnimatedCounter value={stat.value} />
+                <AnimatedCounter key={replayCounts[index] || 0} value={stat.value} />
               </div>
               <div className="text-slate-500 font-medium text-sm md:text-base">
                 {stat.label}
