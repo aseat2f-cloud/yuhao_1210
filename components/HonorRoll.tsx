@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Crown, Star, School, Languages, Medal, GraduationCap, Award } from 'lucide-react';
 
 type HonorCategory = 'gifted' | 'cap' | 'top_school' | 'english' | 'perfect' | 'rank_10' | 'university_top3' | 'school_rank1';
@@ -109,6 +109,9 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
   const [activeTab, setActiveTab] = useState<HonorCategory>(getInitialTab());
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(24);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  
   const t = theme === 'primary' ? 'primary' : theme;
 
   // Responsive items per page logic
@@ -118,18 +121,34 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
       // Desktop (>= 640px): 24 items
       setItemsPerPage(window.innerWidth < 640 ? 5 : 24);
     };
-
-    // Initial check
     handleResize();
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Reset page when switching tabs or itemsPerPage changes
+  // Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Trigger once and keep visible
+        }
+      },
+      { threshold: 0.1 } // 10% visible
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Reset page when switching tabs
   useEffect(() => {
     setCurrentPage(1);
-  }, [itemsPerPage, activeTab]);
+  }, [activeTab]);
 
   const currentData = DATA[activeTab];
   const totalPages = Math.ceil(currentData.length / itemsPerPage);
@@ -288,8 +307,41 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
     );
   };
 
+  // 1. Include `isVisible` in key to force re-render when section becomes visible.
+  // This ensures the animation class is applied to a fresh DOM element, guaranteeing the animation runs.
+  const gridKey = `${activeTab}-${currentPage}-${isVisible ? 'show' : 'hide'}`;
+
   return (
-    <section className="py-20 bg-white">
+    <section ref={sectionRef} className="py-20 bg-white">
+      {/* 
+        Custom CSS Keyframes for smoother, hardware-accelerated 3D Flip 
+      */}
+      <style>{`
+        @keyframes flipInY {
+          0% {
+            opacity: 0;
+            transform: perspective(2000px) rotateY(90deg) translateY(30px);
+          }
+          60% {
+            opacity: 0.9;
+            transform: perspective(2000px) rotateY(-5deg) translateY(-5px);
+          }
+          100% {
+            opacity: 1;
+            transform: perspective(2000px) rotateY(0deg) translateY(0);
+          }
+        }
+        
+        .honor-card-enter {
+          /* Starts at 0 opacity to prevent flash before animation */
+          opacity: 0; 
+          animation: flipInY 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+          backface-visibility: hidden;
+          transform-style: preserve-3d;
+          will-change: transform, opacity;
+        }
+      `}</style>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-3`}>金榜題名</h2>
@@ -301,36 +353,49 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
           </div>
         </div>
 
-        {/* Grid List */}
-        <div className="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-inner">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {displayedItems.map((item) => (
-              <div key={item.id} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-start gap-3 hover:-translate-y-0.5 transition-transform duration-200">
-                <div className={`mt-1 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-md ${
-                   activeTab === 'gifted' ? 'bg-teal-400' 
-                   : activeTab === 'cap' || activeTab === 'perfect' || activeTab === 'school_rank1' ? 'bg-red-400' 
-                   : activeTab === 'english' ? 'bg-purple-400'
-                   : activeTab === 'rank_10' ? 'bg-orange-400'
-                   : 'bg-blue-400'
-                }`}>
-                  {item.name[0]}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-baseline mb-1">
-                    <div className="font-bold text-slate-900 text-base">{item.name}</div>
-                    <div className="text-xs text-slate-400 font-medium truncate ml-2">{item.school}</div>
+        {/* Grid Container */}
+        <div className="bg-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-inner min-h-[500px] flex flex-col">
+          
+          {/* Key on Grid ensures remount on tab/page/visibility change */}
+          <div key={gridKey} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-auto">
+            {displayedItems.map((item, index) => (
+              // 2. Outer Wrapper: Handles Entrance Animation only.
+              // This separates the animation logic from the hover logic.
+              <div 
+                key={item.id} 
+                className={isVisible ? 'honor-card-enter' : 'opacity-0'}
+                style={{ 
+                  animationDelay: `${index * 60}ms`
+                }}
+              >
+                {/* 3. Inner Card: Handles Layout, Visuals & Hover Effect */}
+                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex items-start gap-3 hover:-translate-y-1 transition-transform duration-300 ease-out hover:shadow-md h-full">
+                  <div className={`mt-1 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-xs shrink-0 shadow-md ${
+                    activeTab === 'gifted' ? 'bg-teal-400' 
+                    : activeTab === 'cap' || activeTab === 'perfect' || activeTab === 'school_rank1' ? 'bg-red-400' 
+                    : activeTab === 'english' ? 'bg-purple-400'
+                    : activeTab === 'rank_10' ? 'bg-orange-400'
+                    : 'bg-blue-400'
+                  }`}>
+                    {item.name[0]}
                   </div>
-                  <div className="flex flex-col">
-                     <span className="text-xs text-slate-500 font-medium">{item.yearPrefix}</span>
-                     <span className={`text-sm font-extrabold truncate ${
-                        activeTab === 'gifted' ? 'text-teal-600' 
-                        : activeTab === 'cap' || activeTab === 'perfect' || activeTab === 'school_rank1' ? 'text-red-600' 
-                        : activeTab === 'english' ? 'text-purple-600'
-                        : activeTab === 'rank_10' ? 'text-orange-600'
-                        : 'text-blue-600'
-                     }`}>
-                       {item.highlightText}
-                     </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-baseline mb-1">
+                      <div className="font-bold text-slate-900 text-base">{item.name}</div>
+                      <div className="text-xs text-slate-400 font-medium truncate ml-2">{item.school}</div>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500 font-medium">{item.yearPrefix}</span>
+                      <span className={`text-sm font-extrabold truncate ${
+                          activeTab === 'gifted' ? 'text-teal-600' 
+                          : activeTab === 'cap' || activeTab === 'perfect' || activeTab === 'school_rank1' ? 'text-red-600' 
+                          : activeTab === 'english' ? 'text-purple-600'
+                          : activeTab === 'rank_10' ? 'text-orange-600'
+                          : 'text-blue-600'
+                      }`}>
+                        {item.highlightText}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -338,15 +403,15 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
           </div>
 
           {/* Pagination */}
-          <div className="flex flex-wrap justify-center gap-2 mt-8">
+          <div className="flex flex-wrap justify-center gap-2 mt-8 pt-6 border-t border-slate-200/50">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
                 onClick={() => setCurrentPage(page)}
-                className={`w-8 h-8 rounded-full text-sm font-bold transition-all ${
+                className={`w-9 h-9 rounded-full text-sm font-bold transition-all ${
                   currentPage === page
-                    ? `bg-${t}-600 text-white shadow-md`
-                    : 'bg-white text-slate-500 hover:bg-slate-200'
+                    ? `bg-${t}-600 text-white shadow-md scale-110`
+                    : 'bg-white text-slate-500 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
                 {page}
