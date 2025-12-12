@@ -20,7 +20,7 @@ const NAV_ITEMS: NavItem[] = [
     dropdown: [
       { label: '課程班別', id: 'course-roadmap' },
       { label: '教學成果', id: 'outstanding-results' },
-      { label: '師資陣容', id: 'teachers' },
+      { label: '師資陣容', id: 'junior-teachers' },
       { label: '家長見證', id: 'testimonials' },
     ]
   },
@@ -30,7 +30,7 @@ const NAV_ITEMS: NavItem[] = [
     dropdown: [
       { label: '課程班別', id: 'course-roadmap' },
       { label: '教學成果', id: 'outstanding-results' },
-      { label: '師資陣容', id: 'teachers' },
+      { label: '師資陣容', id: 'senior-teachers' },
       { label: '家長見證', id: 'testimonials' },
     ]
   },
@@ -250,4 +250,3 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) 
 };
 
 export default Header;
-    

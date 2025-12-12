@@ -37,14 +37,14 @@ const MobileFloatingNav: React.FC<MobileFloatingNavProps> = ({
         return [
           { label: '課程班別', href: '#course-roadmap' },
           { label: '教學成果', href: '#outstanding-results' },
-          { label: '師資陣容', href: '#teachers' },
+          { label: '師資陣容', href: '#junior-teachers' },
           { label: '家長見證', href: '#testimonials' },
         ];
       case 'senior':
         return [
           { label: '課程班別', href: '#course-roadmap' },
           { label: '教學成果', href: '#outstanding-results' },
-          { label: '師資陣容', href: '#teachers' },
+          { label: '師資陣容', href: '#senior-teachers' },
           { label: '家長見證', href: '#testimonials' },
         ];
       case 'bulletin':
@@ -133,4 +133,3 @@ const MobileFloatingNav: React.FC<MobileFloatingNavProps> = ({
 };
 
 export default MobileFloatingNav;
-    

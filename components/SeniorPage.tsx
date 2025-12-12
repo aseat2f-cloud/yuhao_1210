@@ -21,7 +21,7 @@ const SeniorPage: React.FC<SeniorPageProps> = ({ heroNews, onNavigate }) => {
   const SENIOR_QUICK_LINKS = [
     { label: '課程班別', href: '#course-roadmap' },
     { label: '教學成果', href: '#outstanding-results' },
-    { label: '師資陣容', href: '#teachers' },
+    { label: '師資陣容', href: '#senior-teachers' },
     { label: '家長見證', href: '#testimonials' },
   ];
 
