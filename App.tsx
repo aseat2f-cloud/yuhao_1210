@@ -210,11 +210,20 @@ const EVENT_NEWS_ITEMS: NewsItem[] = [
 
 const MORE_NEWS_ITEMS: NewsItem[] = [
   {
+    id: 'n-5',
+    title: '春節休假公告',
+    summary: '本班於春節期間休假 7 天，祝大家新年快樂。',
+    content: '【休假公告】\n\n配合農曆春節假期，本班將於 1/28 (二) 至 2/3 (一) 休假，共計 7 天。\n\n2/4 (二) 恢復正常上課。\n\n預祝大家 新年快樂，學業進步！',
+    image: 'https://www.dropbox.com/scl/fi/zf1dccc6y6k4ebdmpwc59/pic-4.jpg?rlkey=rgqsyiwuwoxz0lu2lk3mtdfpp&raw=1',
+    date: '2025-01-20',
+    category: 'normal'
+  },
+  {
     id: 'n-1',
     title: '113學年度暑期班開課通知',
     summary: '暑期班將於 7/1 正式開課，請各位家長留意上課時間。',
     content: '親愛的家長您好，113學年度暑期班將於 7/1 (週一) 正式開課。\n\n上課時間：\n早班：09:00 - 12:00\n午班：13:30 - 16:30\n\n請協助提醒孩子攜帶文具與教材。若有請假需求，請提前致電櫃檯。',
-    image: 'https://picsum.photos/seed/news1/800/600',
+    image: 'https://www.dropbox.com/scl/fi/2gyl620emdw7ihecwgz6n/pic-13.jpg?rlkey=oabpnaej0x9rbxypc5ui4dmm1&raw=1',
     date: '2025-06-25',
     category: 'normal'
   },
@@ -223,8 +232,26 @@ const MORE_NEWS_ITEMS: NewsItem[] = [
     title: '防疫措施公告',
     summary: '為維護師生健康，請配合補習班防疫規定。',
     content: '親愛的家長與同學：\n\n近期流感升溫，為維護大家的健康，請配合以下防疫措施：\n1. 進入補習班請佩戴口罩。\n2. 若有發燒或感冒症狀，請在家休息。\n3. 教室定期消毒，請安心上課。\n\n感謝您的配合。',
-    image: 'https://picsum.photos/seed/news2/800/600',
+    image: 'https://www.dropbox.com/scl/fi/yacybf07znbif857xk29o/pic-16.jpg?rlkey=su4eyhtgdtm5vfa94wm01ioda&raw=1',
     date: '2025-06-10',
+    category: 'normal'
+  },
+  {
+    id: 'n-7',
+    title: '夏日消暑綠豆湯',
+    summary: '炎炎夏日，補習班貼心準備冰涼綠豆湯，為同學消暑解渴。',
+    content: '夏天到了，天氣好熱！\n\n為了讓同學能更專心上課，補習班貼心準備了冰涼消暑的綠豆湯，將於下週起每週三下午供應。\n\n請同學自備環保杯，一起愛地球！',
+    image: 'https://www.dropbox.com/scl/fi/tmeihc1i24pd596i672ot/pic-19.jpg?rlkey=1sm9qd7srr5lg3tlfzows5pqj&raw=1',
+    date: '2025-06-01',
+    category: 'normal'
+  },
+  {
+    id: 'n-8',
+    title: '優良學生表揚大會',
+    summary: '恭喜本期表現優異的同學，將於週六舉行頒獎典禮。',
+    content: '榮譽時刻！\n\n本期優良學生名單已公佈，恭喜所有獲獎同學！\n\n我們將於本週六上午 10:00 舉行頒獎典禮，頒發獎狀與獎學金，以資鼓勵。\n\n期許大家繼續保持，再接再厲！',
+    image: 'https://www.dropbox.com/scl/fi/01n0d94pei1taghllxih6/pic-8.jpg?rlkey=0tqlkcxlw2yqr46elr2aidif5&raw=1',
+    date: '2025-04-15',
     category: 'normal'
   },
   {
@@ -232,8 +259,17 @@ const MORE_NEWS_ITEMS: NewsItem[] = [
     title: '國中部段考加強班',
     summary: '第一次段考將至，本班特別開設考前加強班，歡迎同學參加。',
     content: '面對第一次段考感到緊張嗎？\n\n育豪資優特別開設「段考加強班」，針對各校版本重點複習，並提供精選試題演練。\n\n時間：每週六日下午 13:30 - 16:30\n地點：各分校教室\n\n請洽櫃檯報名。',
-    image: 'https://picsum.photos/seed/news3/800/600',
+    image: 'https://www.dropbox.com/scl/fi/azaky2ebmuypp1phmrb74/pic-17.jpg?rlkey=l4nio8m2se2oygtfmgmwewtea&raw=1',
     date: '2025-09-20',
+    category: 'normal'
+  },
+  {
+    id: 'n-6',
+    title: '母親節感恩活動',
+    summary: '感謝辛勞的媽媽，本班舉辦母親節卡片製作活動。',
+    content: '溫馨五月天，感恩母親節。\n\n為了感謝媽媽的辛勞，我們將在課堂上帶領孩子製作母親節卡片，寫下對媽媽的愛與感謝。\n\n歡迎家長屆時欣賞孩子的作品！',
+    image: 'https://www.dropbox.com/scl/fi/37ni6uiuda2e5hztudoox/pic-20.jpg?rlkey=ij206dn25tx2texel3aa1v4cr&raw=1',
+    date: '2025-05-01',
     category: 'normal'
   },
   {
@@ -241,17 +277,8 @@ const MORE_NEWS_ITEMS: NewsItem[] = [
     title: '親師座談會邀請',
     summary: '誠摯邀請家長參加本學期親師座談會，了解孩子的學習狀況。',
     content: '親愛的家長：\n\n為了讓您更了解孩子在補習班的學習狀況與升學規劃，我們將舉辦親師座談會。\n\n時間：2025/10/15 (六) 10:00 - 12:00\n地點：本班大禮堂\n\n歡迎撥冗參加。',
-    image: 'https://picsum.photos/seed/news4/800/600',
+    image: 'https://www.dropbox.com/scl/fi/p95ekvg6xcvk4ao48ul52/pic-18.jpg?rlkey=hnyzw6tki59326n3i8ytevcdr&raw=1',
     date: '2025-10-01',
-    category: 'normal'
-  },
-  {
-    id: 'n-5',
-    title: '春節休假公告',
-    summary: '本班於春節期間休假 7 天，祝大家新年快樂。',
-    content: '【休假公告】\n\n配合農曆春節假期，本班將於 1/28 (二) 至 2/3 (一) 休假，共計 7 天。\n\n2/4 (二) 恢復正常上課。\n\n預祝大家 新年快樂，學業進步！',
-    image: 'https://picsum.photos/seed/news5/800/600',
-    date: '2025-01-20',
     category: 'normal'
   }
 ];
@@ -260,7 +287,7 @@ const MORE_NEWS_ITEMS: NewsItem[] = [
 const ALL_NEWS: NewsItem[] = [
   ...HOME_HIGHLIGHTS,
   ...NEW_HIGHLIGHTS, // 6 highlight items
-  ...MORE_NEWS_ITEMS, // 5 normal items
+  ...MORE_NEWS_ITEMS, // 8 normal items
   ...EVENT_NEWS_ITEMS // 5 event items
 ];
 
