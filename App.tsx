@@ -1,16 +1,12 @@
 
-import { useState, useEffect } from 'react';
-import { ArrowUp } from 'lucide-react';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import { ArrowUp, Loader2 } from 'lucide-react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Footer from './components/Footer';
 import ChatBot from './components/ChatBot';
 import ContactForm from './components/ContactForm';
-import ElementaryPage from './components/ElementaryPage';
-import JuniorPage from './components/JuniorPage';
-import SeniorPage from './components/SeniorPage'; // Import new page
-import BulletinPage from './components/BulletinPage';
 import HomeBanner from './components/HomeBanner';
 import ProgramPlanning from './components/ProgramPlanning';
 import OutstandingResults from './components/OutstandingResults';
@@ -18,6 +14,12 @@ import HonorRoll from './components/HonorRoll';
 import ParentTestimonials from './components/ParentTestimonials';
 import MobileFloatingNav from './components/MobileFloatingNav';
 import { PageType, NewsItem } from './types';
+
+// Lazy load heavy page components
+const ElementaryPage = lazy(() => import('./components/ElementaryPage'));
+const JuniorPage = lazy(() => import('./components/JuniorPage'));
+const SeniorPage = lazy(() => import('./components/SeniorPage'));
+const BulletinPage = lazy(() => import('./components/BulletinPage'));
 
 // --- MOCK DATA ---
 
@@ -320,38 +322,43 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Loading Component for Suspense
+  const LoadingScreen = () => (
+    <div className="flex items-center justify-center min-h-[50vh] w-full">
+      <div className="flex flex-col items-center gap-4">
+        <Loader2 className="w-10 h-10 text-primary-600 animate-spin" />
+        <p className="text-slate-500 font-medium animate-pulse">載入中...</p>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
-    switch (currentPage) {
-      case 'elementary':
-        return (
+    return (
+      <Suspense fallback={<LoadingScreen />}>
+        {currentPage === 'elementary' && (
           <ElementaryPage 
             heroNews={ELEMENTARY_HIGHLIGHTS}
             onNavigate={setCurrentPage}
           />
-        );
-      case 'junior':
-        return (
+        )}
+        {currentPage === 'junior' && (
           <JuniorPage 
             heroNews={JUNIOR_HIGHLIGHTS}
             onNavigate={setCurrentPage}
           />
-        );
-      case 'senior':
-        return (
+        )}
+        {currentPage === 'senior' && (
           <SeniorPage 
             heroNews={SENIOR_HIGHLIGHTS}
             onNavigate={setCurrentPage}
           />
-        );
-      case 'bulletin':
-        return (
+        )}
+        {currentPage === 'bulletin' && (
           <BulletinPage 
             news={ALL_NEWS} 
           />
-        );
-      case 'home':
-      default:
-        return (
+        )}
+        {currentPage === 'home' && (
           <>
             <Hero 
               title={
@@ -374,8 +381,9 @@ function App() {
             <HonorRoll />
             <ParentTestimonials />
           </>
-        );
-    }
+        )}
+      </Suspense>
+    );
   };
 
   const getPageTheme = (): 'primary' | 'green' | 'blue' | 'purple' => {
