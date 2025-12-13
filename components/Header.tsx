@@ -5,7 +5,7 @@ import { NavItem, PageType } from '../types';
 
 const NAV_ITEMS: NavItem[] = [
   { 
-    label: '國小課程', 
+    label: '國小築基', 
     page: 'elementary',
     dropdown: [
       { label: '課程班別', id: 'course-roadmap' },
@@ -15,7 +15,7 @@ const NAV_ITEMS: NavItem[] = [
     ]
   },
   { 
-    label: '國中課程', 
+    label: '國中突破', 
     page: 'junior',
     dropdown: [
       { label: '課程班別', id: 'course-roadmap' },
@@ -25,7 +25,7 @@ const NAV_ITEMS: NavItem[] = [
     ]
   },
   { 
-    label: '高中課程', 
+    label: '高中登峰', 
     page: 'senior',
     dropdown: [
       { label: '課程班別', id: 'course-roadmap' },

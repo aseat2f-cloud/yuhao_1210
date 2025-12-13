@@ -130,10 +130,10 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect(); // Trigger once and keep visible
-        }
+        const entry = entries[0];
+        // Toggle visibility state based on intersection. 
+        // This will allow re-triggering the animation when the user scrolls back into view.
+        setIsVisible(entry.isIntersecting);
       },
       { threshold: 0.1 } // 10% visible
     );
@@ -308,7 +308,7 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
   };
 
   // 1. Include `isVisible` in key to force re-render when section becomes visible.
-  // This ensures the animation class is applied to a fresh DOM element, guaranteeing the animation runs.
+  // This ensures the animation class is applied to a fresh DOM element, guaranteeing the animation runs every time the user scrolls to this section.
   const gridKey = `${activeTab}-${currentPage}-${isVisible ? 'show' : 'hide'}`;
 
   return (
@@ -361,6 +361,7 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
             {displayedItems.map((item, index) => (
               // 2. Outer Wrapper: Handles Entrance Animation only.
               // This separates the animation logic from the hover logic.
+              // Use isVisible check to ensure we only apply animation class when visible.
               <div 
                 key={item.id} 
                 className={isVisible ? 'honor-card-enter' : 'opacity-0'}
