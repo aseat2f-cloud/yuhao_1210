@@ -13,6 +13,20 @@ export default defineConfig(({ mode }) => {
     // Polyfill process.env for the existing code structure
     define: {
       'process.env': env
+    },
+    build: {
+      // Increase the warning limit to 1500KB (1.5MB) to prevent warnings for reasonable bundle sizes
+      chunkSizeWarningLimit: 1500,
+      rollupOptions: {
+        output: {
+          // Manually split large vendor libraries into separate chunks for better caching and parallel loading
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom'],
+            'vendor-genai': ['@google/genai'],
+            'vendor-ui': ['lucide-react'],
+          },
+        },
+      },
     }
   }
 })
