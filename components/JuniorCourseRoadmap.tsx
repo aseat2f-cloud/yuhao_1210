@@ -167,15 +167,15 @@ const JuniorCourseRoadmap: React.FC = () => {
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff33_1px,transparent_1px)] bg-[size:20px_20px]"></div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12">
+        <div className="text-center mb-5 md:mb-12">
           <h2 className="text-blue-200 font-bold tracking-wide uppercase text-sm mb-3">育豪資優</h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-white">國中課程規劃</h3>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-8">
           
           {/* Mobile Navigation (Arrows) */}
-          <div className="md:hidden flex flex-col gap-4 mb-4">
+          <div className="md:hidden flex flex-col gap-4">
             <div className="flex items-center justify-between bg-blue-700/50 rounded-xl p-2 backdrop-blur-sm border border-blue-500/30">
               <button 
                 onClick={prevTab}
@@ -196,24 +196,6 @@ const JuniorCourseRoadmap: React.FC = () => {
                 <ChevronRight size={24} />
               </button>
             </div>
-
-            {/* Mobile Action Buttons */}
-             <div className="grid grid-cols-2 gap-3">
-               <button
-                onClick={() => setIsBrochureOpen(true)}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 shadow-sm"
-              >
-                <FileText size={18} />
-                <span>查閱簡章</span>
-              </button>
-              <button
-                onClick={handleTogglePlan}
-                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all font-bold shadow-sm ${isPlanOpen ? 'bg-white text-blue-700' : 'bg-blue-700 text-white border border-blue-500'}`}
-              >
-                <Map size={18} />
-                <span>完整規劃</span>
-              </button>
-             </div>
           </div>
 
           {/* Desktop/Tablet Sidebar Tabs */}
@@ -314,6 +296,25 @@ const JuniorCourseRoadmap: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            {/* Mobile Action Buttons (Moved below cards) */}
+             <div className="grid grid-cols-2 gap-3 mt-6 md:hidden">
+               <button
+                onClick={() => setIsBrochureOpen(true)}
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 shadow-sm"
+              >
+                <FileText size={18} />
+                <span>查閱簡章</span>
+              </button>
+              <button
+                onClick={handleTogglePlan}
+                className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all font-bold shadow-sm ${isPlanOpen ? 'bg-white text-blue-700' : 'bg-blue-700 text-white border border-blue-500'}`}
+              >
+                <Map size={18} />
+                <span>完整規劃</span>
+              </button>
+             </div>
+
           </div>
         </div>
 
