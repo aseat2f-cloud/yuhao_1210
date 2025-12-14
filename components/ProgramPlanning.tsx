@@ -78,6 +78,14 @@ const PROGRAMS_DATA: Record<string, ProgramData> = {
         ]
       },
       {
+        id: 'science',
+        name: '自然科學',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '透過趣味科學實驗與觀察活動，引導孩子探索自然奧秘，培養實事求是的科學精神與動手解決問題的能力。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/fqw7ec8xo52m15q54ummf/011-705x470.jpg?rlkey=yixf8ceylh559b0rd1lu66wx1&dl=0'), caption: '結合生活情境的主題式教學，讓孩子從日常生活中發現科學原理，激發好奇心與主動探究的熱情。' }
+        ]
+      },
+      {
         id: 'gifted',
         name: '資優升學',
         images: [
@@ -225,6 +233,7 @@ const ProgramContent: React.FC<{
   const activeCategory = program.categories[activeCategoryIndex];
   const activeImages = activeCategory.images;
   const currentImage = activeImages[activeImageIndex];
+  const isElementary = program.id === 'elementary';
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
@@ -299,11 +308,11 @@ const ProgramContent: React.FC<{
              <div className="flex-1 h-[1px] bg-slate-300"></div>
           </h5>
           
-          <div className="flex items-center gap-1 sm:block">
-              {/* Left Arrow (Mobile Only) */}
+          <div className={`flex items-center gap-1 ${isElementary ? '' : 'sm:block'}`}>
+              {/* Left Arrow */}
               <button 
                   onClick={scrollLeft}
-                  className="sm:hidden p-1 mr-1 text-slate-400 hover:text-slate-600 shrink-0"
+                  className={`${isElementary ? 'mr-1' : 'sm:hidden mr-1'} p-1 text-slate-400 hover:text-slate-600 shrink-0`}
                   aria-label="Scroll left"
               >
                   <ChevronLeft size={24} />
@@ -311,7 +320,7 @@ const ProgramContent: React.FC<{
 
               <div 
                   ref={scrollContainerRef}
-                  className="flex-1 flex flex-nowrap overflow-x-auto gap-2 sm:gap-4 sm:flex-wrap sm:overflow-visible scrollbar-hide py-2"
+                  className={`flex-1 flex flex-nowrap overflow-x-auto gap-2 sm:gap-4 scrollbar-hide py-2 ${isElementary ? '' : 'sm:flex-wrap sm:overflow-visible'}`}
                   style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 <style>{`
@@ -337,10 +346,10 @@ const ProgramContent: React.FC<{
                 })}
               </div>
 
-              {/* Right Arrow (Mobile Only) */}
+              {/* Right Arrow */}
               <button 
                   onClick={scrollRight}
-                  className="sm:hidden p-1 ml-1 text-slate-400 hover:text-slate-600 shrink-0"
+                  className={`${isElementary ? 'ml-1' : 'sm:hidden ml-1'} p-1 text-slate-400 hover:text-slate-600 shrink-0`}
                   aria-label="Scroll right"
               >
                   <ChevronRight size={24} />

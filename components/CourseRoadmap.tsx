@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp } from 'lucide-react';
+import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, Tent } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
 
 const BROCHURE_IMAGES = [
@@ -65,6 +65,18 @@ const COURSE_DATA = [
     classes: [
       { name: '私中特訓班', desc: '國英數全科衝刺，模擬考實戰演練', age: '小六', time: '週六/日 全天' },
       { name: '資優鑑定班', desc: '數理邏輯與性向測驗輔導', age: '小二 ~ 小六', time: '寒暑假/考前' },
+    ]
+  },
+  {
+    id: 'essenjoy-player',
+    label: '艾森樂小玩家',
+    description: '結合寒暑假營隊與週末多元課程，透過科學實驗、藝術創作與戶外探索，啟發孩子的興趣與潛能。讓學習延伸至教室之外，玩出競爭力。',
+    icon: <Tent size={20} />,
+    color: 'text-pink-500',
+    classes: [
+      { name: '艾森樂夏令營', desc: '主題式教學，結合科學、藝術、體能與戶外參訪', age: '升小一 ~ 小六', time: '暑假期間' },
+      { name: '艾森樂冬令營', desc: '短期密集營隊，專注力訓練與多元智能開發', age: '小一 ~ 小六', time: '寒假期間' },
+      { name: '週六多元課程', desc: '科學實驗、創意積木、邏輯桌遊，豐富週末生活', age: '小一 ~ 小六', time: '週六時段' },
     ]
   }
 ];
