@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, Tent } from 'lucide-react';
+import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, Tent, ChevronsDown } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
 
 const BROCHURE_IMAGES = [
@@ -314,7 +314,7 @@ const CourseRoadmap: React.FC = () => {
         {/* Full Plan Timeline Section (Vertical Centered) */}
         {isPlanOpen && (
           <div ref={timelineRef} className="mt-16 py-12 px-4 md:px-12 bg-white rounded-3xl shadow-xl animate-in fade-in slide-in-from-top-4 duration-500">
-             <div className="flex flex-col items-center justify-center gap-2 mb-10">
+             <div className="flex flex-col items-center justify-center gap-2 mb-16 md:mb-20">
                <div className="flex items-center gap-3">
                  <Map className="text-green-600" size={32} />
                  <h3 className="text-2xl md:text-3xl font-extrabold text-green-800 text-center">國小完整學習規劃路徑</h3>
@@ -329,6 +329,13 @@ const CourseRoadmap: React.FC = () => {
                 
                 {/* Side Line (Mobile) - Ends at 24px from bottom (bottom-6) */}
                 <div className="absolute left-6 top-0 bottom-6 w-1 bg-green-100 -translate-x-1/2 rounded-full md:hidden"></div>
+
+                {/* NEW: Start Icon - Bouncing ChevronsDown */}
+                <div className="absolute top-0 left-6 md:left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                   <div className="bg-green-50 p-2 rounded-full border-2 border-green-100 animate-bounce shadow-sm">
+                      <ChevronsDown size={20} className="text-green-600" />
+                   </div>
+                </div>
                 
                 <div className="space-y-8 md:space-y-16 mb-8"> 
                    {TIMELINE_DATA.map((step, idx) => (
