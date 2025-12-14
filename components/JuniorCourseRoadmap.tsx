@@ -1,10 +1,9 @@
 
-// ... (imports remain same)
 import React, { useState, useRef } from 'react';
 import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, ChevronsDown } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
+import Modal from './Modal';
 
-// ... (constants remain same)
 const BROCHURE_IMAGES = [
   "https://www.dropbox.com/scl/fi/5bo3d78bk5ygpww4xx7oo/251202_-_-DM_AH_01.jpg?rlkey=n6914auenialxg11u9tlv4dv1&raw=1",
   "https://www.dropbox.com/scl/fi/18rfzi9vqv67a0j5rufhd/251202_-_-DM_AH_02.jpg?rlkey=j35bxn0slkh7ubwtp56bp7un3&raw=1"
@@ -122,6 +121,7 @@ const JuniorCourseRoadmap: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [isBrochureOpen, setIsBrochureOpen] = useState(false);
   const [isPlanOpen, setIsPlanOpen] = useState(false);
+  const [selectedClass, setSelectedClass] = useState<any>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -160,6 +160,45 @@ const JuniorCourseRoadmap: React.FC = () => {
       setIsPlanOpen(false);
     }, 500);
   };
+
+  // Generate Mock Schedule Data
+  const generateSchedule = (cls: any) => {
+    const daysMap: Record<string, string> = { '週一': 'Mon', '週二': 'Tue', '週三': 'Wed', '週四': 'Thu', '週五': 'Fri', '週六': 'Sat', '週日': 'Sun' };
+    let primaryDay = '週六';
+    for (const d of Object.keys(daysMap)) {
+      if (cls.time.includes(d)) {
+        primaryDay = d;
+        break;
+      }
+    }
+
+    const topics = [
+      '課程介紹 & 重點觀念建立',
+      '核心單元導讀 & 範例解析',
+      '精選試題演練 (一)',
+      '精選試題演練 (二)',
+      '進階題型解析與實作',
+      '歷屆會考題型分析',
+      '模擬測驗與檢討',
+      '階段性總結評量'
+    ];
+
+    return Array.from({ length: 8 }).map((_, i) => ({
+      date: `07/${String(i * 7 + 5).padStart(2, '0')}`,
+      day: primaryDay,
+      time: cls.time.includes(':') ? cls.time.split(' ')[1] + '-' + (parseInt(cls.time.split(' ')[1].split(':')[0]) + 3) + ':00' : '18:30-21:30',
+      unit: `第 ${i+1} 單元`,
+      courseName: topics[i]
+    }));
+  };
+
+  const commonNotes = [
+    "請準時出席，遲到超過 15 分鐘請先至櫃檯報到。",
+    "請攜帶指定教材、筆記本與文具用品。",
+    "課堂中請勿使用手機，並將手機轉為靜音。",
+    "請假請提前 24 小時告知，以利安排補課。",
+    "補習班保有課程異動之權利，如有變動將另行通知。"
+  ];
 
   return (
     <section ref={sectionRef} id="course-roadmap" className="py-20 bg-blue-600 scroll-mt-24 relative overflow-hidden">
@@ -281,7 +320,7 @@ const JuniorCourseRoadmap: React.FC = () => {
                   {/* Action Buttons */}
                   <div className="flex gap-2 mt-auto">
                      <button 
-                       onClick={() => setIsBrochureOpen(true)}
+                       onClick={() => setSelectedClass(cls)}
                        className="flex-1 py-2.5 rounded-lg bg-blue-50 text-blue-700 text-sm font-bold hover:bg-blue-100 transition-colors flex items-center justify-center gap-1.5 border border-blue-200"
                      >
                         查看課表 <Calendar size={14} />
@@ -416,13 +455,6 @@ const JuniorCourseRoadmap: React.FC = () => {
                 </div>
 
                 {/* Bouncing Rocket Icon - Absolute position at bottom-0 */}
-                {/* 
-                   Vertical Alignment: 
-                   - Timeline line ends at bottom-6 (24px)
-                   - Rocket is h-12 (48px). bottom-0 places its center at 24px.
-                   - Thus, line ends at center of rocket.
-                   - Wrapped in a div to separate positioning transform from animation transform
-                */}
                 <div className="absolute bottom-0 left-6 md:left-1/2 -translate-x-1/2 z-10">
                   <div className="w-12 h-12 bg-white border-4 border-blue-100 rounded-full flex items-center justify-center shadow-lg animate-bounce">
                       <Rocket className="text-blue-600 w-6 h-6" />
@@ -449,6 +481,74 @@ const JuniorCourseRoadmap: React.FC = () => {
         onClose={() => setIsBrochureOpen(false)} 
         images={BROCHURE_IMAGES} 
       />
+
+      {/* Schedule Modal */}
+      <Modal
+        isOpen={!!selectedClass}
+        onClose={() => setSelectedClass(null)}
+        title={selectedClass ? `${selectedClass.name} - 課程表` : '課程表'}
+        maxWidth="max-w-4xl"
+      >
+        {selectedClass && (
+          <div className="space-y-6">
+             {/* Info Header */}
+             <div className="flex flex-wrap gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                <div className="flex items-center gap-2">
+                   <span className="text-slate-500 font-bold text-sm">上課對象：</span>
+                   <span className="text-slate-900 font-medium">{selectedClass.age}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                   <span className="text-slate-500 font-bold text-sm">上課時間：</span>
+                   <span className="text-slate-900 font-medium">{selectedClass.time}</span>
+                </div>
+             </div>
+
+             {/* Schedule Table */}
+             <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left min-w-[600px]">
+                       <thead className="bg-slate-100 text-slate-700 font-bold uppercase">
+                          <tr>
+                             <th className="px-4 py-3 whitespace-nowrap">日期</th>
+                             <th className="px-4 py-3 whitespace-nowrap">星期</th>
+                             <th className="px-4 py-3 whitespace-nowrap">時間</th>
+                             <th className="px-4 py-3 whitespace-nowrap">單元名稱</th>
+                             <th className="px-4 py-3 whitespace-nowrap">課程名稱</th>
+                          </tr>
+                       </thead>
+                       <tbody className="divide-y divide-slate-100">
+                          {generateSchedule(selectedClass).map((row, idx) => (
+                             <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                                <td className="px-4 py-3 font-medium text-slate-900">{row.date}</td>
+                                <td className="px-4 py-3 text-slate-500">{row.day}</td>
+                                <td className="px-4 py-3 text-slate-500">{row.time}</td>
+                                <td className="px-4 py-3 text-blue-600 font-bold">{row.unit}</td>
+                                <td className="px-4 py-3 text-slate-700">{row.courseName}</td>
+                             </tr>
+                          ))}
+                       </tbody>
+                    </table>
+                </div>
+             </div>
+
+             {/* Notes */}
+             <div>
+                <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                   <div className="w-1.5 h-6 bg-yellow-400 rounded-full"></div>
+                   課程注意事項
+                </h4>
+                <ul className="space-y-2 bg-yellow-50 p-5 rounded-xl text-slate-700 text-sm border border-yellow-100">
+                   {commonNotes.map((note, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                         <span className="text-yellow-500 font-bold">•</span>
+                         {note}
+                      </li>
+                   ))}
+                </ul>
+             </div>
+          </div>
+        )}
+      </Modal>
     </section>
   );
 };
