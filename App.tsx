@@ -422,10 +422,10 @@ function App() {
         onScrollTop={scrollToTop}
       />
 
-      {/* Scroll To Top Button - Desktop Only */}
+      {/* Scroll To Top Button - Desktop Only (lg:flex) */}
       <button
         onClick={scrollToTop}
-        className={`hidden md:flex fixed bottom-24 right-6 z-30 p-3 rounded-full bg-white shadow-lg border border-slate-200 text-slate-600 hover:text-primary-600 hover:border-primary-600 transition-all duration-300 transform ${
+        className={`hidden lg:flex fixed bottom-24 right-6 z-30 p-3 rounded-full bg-white shadow-lg border border-slate-200 text-slate-600 hover:text-primary-600 hover:border-primary-600 transition-all duration-300 transform ${
           showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'
         }`}
         aria-label="Scroll to top"

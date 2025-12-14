@@ -67,10 +67,10 @@ const ChatBot: React.FC<ChatBotProps> = ({ isOpen, onToggle }) => {
 
   return (
     <>
-      {/* Toggle Button - Hidden on mobile (lg:hidden is applied in MobileFloatingNav, here we hide on small screens) */}
+      {/* Toggle Button - Desktop Only (lg:flex) to avoid overlap with MobileFloatingNav (visible < lg) */}
       <button
         onClick={() => onToggle(true)}
-        className={`hidden md:flex fixed bottom-6 right-6 z-[90] p-4 rounded-full shadow-2xl bg-primary-600 text-white hover:bg-primary-700 hover:scale-105 transition-all duration-300 ${isOpen ? 'hidden' : 'flex'}`}
+        className={`hidden lg:flex fixed bottom-6 right-6 z-[90] p-4 rounded-full bg-primary-600 text-white ring-2 ring-white/50 hover:bg-primary-700 hover:scale-105 transition-all duration-300 ${isOpen ? 'hidden' : 'flex'}`}
         aria-label="Open Chat"
       >
         <MessageCircle size={28} />

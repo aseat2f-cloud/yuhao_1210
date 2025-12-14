@@ -115,7 +115,7 @@ const MobileFloatingNav: React.FC<MobileFloatingNavProps> = ({
         {/* Chat Button */}
         <button
           onClick={onOpenChat}
-          className={`w-[54px] h-[54px] rounded-2xl border flex flex-col items-center justify-center text-center transition-transform active:scale-95 shadow-lg ${chatStyle}`}
+          className={`w-[54px] h-[54px] rounded-2xl border flex flex-col items-center justify-center text-center transition-transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.12)] ${chatStyle}`}
         >
           <MessageCircle size={20} className="mb-0.5" />
           <span className="text-[10px] font-bold leading-none">諮詢</span>
