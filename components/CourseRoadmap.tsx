@@ -11,8 +11,8 @@ const BROCHURE_IMAGES = [
 const COURSE_DATA = [
   {
     id: 'math',
-    label: '數學',
-    description: '小育豪資優數學，透過教具操作與圖解教學，將抽象概念具象化。培養孩子主動思考與邏輯推理能力，打好數理根基。',
+    label: '小育豪資優數學',
+    description: '數學是培養孩子「思考及解決問題能力」的最佳途徑。深耕板橋40年的育豪資優文教已孕育無數優秀學子，在小學數學中承襲國中<觀念導向>的方式教導，使學生能夠愉快並有系統的學習。從國小至國中、從基礎到資優等不同班別，皆由【育豪師資親授】使孩子適性養成，課程中引導不只單一的思考，藉由提問＞思考＞精準表達＞互動式教學，以明星私中、公校資優鑑定、明星高中等目標的同學，絕對不能錯過。',
     icon: <Calculator size={20} />,
     color: 'text-green-600',
     classes: [
@@ -23,8 +23,8 @@ const COURSE_DATA = [
   },
   {
     id: 'english',
-    label: '美語',
-    description: '艾森樂美語 (Essenjoy)，打造全美語沉浸式學習環境。結合繪本、科學與跨領域主題，讓孩子自然開口說英語，接軌國際。',
+    label: '艾森樂美語',
+    description: '語言是通往世界的鑰匙，艾森樂美語 (Essenjoy) 致力於為孩子打造最自然的全美語沉浸式學習環境。我們不只教單字與文法，更結合繪本閱讀、科學實驗與跨領域主題教學，激發孩子對語言的興趣與自信。透過外師引導與互動式情境模擬，讓孩子自然而然開口說英語，培養語感與國際視野，從小具備與世界接軌的競爭力。',
     icon: <Languages size={20} />,
     color: 'text-teal-500',
     classes: [
@@ -35,8 +35,8 @@ const COURSE_DATA = [
   },
   {
     id: 'chinese',
-    label: '國語文',
-    description: '重視閱讀素養與寫作表達。透過經典文學導讀與心智圖作文教學，提升孩子的閱讀理解力與文字駕馭能力。',
+    label: '國語文閱讀寫作',
+    description: '在資訊爆炸的時代，閱讀素養與文字表達能力是孩子終身受用的核心競爭力。我們的國語文課程精選經典文學作品導讀，引導孩子深入思考與鑑賞，並運用心智圖法進行寫作構思，將抽象的思維轉化為有溫度的文字。從造句練習到篇章結構，循序漸進提升閱讀理解力與寫作表達力，讓孩子能自信地用文字與世界對話。',
     icon: <BookOpen size={20} />,
     color: 'text-orange-500',
     classes: [
@@ -47,8 +47,8 @@ const COURSE_DATA = [
   },
   {
     id: 'science',
-    label: '自然科學',
-    description: '強調「動手做」的科學精神。透過有趣的科學實驗，驗證課本原理，培養觀察、假設、實驗、結論的科學思維。',
+    label: '小小科學實驗家',
+    description: '科學不只是課本上的知識，更是探索世界的工具。小小科學實驗家課程強調「動手做 (Hands-on)」的科學精神，帶領孩子走出書本，親手操作有趣的科學實驗。在觀察、假設、實驗、驗證的過程中，培養實事求是的科學態度與邏輯思維。我們鼓勵孩子勇於提問、主動探究，發現日常生活中的科學奧秘，激發對大自然的好奇心與創造力。',
     icon: <FlaskConical size={20} />,
     color: 'text-blue-500',
     classes: [
@@ -58,8 +58,8 @@ const COURSE_DATA = [
   },
   {
     id: 'gifted',
-    label: '資優升學',
-    description: '針對私中入學考與資優鑑定，提供系統化的培訓課程。精準掌握命題趨勢，協助孩子進入理想學府。',
+    label: '公私立資優班升學',
+    description: '針對目標鎖定明星私中入學考與公校資優鑑定的同學，我們提供最專業且系統化的培訓課程。憑藉多年豐富的輔導經驗，精準掌握各校命題趨勢與考試方向，針對國語文、英語、數學邏輯及自然科學進行全方位強化。透過高強度的模擬演練與個別化弱點分析，提升孩子的應試技巧與抗壓性，協助孩子自信面對挑戰，順利進入理想學府。',
     icon: <Rocket size={20} />,
     color: 'text-purple-500',
     classes: [
@@ -70,7 +70,7 @@ const COURSE_DATA = [
   {
     id: 'essenjoy-player',
     label: '艾森樂小玩家',
-    description: '結合寒暑假營隊與週末多元課程，透過科學實驗、藝術創作與戶外探索，啟發孩子的興趣與潛能。讓學習延伸至教室之外，玩出競爭力。',
+    description: '艾森樂小玩家系列課程，結合寒暑假主題營隊與週末多元工作坊，旨在讓學習延伸至教室之外。透過科學實驗、藝術創作、戶外探索與體能活動，啟發孩子的多元興趣與潛能。我們相信「玩」是最好的學習，在遊戲與團隊合作中，培養解決問題的能力與人際互動技巧，讓孩子在歡笑中快樂成長，玩出屬於自己的競爭力。',
     icon: <Tent size={20} />,
     color: 'text-pink-500',
     classes: [
@@ -234,7 +234,7 @@ const CourseRoadmap: React.FC = () => {
             
             {/* Category Description */}
             <div className="mb-8 animate-in fade-in duration-300">
-               <p className="text-green-50 leading-relaxed md:leading-[1.9] text-lg md:text-xl font-medium">
+               <p className="text-green-50 leading-relaxed md:leading-loose text-base md:text-lg font-medium text-justify">
                   {COURSE_DATA[activeTab].description}
                </p>
             </div>
