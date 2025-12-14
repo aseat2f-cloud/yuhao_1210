@@ -402,18 +402,19 @@ const CourseRoadmap: React.FC = () => {
                 
                 <div className="space-y-8 md:space-y-16 mb-8"> 
                    {TIMELINE_DATA.map((step, idx) => (
-                      <div key={idx} className={`flex flex-col md:flex-row items-center md:justify-between relative ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+                      // Changed logic here: Start with Main Card on Left (idx % 2 !== 0 condition flipped)
+                      <div key={idx} className={`flex flex-col md:flex-row items-center md:justify-between relative ${idx % 2 !== 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
                          
-                         {/* Side Content: Recommended Course Direction (Desktop Only) - Moves to opposite side of Main Card */}
-                         <div className={`hidden md:flex w-5/12 flex-col justify-center ${idx % 2 === 0 ? 'items-end text-right' : 'items-start text-left'}`}>
-                            <div className="flex items-center gap-2 text-amber-500 font-bold mb-2">
-                               {idx % 2 === 0 && <span className="font-bold text-lg">推薦選課方向</span>}
+                         {/* Side Content: Recommended Course Direction (Desktop Only) */}
+                         <div className={`hidden md:flex w-5/12 flex-col justify-center ${idx % 2 !== 0 ? 'items-end text-right' : 'items-start text-left'}`}>
+                            <div className={`flex items-center gap-2 text-amber-500 font-bold mb-2 ${idx % 2 !== 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                               {/* Icon order flips based on side */}
+                               <span className="font-bold text-lg">推薦選課方向</span>
                                <CheckCircle2 size={20} />
-                               {idx % 2 !== 0 && <span className="font-bold text-lg">推薦選課方向</span>}
                             </div>
                             <ul className="space-y-2">
                                 {step.courses.map(c => (
-                                    <li key={c} className={`text-slate-600 font-medium hover:text-green-600 transition-colors ${idx % 2 === 0 ? 'mr-1' : 'ml-1'}`}>
+                                    <li key={c} className={`text-slate-600 font-medium hover:text-green-600 transition-colors ${idx % 2 !== 0 ? 'mr-1' : 'ml-1'}`}>
                                         {c}
                                     </li>
                                 ))}
@@ -427,7 +428,7 @@ const CourseRoadmap: React.FC = () => {
 
                          {/* Main Content Card */}
                          <div className={`w-[calc(100%-4rem)] ml-auto md:ml-0 md:w-5/12 group`}>
-                            <div className={`bg-green-50 rounded-2xl p-6 border border-green-100 hover:bg-green-100 transition-all hover:-translate-y-1 hover:shadow-lg relative flex flex-col ${idx % 2 === 0 ? 'md:items-start md:text-left' : 'md:items-end md:text-right'}`}>
+                            <div className={`bg-green-50 rounded-2xl p-6 border border-green-100 hover:bg-green-100 transition-all hover:-translate-y-1 hover:shadow-lg relative flex flex-col ${idx % 2 !== 0 ? 'md:items-start md:text-left' : 'md:items-end md:text-right'}`}>
                                 
                                 {/* Step Label */}
                                 <span className="inline-block px-3 py-1 bg-white rounded-lg text-green-700 text-xs font-bold mb-3 border border-green-200">
@@ -441,8 +442,8 @@ const CourseRoadmap: React.FC = () => {
                                 
                                 <div className="w-full space-y-4">
                                     {/* Goal Section */}
-                                    <div className={`text-sm md:text-base bg-white p-3 rounded-xl border border-green-200 ${idx % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
-                                        <div className={`flex items-center gap-2 text-amber-500 font-bold mb-1.5 ${idx % 2 === 0 ? '' : 'md:flex-row-reverse'}`}>
+                                    <div className={`text-sm md:text-base bg-white p-3 rounded-xl border border-green-200 ${idx % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>
+                                        <div className={`flex items-center gap-2 text-amber-500 font-bold mb-1.5 ${idx % 2 !== 0 ? '' : 'md:flex-row-reverse'}`}>
                                             <Target size={16} />
                                             <span>學習目標</span>
                                         </div>
