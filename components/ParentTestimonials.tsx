@@ -60,26 +60,12 @@ const ParentTestimonials: React.FC<ParentTestimonialsProps> = ({ theme = 'primar
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Updated Header: Centered on all screens */}
         <div className="flex flex-col items-center mb-12 text-center">
-          <div className="mb-6">
+          <div className="mb-0">
             <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-3`}>口碑推薦</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">家長五星見證</h3>
-          </div>
-          
-          <div className="flex gap-2">
-            <button 
-              onClick={prevSlide} 
-              disabled={currentIndex === 0}
-              className="p-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-sm"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button 
-              onClick={nextSlide}
-              disabled={currentIndex === maxIndex}
-              className="p-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-sm"
-            >
-              <ChevronRight size={20} />
-            </button>
+            <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-lg">
+              來自家長的真實回饋，是我們不斷前進的動力，您的放心交給育豪。
+            </p>
           </div>
         </div>
 
@@ -103,6 +89,24 @@ const ParentTestimonials: React.FC<ParentTestimonialsProps> = ({ theme = 'primar
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Arrows Moved Here */}
+        <div className="flex justify-center gap-4 mt-8">
+            <button 
+              onClick={prevSlide} 
+              disabled={currentIndex === 0}
+              className="p-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-sm"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={nextSlide}
+              disabled={currentIndex === maxIndex}
+              className="p-3 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-sm"
+            >
+              <ChevronRight size={20} />
+            </button>
         </div>
       </div>
     </section>

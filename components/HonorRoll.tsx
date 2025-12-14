@@ -345,8 +345,12 @@ const HonorRoll: React.FC<HonorRollProps> = ({ variant = 'default', theme = 'pri
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-3`}>金榜題名</h2>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">學員金榜 • 榮耀時刻</h3>
+          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">學員金榜 • 榮耀時刻</h3>
           
+          <p className="text-slate-500 max-w-2xl mx-auto mb-8 text-lg">
+            這不僅是一份名單，更是孩子們突破自我、實現夢想的最佳見證。
+          </p>
+
           {/* Tabs */}
           <div className="flex flex-nowrap justify-center gap-2 bg-slate-100 p-1.5 rounded-full mx-auto max-w-full overflow-x-auto sm:overflow-visible">
             {renderTabs()}

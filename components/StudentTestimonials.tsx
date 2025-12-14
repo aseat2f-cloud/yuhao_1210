@@ -59,18 +59,12 @@ const StudentTestimonials: React.FC<StudentTestimonialsProps> = ({ theme = 'gree
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Centered */}
         <div className="flex flex-col items-center mb-12 text-center">
-          <div className="mb-6">
-            <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-2`}>學員心得分享</h2>
-            <h3 className="text-3xl font-extrabold text-slate-900">快樂學習 • 自信成長</h3>
-          </div>
-          
-          <div className="flex gap-2">
-            <button onClick={prevSlide} className="p-3 rounded-full border border-slate-200 hover:bg-slate-50 transition-colors">
-              <ChevronLeft size={20} className="text-slate-600" />
-            </button>
-            <button onClick={nextSlide} className="p-3 rounded-full border border-slate-200 hover:bg-slate-50 transition-colors">
-              <ChevronRight size={20} className="text-slate-600" />
-            </button>
+          <div className="mb-0">
+            <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-3`}>學員心得分享</h2>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">快樂學習 • 自信成長</h3>
+            <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-lg">
+              聽聽學長姐怎麼說，在快樂中學習，在挑戰中成長，你也可以做得到！
+            </p>
           </div>
         </div>
 
@@ -101,6 +95,17 @@ const StudentTestimonials: React.FC<StudentTestimonialsProps> = ({ theme = 'gree
             </div>
           ))}
         </div>
+
+        {/* Arrows Moved Here */}
+        <div className="flex justify-center gap-4 mt-8">
+            <button onClick={prevSlide} className="p-3 rounded-full border border-slate-200 hover:bg-slate-50 transition-colors bg-white shadow-sm">
+              <ChevronLeft size={20} className="text-slate-600" />
+            </button>
+            <button onClick={nextSlide} className="p-3 rounded-full border border-slate-200 hover:bg-slate-50 transition-colors bg-white shadow-sm">
+              <ChevronRight size={20} className="text-slate-600" />
+            </button>
+        </div>
+
       </div>
     </section>
   );

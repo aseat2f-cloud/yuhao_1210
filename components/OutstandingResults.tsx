@@ -206,6 +206,9 @@ const OutstandingResults: React.FC<OutstandingResultsProps> = ({ theme = 'primar
         <div className="text-center mb-16">
           <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-3`}>辦學績效</h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">亮眼成績 • 實力見證</h3>
+          <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-lg">
+            數據會說話，每一份榜單背後，都是師生共同努力的汗水結晶。
+          </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
