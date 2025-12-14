@@ -56,7 +56,7 @@ const ParentTestimonials: React.FC<ParentTestimonialsProps> = ({ theme = 'primar
   const visibleItems = TESTIMONIALS.slice(currentIndex * itemsPerPage, (currentIndex + 1) * itemsPerPage);
 
   return (
-    <section id="testimonials" className="py-20 bg-slate-50 text-slate-900 relative scroll-mt-24">
+    <section id="testimonials" className="py-20 bg-slate-50 text-slate-900 relative scroll-mt-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Updated Header: Centered on all screens */}
         <div className="flex flex-col items-center mb-12 text-center">

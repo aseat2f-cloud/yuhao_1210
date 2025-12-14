@@ -53,15 +53,56 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) 
   ];
 
   const handleNavClick = (page: PageType, sectionId?: string) => {
+    const isPageChange = currentPage !== page;
     onNavigate(page);
     setIsMenuOpen(false);
+    
     if (sectionId) {
-      setTimeout(() => {
+      // If changing pages, wait longer for the new page to mount and App's scrollTo(0,0) to finish.
+      // 500ms allows for Suspense fallback and initial render.
+      const startDelay = isPageChange ? 500 : 100;
+      
+      let attempts = 0;
+      const maxAttempts = 60; // 6 seconds max polling
+
+      const pollElement = () => {
         const element = document.getElementById(sectionId);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
+          // Calculate precise scroll position
+          // Target position: Element top should be 100px from viewport top (80px header + 20px padding)
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+
+          // Second correction scroll after a short delay
+          // This handles layout shifts caused by images loading or dynamic content resizing after the first scroll
+          setTimeout(() => {
+             const newElement = document.getElementById(sectionId);
+             if (newElement) {
+                const currentRect = newElement.getBoundingClientRect();
+                // If element is not approximately where we want it (allow 10px error margin)
+                if (Math.abs(currentRect.top - headerOffset) > 10) {
+                     const newOffset = currentRect.top + window.scrollY - headerOffset;
+                     window.scrollTo({
+                        top: newOffset,
+                        behavior: 'smooth'
+                     });
+                }
+             }
+          }, 400);
+
+        } else if (attempts < maxAttempts) {
+          attempts++;
+          setTimeout(pollElement, 100);
         }
-      }, 100);
+      };
+
+      setTimeout(pollElement, startDelay);
     } else {
        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -74,14 +115,17 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, onOpenChat }) 
     const scrollToContact = () => {
       const element = document.getElementById('contact');
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
       }
     };
 
     if (currentPage !== 'home') {
       onNavigate('home');
-      // Delay to allow page transition and scroll-to-top effect to finish
-      setTimeout(scrollToContact, 150);
+      // Delay to allow page transition
+      setTimeout(scrollToContact, 500);
     } else {
       scrollToContact();
     }
