@@ -1,4 +1,5 @@
 
+// ... (imports remain same)
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { ArrowUp, Loader2 } from 'lucide-react';
 import Header from './components/Header';
@@ -77,13 +78,14 @@ const JUNIOR_IMAGES = [
 ];
 
 const SENIOR_IMAGES = [
-  "https://www.dropbox.com/scl/fi/01n0d94pei1taghllxih6/pic-8.jpg?rlkey=0tqlkcxlw2yqr46elr2aidif5&raw=1",
+  "https://www.dropbox.com/scl/fi/bbzjuqls82ti9apn70ejm/pic-22.jpg?rlkey=wh08bk7s53oq85f0z0diupwfg&raw=1",
   "https://www.dropbox.com/scl/fi/zf1dccc6y6k4ebdmpwc59/pic-4.jpg?rlkey=rgqsyiwuwoxz0lu2lk3mtdfpp&raw=1",
   "https://www.dropbox.com/scl/fi/gcnvcfz85ursljtartje4/pic-6.jpg?rlkey=fwleioau7oexj3gfjas7p6rx5&raw=1"
 ];
 
 // Helper to create page-specific news items
 const createPageHighlights = (images: string[], prefix: string): NewsItem[] => {
+// ... (rest of the file remains same)
   return images.map((img, index) => ({
     ...MOCK_NEWS_BASE[index % MOCK_NEWS_BASE.length],
     id: `${prefix}-${index}`,
