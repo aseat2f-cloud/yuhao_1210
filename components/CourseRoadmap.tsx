@@ -341,12 +341,12 @@ const CourseRoadmap: React.FC = () => {
                    {TIMELINE_DATA.map((step, idx) => (
                       <div key={idx} className={`flex flex-col md:flex-row items-center md:justify-between relative ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
                          
-                         {/* Side Content: Recommended Classes (Desktop Only) - Moves to opposite side of Main Card */}
+                         {/* Side Content: Recommended Course Direction (Desktop Only) - Moves to opposite side of Main Card */}
                          <div className={`hidden md:flex w-5/12 flex-col justify-center ${idx % 2 === 0 ? 'items-end text-right' : 'items-start text-left'}`}>
                             <div className="flex items-center gap-2 text-amber-500 font-bold mb-2">
-                               {idx % 2 === 0 && <span className="font-bold text-lg">推薦班別</span>}
+                               {idx % 2 === 0 && <span className="font-bold text-lg">推薦選課方向</span>}
                                <CheckCircle2 size={20} />
-                               {idx % 2 !== 0 && <span className="font-bold text-lg">推薦班別</span>}
+                               {idx % 2 !== 0 && <span className="font-bold text-lg">推薦選課方向</span>}
                             </div>
                             <ul className="space-y-2">
                                 {step.courses.map(c => (
@@ -390,7 +390,7 @@ const CourseRoadmap: React.FC = () => {
                                     <div className="md:hidden pt-4 border-t border-green-200/50 mt-2">
                                         <div className="flex items-center gap-2 text-amber-500 font-bold mb-2">
                                             <CheckCircle2 size={16} />
-                                            <span>推薦班別</span>
+                                            <span>推薦選課方向</span>
                                         </div>
                                         <ul className="space-y-1.5">
                                             {step.courses.map(c => (
