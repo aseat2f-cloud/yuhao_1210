@@ -14,7 +14,7 @@ const COURSE_DATA = [
   {
     id: 'math',
     label: '數學',
-    description: '從代數運算到幾何證明，建立嚴謹的邏輯推演架構。針對各版本教科書重點與會考命題趨勢，提供系統化的觀念解析與題型演練。',
+    description: '數學不僅是計算，更是邏輯思維的訓練。育豪國中部數學課程強調「觀念理解」與「嚴謹推演」，從國七的代數基礎到國八的幾何證明，循序漸進建立完整的數學架構。我們深入分析各版本教科書與歷屆會考題型，透過獨創的圖解教學與系統化筆記，引導學生突破思考盲點，培養舉一反三的解題能力，讓數學成為會考最強的得分利器。',
     icon: <Calculator size={20} />,
     color: 'text-blue-500', 
     classes: [
@@ -26,7 +26,7 @@ const COURSE_DATA = [
   {
     id: 'english',
     label: '英文',
-    description: '強化文法架構與閱讀測驗技巧，累積會考必備單字量。透過主題式教學提升聽力與閱讀理解，讓英文成為升學優勢科目。',
+    description: '英語是接軌國際的必備工具。課程著重於紮實的文法架構建立與閱讀測驗技巧訓練，並透過系統化教學大幅擴充會考必備單字量。結合時事議題與跨領域主題教學，提升長篇閱讀理解與聽力實戰能力。我們不只教考試技巧，更培養語感，讓學生在面對會考素養題型時能游刃有餘，輕鬆拿下 A++。',
     icon: <Languages size={20} />,
     color: 'text-purple-400', 
     classes: [
@@ -38,7 +38,7 @@ const COURSE_DATA = [
   {
     id: 'chinese',
     label: '國文',
-    description: '精選文言文與白話文閱讀篇章，提升閱讀素養與理解能力。加強寫作技巧指導，引導學生運用修辭與名言佳句，輕鬆拿下作文六級分。',
+    description: '面對素養導向的國文命題，閱讀理解是關鍵。課程精選古文觀止與現代文學名篇，深入解析文章意涵與寫作背景，提升閱讀素養與批判性思考能力。針對會考作文，提供模組化的寫作架構與修辭技巧指導，引導學生從生活經驗出發，運用名言佳句豐富內容，精準掌握評分標準，寫出有深度、有溫度的佳作。',
     icon: <BookOpen size={20} />,
     color: 'text-teal-400', 
     classes: [
@@ -50,7 +50,7 @@ const COURSE_DATA = [
   {
     id: 'science',
     label: '自然',
-    description: '結合生物、理化與地科，透過圖解與實驗影片輔助教學，將抽象的科學原理具象化。強調觀念理解而非死背，輕鬆應對素養題型。',
+    description: '自然科包含生物、理化與地科，範圍廣且觀念抽象。育豪自然團隊堅持「觀念重於死背」，透過生動的實驗演示與圖解教學，將抽象的科學原理具象化，讓學生深刻理解自然現象背後的成因。課程緊扣會考趨勢，強化跨科整合與圖表分析能力，幫助學生釐清易混淆觀念，輕鬆應對靈活多變的素養題型。',
     icon: <FlaskConical size={20} />,
     color: 'text-orange-400', 
     classes: [
@@ -62,7 +62,7 @@ const COURSE_DATA = [
   {
     id: 'sprint',
     label: '寒暑衝刺',
-    description: '利用寒暑假黃金時間，進行超前進度學習或重點複習。提供安靜舒適的K書環境與輔導機制，讓學習更有效率。',
+    description: '寒暑假是超前進度與弭平落差的黃金時期。我們規劃了紮實的銜接課程與考前衝刺班，利用假期進行重點單元的預習或複習。提供安靜舒適的 K 書中心與專職導師的解惑輔導，營造專注的讀書氛圍。透過規律的作息安排與高強度的模擬考演練，幫助學生調整最佳備戰狀態，贏在起跑點。',
     icon: <Rocket size={20} />,
     color: 'text-red-400', 
     classes: [
@@ -244,7 +244,7 @@ const JuniorCourseRoadmap: React.FC = () => {
             
             {/* Category Description */}
             <div className="mb-8 animate-in fade-in duration-300">
-               <p className="text-blue-50 leading-relaxed md:leading-[1.9] text-lg md:text-xl font-medium">
+               <p className="text-blue-50 leading-relaxed md:leading-loose text-base md:text-lg font-medium text-justify">
                   {COURSE_DATA[activeTab].description}
                </p>
             </div>

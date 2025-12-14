@@ -17,7 +17,7 @@ const COURSE_DATA = [
   {
     id: 'g10',
     label: '升高一',
-    description: '銜接國高中課程落差，強化核心觀念。針對新課綱素養導向，培養自主學習與探究實作能力，為高中三年打下穩固基礎。',
+    description: '高一是銜接國高中課程的關鍵期。課程首重弭平學科落差，強化核心觀念的建構。針對新課綱素養導向，我們引導學生調整讀書方法，培養自主學習與探究實作的能力。透過加深加廣的課程內容，為高中三年的學業奠定堅實基礎，並協助學生探索興趣，提早規劃未來的升學方向。',
     icon: <Rocket size={20} />,
     color: 'text-green-500', 
     classes: [
@@ -30,7 +30,7 @@ const COURSE_DATA = [
   {
     id: 'g11',
     label: '升高二',
-    description: '深化學科知識，面對選組分流的挑戰。加強各科深度與廣度，同步累積學習歷程檔案，為學測做好提前準備。',
+    description: '高二面臨選組分流與課程加深的挑戰。我們提供分流分班的專業教學，全面提升各科的深度與廣度，建立強大的學科自信。同步輔導學生累積高品質的學習歷程檔案，並透過專業諮詢協助釐清科系志向。在鞏固校內成績的同時，提前為學測與申請入學累積競爭優勢。',
     icon: <TrendingUp size={20} />,
     color: 'text-blue-500', 
     classes: [
@@ -43,7 +43,7 @@ const COURSE_DATA = [
   {
     id: 'g12',
     label: '升高三',
-    description: '全方位學測複習與模考演練，精準掌握命題趨勢。針對個人弱點進行補強，搭配申請入學輔導，直攻頂尖大學。',
+    description: '進入高三備戰狀態，我們提供全方位的學測複習規劃與模擬考實戰演練。精準掌握最新的大考命題趨勢，透過大量題型練習提升解題速度與準確率。針對個人弱點進行精準補強，並提供申請入學的模擬面試與備審資料一對一輔導，全力協助學生在學測與分科測驗中脫穎而出，直攻頂尖大學。',
     icon: <Crown size={20} />,
     color: 'text-purple-500', 
     classes: [
@@ -56,7 +56,7 @@ const COURSE_DATA = [
   {
     id: 'sprint',
     label: '寒暑衝刺',
-    description: '把握寒暑假黃金期，集中火力衝刺。提供規律的作息安排與高強度的密集訓練，讓成績大幅躍進。',
+    description: '把握寒暑假與考前的黃金衝刺期，集中火力進行高強度的密集訓練。我們提供嚴謹的作息管理與安靜的 K 書環境，營造良性競爭的讀書氛圍。透過地毯式的重點複習與擬真模考，搭配專業老師的即時解惑，幫助學生在短時間內大幅提升實力，穩定軍心，以最佳狀態迎戰大考。',
     icon: <Zap size={20} />,
     color: 'text-red-500', 
     classes: [
@@ -237,7 +237,7 @@ const SeniorCourseRoadmap: React.FC = () => {
             
             {/* Category Description */}
             <div className="mb-8 animate-in fade-in duration-300">
-               <p className="text-purple-100 leading-relaxed md:leading-[1.9] text-lg md:text-xl font-medium">
+               <p className="text-purple-100 leading-relaxed md:leading-loose text-base md:text-lg font-medium text-justify">
                   {COURSE_DATA[activeTab].description}
                </p>
             </div>
