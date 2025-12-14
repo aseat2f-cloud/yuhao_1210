@@ -4,8 +4,10 @@ import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, Chev
 import BrochureViewer from './BrochureViewer';
 
 const BROCHURE_IMAGES = [
-  "https://www.dropbox.com/scl/fi/02bku21xf9kcds9976086/250603_-PO-_-_AH_-A.jpg?rlkey=36lldwmj1t91wp5izhm806m96&raw=1",
-  "https://www.dropbox.com/scl/fi/2cxysztok0xjwqflocxf3/250813_-_-PO-_AH_01.jpg?rlkey=we58ed84mufdgg08t1yjkjc4r&raw=1"
+  "https://www.dropbox.com/scl/fi/2cxysztok0xjwqflocxf3/250813_-_-PO-_AH_01.jpg?rlkey=we58ed84mufdgg08t1yjkjc4r&raw=1",
+  "https://www.dropbox.com/scl/fi/hutfjgxt2e2ju18exx28x/01-1-1030x1030.png?rlkey=bzgvpv2wdhevosm5uyrzfi6sd&raw=1",
+  "https://www.dropbox.com/scl/fi/u0nmwo5nl2ydmce9c835g/01-1030x1030.png?rlkey=rm4yl9728dg0bv4ls2erjzpj7&raw=1",
+  "https://www.dropbox.com/scl/fi/glxqshvfrmvemud6zl2qg/LINE_ALBUM_DM-_240923_2_02-749x1030.jpg?rlkey=hrzhxs0xaa2zi21ia84z4fdi0&raw=1"
 ];
 
 const COURSE_DATA = [
