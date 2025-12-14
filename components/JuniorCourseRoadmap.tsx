@@ -346,19 +346,32 @@ const JuniorCourseRoadmap: React.FC = () => {
                 
                 <div className="space-y-8 md:space-y-16 mb-8"> 
                    {TIMELINE_DATA.map((step, idx) => (
-                      <div key={idx} className={`flex flex-col md:flex-row items-center md:justify-between relative ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                      <div key={idx} className={`flex flex-col md:flex-row items-center md:justify-between relative ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
                          
-                         {/* Spacer for Desktop Alignment */}
-                         <div className="hidden md:block w-5/12"></div>
+                         {/* Side Content: Recommended Classes (Desktop Only) - Moves to opposite side of Main Card */}
+                         <div className={`hidden md:flex w-5/12 flex-col justify-center ${idx % 2 === 0 ? 'items-end text-right' : 'items-start text-left'}`}>
+                            <div className="flex items-center gap-2 text-amber-500 font-bold mb-2">
+                               {idx % 2 === 0 && <span className="font-bold text-lg">推薦班別</span>}
+                               <CheckCircle2 size={20} />
+                               {idx % 2 !== 0 && <span className="font-bold text-lg">推薦班別</span>}
+                            </div>
+                            <ul className="space-y-2">
+                                {step.courses.map(c => (
+                                    <li key={c} className={`text-slate-600 font-medium hover:text-blue-600 transition-colors ${idx % 2 === 0 ? 'mr-1' : 'ml-1'}`}>
+                                        {c}
+                                    </li>
+                                ))}
+                            </ul>
+                         </div>
                          
                          {/* Center Dot */}
                          <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-yellow-400 border-4 border-blue-50 z-10 shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform">
                              <div className="w-2 h-2 bg-blue-800 rounded-full"></div>
                          </div>
 
-                         {/* Content Card */}
+                         {/* Main Content Card */}
                          <div className={`w-[calc(100%-4rem)] ml-auto md:ml-0 md:w-5/12 group`}>
-                            <div className={`bg-blue-50 rounded-2xl p-6 border border-blue-100 hover:bg-blue-100 transition-all hover:-translate-y-1 hover:shadow-lg relative flex flex-col ${idx % 2 === 0 ? 'md:items-end md:text-right' : 'md:items-start md:text-left'}`}>
+                            <div className={`bg-blue-50 rounded-2xl p-6 border border-blue-100 hover:bg-blue-100 transition-all hover:-translate-y-1 hover:shadow-lg relative flex flex-col ${idx % 2 === 0 ? 'md:items-start md:text-left' : 'md:items-end md:text-right'}`}>
                                 
                                 {/* Step Label */}
                                 <span className="inline-block px-3 py-1 bg-white rounded-lg text-blue-700 text-xs font-bold mb-3 border border-blue-200">
@@ -372,23 +385,23 @@ const JuniorCourseRoadmap: React.FC = () => {
                                 
                                 <div className="w-full space-y-4">
                                     {/* Goal Section */}
-                                    <div className={`text-sm md:text-base bg-white p-3 rounded-xl border border-blue-200 ${idx % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                                        <div className={`flex items-center gap-2 text-amber-500 font-bold mb-1.5 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                                    <div className={`text-sm md:text-base bg-white p-3 rounded-xl border border-blue-200 ${idx % 2 === 0 ? 'md:text-left' : 'md:text-right'}`}>
+                                        <div className={`flex items-center gap-2 text-amber-500 font-bold mb-1.5 ${idx % 2 === 0 ? '' : 'md:flex-row-reverse'}`}>
                                             <Target size={16} />
                                             <span>學習目標</span>
                                         </div>
                                         <p className="text-slate-600 font-medium">{step.goal}</p>
                                     </div>
 
-                                    {/* Courses Section */}
-                                    <div className={`text-sm md:text-base ${idx % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
-                                        <div className={`flex items-center gap-2 text-amber-500 font-bold mb-2 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                                    {/* Mobile Only: Courses Section inside card */}
+                                    <div className="md:hidden pt-4 border-t border-blue-200/50 mt-2">
+                                        <div className="flex items-center gap-2 text-amber-500 font-bold mb-2">
                                             <CheckCircle2 size={16} />
-                                            <span>推薦課程</span>
+                                            <span>推薦班別</span>
                                         </div>
                                         <ul className="space-y-1.5">
                                             {step.courses.map(c => (
-                                                <li key={c} className={`flex items-center gap-2 text-slate-700 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                                                <li key={c} className="flex items-center gap-2 text-slate-700 text-sm">
                                                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0"></span>
                                                     {c}
                                                 </li>
