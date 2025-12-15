@@ -50,22 +50,22 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
     switch (theme) {
       case 'green': // Elementary
         return {
-          title: "啟發天賦，快樂學習，從這裡開始！",
+          title: <>啟發天賦，快樂學習，<br className="md:hidden" />從這裡開始！</>,
           subtitle: "現在預約試聽，即可獲得「兒童優勢潛能評量」一份。名額有限，額滿為止！"
         };
       case 'blue': // Junior
         return {
-          title: "關鍵三年，打造會考滿分實力！",
+          title: <>關鍵三年，<br className="md:hidden" />打造會考滿分實力！</>,
           subtitle: "現在預約試聽，即可獲得「學科弱點診斷分析」一份。名額有限，額滿為止！"
         };
       case 'purple': // Senior
         return {
-          title: "目標頂大，學測分科精準領航！",
+          title: <>目標頂大，學測分科<br className="md:hidden" />精準領航！</>,
           subtitle: "現在預約試聽，即可獲得「學習歷程規劃諮詢」一次。名額有限，額滿為止！"
         };
       default: // Primary / Home
         return {
-          title: "準備好讓成績突飛猛進了嗎？",
+          title: <>準備好讓成績<br className="md:hidden" />突飛猛進了嗎？</>,
           subtitle: "現在排隊預約試聽，即可獲得「個人學習診斷報告」一份。名額有限，額滿為止！"
         };
     }
@@ -173,7 +173,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div className="text-center mb-12">
-           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
+           <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
              {title}
            </h2>
            <p className={`text-${t}-100 text-lg max-w-2xl mx-auto`}>
