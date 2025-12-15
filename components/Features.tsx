@@ -255,6 +255,7 @@ const Features: React.FC = () => {
               {/* Part 3: Video Gallery - 4 Columns, Square, Centered Title with Lines & Subtitle */}
               <div className="mb-12">
                 <div className="text-center mb-10">
+                  <span className="text-slate-900 font-bold tracking-wider uppercase text-xs mb-2 block">SUCCESS STORIES</span>
                   <div className="flex items-center justify-center gap-4 mb-3">
                     <div className="h-px bg-slate-400 w-12 md:w-24"></div>
                     <h3 className="text-2xl md:text-3xl font-bold text-primary-600">成功案例與訪談</h3>
