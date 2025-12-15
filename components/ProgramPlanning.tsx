@@ -155,7 +155,7 @@ const PROGRAMS_DATA: Record<string, ProgramData> = {
         name: '寒暑衝刺',
         images: [
           { url: convertDropboxLink('https://www.dropbox.com/scl/fi/z30qj5je1q6gew92obd3j/020.jpg?rlkey=37gi6a9ncyfuk16xi6lhfc42j&dl=0'), caption: '利用寒暑假黃金時間，進行超前進度學習或重點複習，幫助學生調整讀書節奏，贏在起跑點。' },
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ztq96vz6vf6aggmu801ne/021.jpg?rlkey=9755nld1ujkgmp8sg8xkjsb0p&dl=0'), caption: '提供安靜舒適的K書環境與專人輔導機制，營造專注學習氛圍，讓學生能心無旁骛，學習更有效率。' }
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/ztq96vz6vf6aggmu801ne/021.jpg?rlkey=9755nld1ujkgmp8sg8xkjsb0p&dl=0'), caption: '提供安靜舒適的K書環境與專人輔導機制，營造專注學習氛圍，讓學生保持最佳備考狀態。' }
         ]
       }
     ]
@@ -478,6 +478,9 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
         <div className="text-center mb-12">
           <h2 className={`${currentProgram.headerLabelColor} font-bold tracking-wide uppercase text-sm mb-3 transition-colors duration-300`}>學程規劃</h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-white transition-colors duration-300">分齡分級 • 系統化學習</h3>
+          <p className="mt-6 text-white/90 max-w-3xl mx-auto text-lg leading-relaxed transition-opacity duration-300 text-justify md:text-center">
+            針對各年齡層學習需求，量身打造專屬成長地圖。從興趣啟發、習慣養成到升學衝刺，每階段皆有明確目標，讓孩子在最適時機獲得有效引導，穩健邁向卓越。
+          </p>
         </div>
 
         {/* Tabs */}
