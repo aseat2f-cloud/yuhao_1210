@@ -276,8 +276,8 @@ const ProgramContent: React.FC<{
       className={`rounded-3xl border ${program.borderColor} bg-white shadow-2xl shadow-black/10 overflow-hidden flex flex-col lg:flex-row transition-colors duration-300`}
       style={{ display: isActive ? 'flex' : 'none' }}
     >
-      {/* Left Side: Info & Categories (50% Width) */}
-      <div className="p-6 lg:p-10 lg:w-1/2 flex flex-col relative z-10 bg-white border-b lg:border-b-0 lg:border-r border-slate-100">
+      {/* Left Side: Info & Categories (57% Width for 4:3 ratio) */}
+      <div className="p-6 lg:p-10 lg:w-[57%] flex flex-col relative z-10 bg-white border-b lg:border-b-0 lg:border-r border-slate-100">
         
         {/* Header */}
         <div className="flex flex-row flex-wrap items-center gap-4 mb-4">
@@ -308,11 +308,11 @@ const ProgramContent: React.FC<{
              <div className="flex-1 h-[1px] bg-slate-300"></div>
           </h5>
           
-          <div className={`flex items-center gap-1 ${isElementary ? '' : 'sm:block'}`}>
+          <div className="flex items-center gap-1 sm:gap-0 sm:block">
               {/* Left Arrow */}
               <button 
                   onClick={scrollLeft}
-                  className={`${isElementary ? 'mr-1' : 'sm:hidden mr-1'} p-1 text-slate-400 hover:text-slate-600 shrink-0`}
+                  className="sm:hidden mr-1 p-1 text-slate-400 hover:text-slate-600 shrink-0"
                   aria-label="Scroll left"
               >
                   <ChevronLeft size={24} />
@@ -320,8 +320,12 @@ const ProgramContent: React.FC<{
 
               <div 
                   ref={scrollContainerRef}
-                  className={`flex-1 flex flex-nowrap overflow-x-auto gap-2 sm:gap-4 scrollbar-hide py-2 ${isElementary ? '' : 'sm:flex-wrap sm:overflow-visible'}`}
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  className={`
+                    flex-1 flex flex-nowrap overflow-x-auto scrollbar-hide py-2 
+                    sm:flex-wrap sm:overflow-visible
+                    gap-2 sm:gap-4
+                    ${isElementary ? 'lg:gap-2' : ''} 
+                  `}
               >
                 <style>{`
                     .scrollbar-hide::-webkit-scrollbar {
@@ -334,7 +338,10 @@ const ProgramContent: React.FC<{
                      <button 
                       key={cat.id}
                       onClick={() => handleCategoryChange(idx)}
-                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-center font-bold text-sm transition-all duration-200 border-2 shrink-0 ${
+                      className={`
+                        rounded-full flex items-center justify-center text-center font-bold transition-all duration-200 border-2 shrink-0
+                        w-16 h-16 text-sm sm:w-20 sm:h-20
+                        ${
                         isCatActive 
                             ? `${program.activeButtonClass} shadow-md`
                             : 'bg-white border-slate-100 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-200'
@@ -349,7 +356,7 @@ const ProgramContent: React.FC<{
               {/* Right Arrow */}
               <button 
                   onClick={scrollRight}
-                  className={`${isElementary ? 'ml-1' : 'sm:hidden ml-1'} p-1 text-slate-400 hover:text-slate-600 shrink-0`}
+                  className="sm:hidden ml-1 p-1 text-slate-400 hover:text-slate-600 shrink-0"
                   aria-label="Scroll right"
               >
                   <ChevronRight size={24} />
@@ -358,8 +365,8 @@ const ProgramContent: React.FC<{
         </div>
       </div>
 
-      {/* Right Side: Image Display (50% Width) */}
-      <div className="lg:w-1/2 bg-slate-50 flex flex-col justify-start">
+      {/* Right Side: Image Display (43% Width for 4:3 ratio) */}
+      <div className="lg:w-[43%] bg-slate-50 flex flex-col justify-start">
          <div className="w-full relative group"> 
             
             {/* RENDER ALL IMAGES (Hidden vs Block) to prevent flickering */}
