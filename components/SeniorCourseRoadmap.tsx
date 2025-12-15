@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Rocket, TrendingUp, Crown, Zap, ArrowRight, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, ChevronsDown } from 'lucide-react';
+import { Rocket, TrendingUp, Crown, Zap, ArrowRight, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, ChevronsDown, Lightbulb, Footprints } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
 import Modal from './Modal';
 
@@ -20,10 +20,10 @@ const COURSE_DATA = [
     icon: <Rocket size={20} />,
     color: 'text-green-500', 
     classes: [
-      { name: '高一數學班', desc: '銜接教材與基礎觀念建立，邏輯訓練', age: '高一', time: '週一/四 18:30' },
-      { name: '高一英文班', desc: '字彙量擴充與長篇閱讀技巧', age: '高一', time: '週二/五 18:30' },
-      { name: '高一國文班', desc: '古文觀止與閱讀素養導讀', age: '高一', time: '週六 13:30' },
-      { name: '高一物化班', desc: '基礎物理化學觀念建構與實驗', age: '高一', time: '週六 10:00' },
+      { name: '高一數學班', desc: '銜接教材與基礎觀念建立，邏輯訓練', age: '高一', time: '週一/四 18:30', objectives: '適應高中數學的抽象性與符號化，建立嚴謹的數學邏輯架構。', target: '高一新生，希望建立紮實數學基礎的學生。', features: ['銜接教材弭平國高中落差', '重視定義與定理的推導', '每週隨堂測驗檢視成效', '資深名師親自授課解惑'], roadmap: ['暑期: 銜接課程與數與式', '上學期: 多項式與指數對數', '下學期: 三角比與數列級數'] },
+      { name: '高一英文班', desc: '字彙量擴充與長篇閱讀技巧', age: '高一', time: '週二/五 18:30', objectives: '大幅擴充高中必備字彙量，掌握五大句型結構，提升閱讀速度。', target: '高一新生，希望提升英文閱讀與寫作能力的學生。', features: ['字根字首單字記憶法', '長篇新聞英語閱讀導讀', '基礎翻譯寫作架構訓練', '英聽與口說實力養成'], roadmap: ['暑期: 文法句型總整理', '上學期: 4500單字與閱讀', '下學期: 雜誌閱讀與聽力'] },
+      { name: '高一國文班', desc: '古文觀止與閱讀素養導讀', age: '高一', time: '週六 13:30', objectives: '精讀核心古文三十篇，提升文言文閱讀理解能力，培養文學鑑賞力。', target: '高一新生，對文言文理解感到困難的學生。', features: ['核心古文逐字逐句解析', '現代文學名家作品賞析', '混合題型作答技巧指導', '國寫作文基礎架構建立'], roadmap: ['暑期: 現代文學選讀', '上學期: 核心古文(一)', '下學期: 核心古文(二)'] },
+      { name: '高一物化班', desc: '基礎物理化學觀念建構與實驗', age: '高一', time: '週六 10:00', objectives: '建立物理化學基礎觀念，理解自然現象背後的科學原理，培養科學素養。', target: '高一新生，目標選讀自然組的學生。', features: ['圖解教學簡化抽象觀念', '生活實例連結科學原理', '重視探究與實作精神', '段考重點題型精準複習'], roadmap: ['暑期: 國高中銜接課程', '上學期: 基礎物理/化學(一)', '下學期: 基礎物理/化學(二)'] },
     ]
   },
   {
@@ -33,10 +33,10 @@ const COURSE_DATA = [
     icon: <TrendingUp size={20} />,
     color: 'text-blue-500', 
     classes: [
-      { name: '高二數學班', desc: '代數、幾何進階與三角函數', age: '高二', time: '週二/五 18:30' },
-      { name: '高二英文班', desc: '進階文法與寫作架構訓練', age: '高二', time: '週一/四 18:30' },
-      { name: '高二國文班', desc: '國學常識與深究鑑賞', age: '高二', time: '週六 10:00' },
-      { name: '高二物化班', desc: '力學、電磁學與化學反應速率', age: '高二', time: '週六 13:30' },
+      { name: '高二數學班', desc: '代數、幾何進階與三角函數', age: '高二', time: '週二/五 18:30', objectives: '深入探討三角函數、平面向量與空間幾何，培養空間想像力與運算能力。', target: '高二學生，數A/數B分流強化學習。', features: ['數A/數B分流專業教學', '空間幾何教具輔助理解', '難題破解思路引導', '歷屆考題趨勢分析'], roadmap: ['暑期: 三角函數先修', '上學期: 平面向量與直線圓', '下學期: 空間向量與矩陣'] },
+      { name: '高二英文班', desc: '進階文法與寫作架構訓練', age: '高二', time: '週一/四 18:30', objectives: '精熟進階文法句型，提升長篇作文撰寫能力，目標學測英文滿級分。', target: '高二學生，目標學測英文 15 級分的學生。', features: ['主題式寫作模組訓練', '高級單字與片語擴充', 'CNN/BBC 新聞英語選讀', '翻譯寫作個別批改'], roadmap: ['暑期: 寫作句型特訓', '上學期: 7000單字與閱讀', '下學期: 模考實戰與寫作'] },
+      { name: '高二國文班', desc: '國學常識與深究鑑賞', age: '高二', time: '週六 10:00', objectives: '統整國學常識脈絡，深化古文鑑賞深度，提升知性與情意寫作能力。', target: '高二學生，希望在國寫作文取得高分的學生。', features: ['國學常識系統化整理', '歷代文學流派深入探討', '知性題與情意題寫作', '大考中心範文解析'], roadmap: ['暑期: 國學常識統整', '上學期: 核心古文深化', '下學期: 寫作密集訓練'] },
+      { name: '高二物化班', desc: '力學、電磁學與化學反應速率', age: '高二', time: '週六 13:30', objectives: '精通選修物理與化學，掌握繁雜計算與抽象概念，奠定分科測驗基礎。', target: '高二自然組學生，目標頂尖理工科系。', features: ['微積分觀念引入物理教學', '化學反應機制深入解析', '複雜電路與力學分析', '分科測驗高難度題型挑戰'], roadmap: ['暑期: 力學/化學計量', '上學期: 能量/氣體動力論', '下學期: 電磁學/有機化學'] },
     ]
   },
   {
@@ -46,10 +46,10 @@ const COURSE_DATA = [
     icon: <Crown size={20} />,
     color: 'text-purple-500', 
     classes: [
-      { name: '高三數學班', desc: '學測範圍總複習與難題解析', age: '高三', time: '週六 13:30' },
-      { name: '高三英文班', desc: '模擬試題演練與翻譯寫作衝刺', age: '高三', time: '週六 10:00' },
-      { name: '高三國文班', desc: '混合題型與知性情意作文攻略', age: '高三', time: '週日 09:00' },
-      { name: '高三物化班', desc: '自然科綜合題型與跨科整合', age: '高三', time: '週五 18:30' },
+      { name: '高三數學班', desc: '學測範圍總複習與難題解析', age: '高三', time: '週六 13:30', objectives: '針對學測數學範圍進行地毯式複習，強化跨單元整合與解題速度。', target: '高三考生，目標學測數學滿級分。', features: ['學測重點觀念總整理', '混合題型與素養題攻略', '高強度模考實戰演練', '錯題分析與弱點補強'], roadmap: ['暑期: 1-2冊總複習', '開學: 3-4冊總複習', '考前: 全範圍模考衝刺'] },
+      { name: '高三英文班', desc: '模擬試題演練與翻譯寫作衝刺', age: '高三', time: '週六 10:00', objectives: '透過大量模考題型演練，維持語感與解題手感，衝刺學測英文高分。', target: '高三考生，目標學測英文頂標以上。', features: ['每週一份全真模擬試題', '翻譯寫作即時批改檢討', '時事關鍵字彙補充', '閱讀測驗速讀技巧'], roadmap: ['暑期: 文法單字總複習', '開學: 歷屆試題全攻略', '考前: 寫作與翻譯衝刺'] },
+      { name: '高三國文班', desc: '混合題型與知性情意作文攻略', age: '高三', time: '週日 09:00', objectives: '精準掌握國綜與國寫命題趨勢，提升閱讀理解速度與寫作深度。', target: '高三考生，目標國文級分大躍進。', features: ['混合題型作答策略指導', '國寫兩大題型密集訓練', '必考古文重點再回顧', '現代詩文閱讀測驗'], roadmap: ['暑期: 古文三十篇總複習', '開學: 國寫密集特訓', '考前: 考前猜題與叮嚀'] },
+      { name: '高三物化班', desc: '自然科綜合題型與跨科整合', age: '高三', time: '週五 18:30', objectives: '統整自然科探究與實作觀念，強化圖表分析與邏輯推理能力。', target: '高三自然組考生，目標學測自然滿級分。', features: ['探究與實作題型專題', '物理化學跨科題型解析', '歷屆學測自然科全詳解', '科學閱讀素養訓練'], roadmap: ['暑期: 選修物理化學複習', '開學: 學測自然科總複習', '考前: 跨科整合衝刺'] },
     ]
   },
   {
@@ -59,8 +59,8 @@ const COURSE_DATA = [
     icon: <Zap size={20} />,
     color: 'text-red-500', 
     classes: [
-      { name: '模考K書班', desc: '仿真模擬考與專人解惑輔導', age: '高一 ~ 高三', time: '考前/週日' },
-      { name: '考前總複習班', desc: '重點觀念地毯式複習與猜題', age: '高三', time: '考前衝刺' },
+      { name: '模考K書班', desc: '仿真模擬考與專人解惑輔導', age: '高一 ~ 高三', time: '考前/週日', objectives: '提供安靜專注的讀書空間，透過規律作息與考試，調整備戰狀態。', target: '需要高效率讀書環境與個別問題解答的學生。', features: ['比照大考規格模擬考試', '各科專業輔導老師駐班', '嚴格門禁與作息管理', '手機集中保管杜絕分心'], roadmap: ['段考前: 密集K書週', '學測前: 魔鬼衝刺營', '分科前: 最後加強班'] },
+      { name: '考前總複習班', desc: '重點觀念地毯式複習與猜題', age: '高三', time: '考前衝刺', objectives: '在考前最後階段進行高濃度的重點複習，快速掃描必考觀念。', target: '高三考生，希望在最後關頭衝高分數。', features: ['名師考前精準猜題', '易混淆觀念最終釐清', '時事題型總整理', '考前心理建設與輔導'], roadmap: ['考前30天: 重點掃描', '考前14天: 錯題回顧', '考前7天: 穩定軍心'] },
     ]
   }
 ];
@@ -114,7 +114,11 @@ const SeniorCourseRoadmap: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [isBrochureOpen, setIsBrochureOpen] = useState(false);
   const [isPlanOpen, setIsPlanOpen] = useState(false);
+  
+  // NEW STATE
   const [selectedClass, setSelectedClass] = useState<any>(null);
+  const [modalMode, setModalMode] = useState<'schedule' | 'detail'>('schedule');
+
   const timelineRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -152,6 +156,16 @@ const SeniorCourseRoadmap: React.FC = () => {
     setTimeout(() => {
       setIsPlanOpen(false);
     }, 500);
+  };
+
+  const openSchedule = (cls: any) => {
+    setSelectedClass(cls);
+    setModalMode('schedule');
+  };
+
+  const openDetail = (cls: any) => {
+    setSelectedClass(cls);
+    setModalMode('detail');
   };
 
   // Generate Mock Schedule Data
@@ -313,17 +327,17 @@ const SeniorCourseRoadmap: React.FC = () => {
                   {/* Action Buttons */}
                   <div className="flex gap-2 mt-auto">
                      <button 
-                       onClick={() => setSelectedClass(cls)}
+                       onClick={() => openSchedule(cls)}
                        className="flex-1 py-2.5 rounded-lg bg-slate-100 text-slate-700 text-sm font-bold hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5"
                      >
                         查看課表 <Calendar size={14} />
                      </button>
-                     <a 
-                       href="#contact"
+                     <button 
+                       onClick={() => openDetail(cls)}
                        className="flex-1 py-2.5 rounded-lg bg-purple-600 text-white text-sm font-bold hover:bg-purple-700 transition-colors text-center flex items-center justify-center gap-1.5 shadow-md shadow-purple-200"
                      >
-                        立即報名 <ArrowRight size={14} />
-                     </a>
+                        了解課程 <ArrowRight size={14} />
+                     </button>
                   </div>
                 </div>
               ))}
@@ -480,14 +494,14 @@ const SeniorCourseRoadmap: React.FC = () => {
         images={BROCHURE_IMAGES} 
       />
 
-      {/* Schedule Modal */}
+      {/* Modal */}
       <Modal
         isOpen={!!selectedClass}
         onClose={() => setSelectedClass(null)}
-        title={selectedClass ? `${selectedClass.name} - 課程表` : '課程表'}
+        title={selectedClass ? (modalMode === 'schedule' ? `${selectedClass.name} - 課程表` : `${selectedClass.name} - 課程介紹`) : ''}
         maxWidth="max-w-4xl"
       >
-        {selectedClass && (
+        {selectedClass && modalMode === 'schedule' && (
           <div className="space-y-6">
              {/* Info Header */}
              <div className="flex flex-wrap gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
@@ -545,6 +559,82 @@ const SeniorCourseRoadmap: React.FC = () => {
                 </ul>
              </div>
           </div>
+        )}
+
+        {selectedClass && modalMode === 'detail' && (
+           <div className="space-y-8 p-2">
+              {/* Header / Summary */}
+              <div className="bg-purple-50/50 p-6 rounded-2xl border border-purple-100">
+                 <p className="text-lg text-slate-700 leading-relaxed font-medium">
+                   {selectedClass.desc}
+                 </p>
+                 <div className="flex flex-wrap gap-4 mt-6">
+                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-purple-100">
+                       <Users size={18} className="text-purple-600" />
+                       <span className="text-sm font-bold text-slate-700">對象：{selectedClass.target}</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-purple-100">
+                       <Target size={18} className="text-purple-600" />
+                       <span className="text-sm font-bold text-slate-700">目標：{selectedClass.objectives}</span>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 {/* Features */}
+                 <div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                       <Lightbulb className="text-yellow-500" />
+                       課程特色
+                    </h4>
+                    <ul className="space-y-3">
+                       {selectedClass.features && selectedClass.features.map((feat: string, i: number) => (
+                          <li key={i} className="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                             <CheckCircle2 className="text-purple-500 shrink-0 mt-0.5" size={18} />
+                             <span className="text-slate-700">{feat}</span>
+                          </li>
+                       ))}
+                    </ul>
+                 </div>
+
+                 {/* Roadmap */}
+                 <div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                       <Footprints className="text-blue-500" />
+                       系列課程規劃
+                    </h4>
+                    <div className="space-y-4">
+                       {selectedClass.roadmap && selectedClass.roadmap.map((step: string, i: number) => (
+                          <div key={i} className="flex items-center gap-4 relative group">
+                             {/* Vertical Line */}
+                             {i !== selectedClass.roadmap.length - 1 && (
+                                <div className="absolute left-[19px] top-8 bottom-[-16px] w-0.5 bg-slate-200"></div>
+                             )}
+                             
+                             <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold shrink-0 z-10 border-4 border-white shadow-sm">
+                                {i + 1}
+                             </div>
+                             <div className="flex-1 bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-slate-700 font-medium">
+                                {step}
+                             </div>
+                          </div>
+                       ))}
+                    </div>
+                 </div>
+              </div>
+              
+              {/* Call to Action */}
+              <div className="pt-8 border-t border-slate-100 text-center">
+                 <a 
+                   href="#contact" 
+                   onClick={() => setSelectedClass(null)}
+                   className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 text-white font-bold rounded-xl shadow-lg hover:bg-purple-700 hover:shadow-purple-500/30 transition-all transform hover:-translate-y-1"
+                 >
+                    立即預約試聽 <ArrowRight size={20} />
+                 </a>
+                 <p className="mt-3 text-sm text-slate-400">名額有限，建議提早預約保留席位</p>
+              </div>
+           </div>
         )}
       </Modal>
     </section>

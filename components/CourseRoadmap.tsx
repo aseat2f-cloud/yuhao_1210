@@ -1,17 +1,202 @@
 
-import React, { useState, useRef } from 'react';
-import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, Tent, ChevronsDown } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Users, BookOpen, Search, Calendar, Map, Target, CheckCircle2, Rocket, ArrowRight, Clock, FileText, Lightbulb, ListChecks, Footprints, Calculator, Languages, FlaskConical, ChevronUp, ChevronsDown } from 'lucide-react';
+import { PageType } from '../types';
 import BrochureViewer from './BrochureViewer';
 import Modal from './Modal';
 
+interface ProgramPlanningProps {
+  onNavigate: (page: PageType) => void;
+}
+
+interface CourseImage {
+  url: string;
+  caption: string;
+}
+
+interface CourseCategory {
+  id: string;
+  name: string;
+  images: CourseImage[];
+}
+
+interface ClassInfo {
+  name: string;
+  desc: string;
+  age: string;
+  time: string;
+  objectives: string;
+  target: string;
+  features: string[];
+  roadmap: string[];
+}
+
+interface ProgramData {
+  id: string;
+  title: string;
+  grade: string;
+  subtitle: string;
+  desc: string;
+  themeColor: string;
+  borderColor: string;
+  sectionBg: string;
+  headerLabelColor: string;
+  activeTabStyle: string;
+  activeButtonClass: string;
+  page: PageType;
+  categories: CourseCategory[];
+  teacherSectionId: string;
+  classes: ClassInfo[];
+}
+
+const convertDropboxLink = (url: string) => url.replace('dl=0', 'raw=1');
+
 const BROCHURE_IMAGES = [
-  "https://www.dropbox.com/scl/fi/2cxysztok0xjwqflocxf3/250813_-_-PO-_AH_01.jpg?rlkey=we58ed84mufdgg08t1yjkjc4r&raw=1",
-  "https://www.dropbox.com/scl/fi/hutfjgxt2e2ju18exx28x/01-1-1030x1030.png?rlkey=bzgvpv2wdhevosm5uyrzfi6sd&raw=1",
-  "https://www.dropbox.com/scl/fi/u0nmwo5nl2ydmce9c835g/01-1030x1030.png?rlkey=rm4yl9728dg0bv4ls2erjzpj7&raw=1",
-  "https://www.dropbox.com/scl/fi/glxqshvfrmvemud6zl2qg/LINE_ALBUM_DM-_240923_2_02-749x1030.jpg?rlkey=hrzhxs0xaa2zi21ia84z4fdi0&raw=1"
+  "https://www.dropbox.com/scl/fi/02bku21xf9kcds9976086/250603_-PO-_-_AH_-A.jpg?rlkey=36lldwmj1t91wp5izhm806m96&raw=1",
+  "https://www.dropbox.com/scl/fi/2cxysztok0xjwqflocxf3/250813_-_-PO-_AH_01.jpg?rlkey=we58ed84mufdgg08t1yjkjc4r&raw=1"
 ];
 
-const COURSE_DATA = [
+const PROGRAMS_DATA: Record<string, ProgramData> = {
+  elementary: {
+    id: 'elementary',
+    title: '國小部',
+    grade: '幼兒大班 ~ 小六',
+    subtitle: '啟發天賦，快樂成長',
+    desc: '育豪資優國小部打造全方位學習環境，透過具象化教學與遊戲，將抽象概念轉化為孩子易懂的語言。結合艾森樂美語的全美語沉浸環境與小育豪資優數學的啟發式教學，不僅重視學科能力，更強調品格與思考習慣。讓學習成為樂趣，陪伴孩子自信成長，為未來升學奠定堅實基礎。',
+    themeColor: 'text-green-700',
+    borderColor: 'border-green-100',
+    sectionBg: 'bg-green-600',
+    headerLabelColor: 'text-green-100',
+    activeTabStyle: 'bg-white text-green-700 shadow-lg',
+    activeButtonClass: 'bg-green-600 text-white border-green-600 ring-2 ring-green-200',
+    page: 'elementary',
+    teacherSectionId: 'teacher-carousel',
+    classes: [
+      { 
+        name: '進度數學班', 
+        desc: '搭配學校進度，穩紮穩打建立數學觀念與運算基礎', 
+        age: '小一 ~ 小六', 
+        time: '週三/六',
+        objectives: '鞏固學校課堂所學，強化運算準確度，並建立正確的數學解題觀念，培養自信心。',
+        target: '希望跟上學校進度、加強計算能力與基礎概念的學生。',
+        features: [
+          '對應學校版本，重點單元精準複習',
+          '強調計算過程與驗算習慣的養成',
+          '獨家圖解教學，將抽象概念具象化',
+          '定期小考檢測，即時掌握學習成效'
+        ],
+        roadmap: ['低年級：數感啟蒙與運算', '中年級：邏輯思考與應用', '高年級：抽象概念與升學銜接']
+      },
+      { 
+        name: '種子超前數學班', 
+        desc: '啟發數學潛能，培養邏輯思考種子，為資優之路鋪路', 
+        age: '小一 ~ 小三', 
+        time: '週三/六',
+        objectives: '跳脫制式框架，透過操作與遊戲激發數學興趣，提早開發邏輯思維與空間概念。',
+        target: '對數學有濃厚興趣、學習反應快，希望挑戰進階內容的低年級學生。',
+        features: [
+          '引入益智教具與桌遊，寓教於樂',
+          '開放式問題引導，鼓勵多角度思考',
+          '生活情境融入，發現身邊的數學',
+          '小班制互動教學，高頻率師生對話'
+        ],
+        roadmap: ['G1：形狀與空間探索', 'G2：邏輯推理與數列', 'G3：資優數學前導課程']
+      },
+      { 
+        name: '超前數學班', 
+        desc: '超前學校進度，挑戰高階思維題型，訓練解題速度', 
+        age: '小四 ~ 小六', 
+        time: '週三/五',
+        objectives: '針對高年級課程進行加深加廣，訓練複雜問題的分析能力，為國中數理資優班做準備。',
+        target: '校內成績優異，目標鎖定私中入學或資優鑑定的高年級學生。',
+        features: [
+          '超前學校進度 1-2 個單元',
+          '資優試題與奧數題型專題解析',
+          '強化應用問題的文字解構能力',
+          '系統化筆記教學，建立知識架構'
+        ],
+        roadmap: ['G4：整數四則與幾何進階', 'G5：因倍數與分數應用', 'G6：國中代數與幾何銜接']
+      },
+    ],
+    categories: [
+      {
+        id: 'math',
+        name: '數學',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/r2nuseglslav14h71mm7c/008-705x470.jpg?rlkey=wprqc04pifmsd63wmmbm9r5xj&dl=0'), caption: '獨創圖解教學法，將抽象數學具象化，讓孩子透過操作與觀察，輕鬆理解複雜觀念，建立紮實邏輯基礎。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '透過教具操作與互動討論，引導孩子主動提問，培養多角度思考與邏輯推理能力，激發對數學的熱情。' }
+        ]
+      },
+      {
+        id: 'english',
+        name: '美語',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '全美語沉浸式環境，專業外師引導，讓孩子在自然情境中開口說英語，建立自信表達能力與國際視野。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/4px2b55be2s0amq614egi/001.jpg?rlkey=ar6i96aujzyr2s1cnuybkpf7r&dl=0'), caption: '結合繪本閱讀與節慶活動，透過生動有趣的故事教學，讓語言學習融入生活，快樂中培養語感。' }
+        ]
+      },
+      {
+        id: 'chinese',
+        name: '國語文',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/jmiw89xm3x3ssmeu5looh/013-1-705x470.jpg?rlkey=12g0x8zayag3oi5oabwtjsjyy&dl=0'), caption: '精選文學作品導讀，引導孩子深入思考與鑑賞，透過討論分享，提升閱讀素養、理解力與表達能力。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/fqw7ec8xo52m15q54ummf/011-705x470.jpg?rlkey=yixf8ceylh559b0rd1lu66wx1&dl=0'), caption: '心智圖構思與寫作技巧指導，激發想像力，引導孩子觀察生活細節，寫出有溫度、有深度的文章。' }
+        ]
+      },
+      {
+        id: 'science',
+        name: '自然科學',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '透過趣味科學實驗與觀察活動，引導孩子探索自然奧秘，培養實事求是的科學精神與動手解決問題的能力。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/fqw7ec8xo52m15q54ummf/011-705x470.jpg?rlkey=yixf8ceylh559b0rd1lu66wx1&dl=0'), caption: '結合生活情境的主題式教學，讓孩子從日常生活中發現科學原理，激發好奇心與主動探究的熱情。' }
+        ]
+      },
+      {
+        id: 'gifted',
+        name: '資優升學',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/kseqyb5rsjz98d8leqbnp/009-705x470.jpg?rlkey=a12jhis4kqn5uf5tzdu18ew84&dl=0'), caption: '針對資優鑑定與私中入學考，提供精準命題分析與解題策略，強化邏輯思維與應試技巧，自信應考。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '模擬面試與實作演練，透過高強度訓練提升抗壓性，全面提升競爭力，助孩子在升學戰場脫穎而出。' }
+        ]
+      },
+      {
+        id: 'player',
+        name: '小玩家',
+        images: [
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '多元主題營隊，結合科學實驗、藝術創作與體能活動，讓孩子在探索中發現興趣，激發無限潛能。' },
+          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '寓教於樂的戶外教學與團體活動，透過實際體驗與團隊合作，培養孩子解決問題的能力與人際互動技巧。' }
+        ]
+      }
+    ]
+  },
+  junior: {
+    id: 'junior',
+    title: '國中部',
+    grade: '國七 ~ 國九',
+    subtitle: '', desc: '', themeColor: '', borderColor: '', sectionBg: '', headerLabelColor: '', activeTabStyle: '', activeButtonClass: '', page: 'junior', categories: [], teacherSectionId: '', classes: []
+  },
+  senior: {
+    id: 'senior',
+    title: '高中部',
+    grade: '高一 ~ 高三',
+    subtitle: '', desc: '', themeColor: '', borderColor: '', sectionBg: '', headerLabelColor: '', activeTabStyle: '', activeButtonClass: '', page: 'senior', categories: [], teacherSectionId: '', classes: []
+  }
+};
+
+const CourseRoadmap: React.FC = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [isBrochureOpen, setIsBrochureOpen] = useState(false);
+  const [isPlanOpen, setIsPlanOpen] = useState(false);
+  
+  // NEW STATE
+  const [selectedClass, setSelectedClass] = useState<any>(null);
+  const [modalMode, setModalMode] = useState<'schedule' | 'detail'>('schedule');
+
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // NEW: Updated Course Data with Detail Fields
+  const COURSE_DATA = [
   {
     id: 'math',
     label: '小育豪資優數學',
@@ -19,9 +204,51 @@ const COURSE_DATA = [
     icon: <Calculator size={20} />,
     color: 'text-green-600',
     classes: [
-      { name: '進度數學班', desc: '搭配學校進度，穩紮穩打建立數學觀念與運算基礎', age: '小一 ~ 小六', time: '週三/六' },
-      { name: '種子超前數學班', desc: '啟發數學潛能，培養邏輯思考種子，為資優之路鋪路', age: '小一 ~ 小三', time: '週三/六' },
-      { name: '超前數學班', desc: '超前學校進度，挑戰高階思維題型，訓練解題速度', age: '小四 ~ 小六', time: '週三/五' },
+      { 
+        name: '進度數學班', 
+        desc: '搭配學校進度，穩紮穩打建立數學觀念與運算基礎', 
+        age: '小一 ~ 小六', 
+        time: '週三/六',
+        objectives: '鞏固學校課堂所學，強化運算準確度，並建立正確的數學解題觀念，培養自信心。',
+        target: '希望跟上學校進度、加強計算能力與基礎概念的學生。',
+        features: [
+          '對應學校版本，重點單元精準複習',
+          '強調計算過程與驗算習慣的養成',
+          '獨家圖解教學，將抽象概念具象化',
+          '定期小考檢測，即時掌握學習成效'
+        ],
+        roadmap: ['低年級：數感啟蒙與運算', '中年級：邏輯思考與應用', '高年級：抽象概念與升學銜接']
+      },
+      { 
+        name: '種子超前數學班', 
+        desc: '啟發數學潛能，培養邏輯思考種子，為資優之路鋪路', 
+        age: '小一 ~ 小三', 
+        time: '週三/六',
+        objectives: '跳脫制式框架，透過操作與遊戲激發數學興趣，提早開發邏輯思維與空間概念。',
+        target: '對數學有濃厚興趣、學習反應快，希望挑戰進階內容的低年級學生。',
+        features: [
+          '引入益智教具與桌遊，寓教於樂',
+          '開放式問題引導，鼓勵多角度思考',
+          '生活情境融入，發現身邊的數學',
+          '小班制互動教學，高頻率師生對話'
+        ],
+        roadmap: ['G1：形狀與空間探索', 'G2：邏輯推理與數列', 'G3：資優數學前導課程']
+      },
+      { 
+        name: '超前數學班', 
+        desc: '超前學校進度，挑戰高階思維題型，訓練解題速度', 
+        age: '小四 ~ 小六', 
+        time: '週三/五',
+        objectives: '針對高年級課程進行加深加廣，訓練複雜問題的分析能力，為國中數理資優班做準備。',
+        target: '校內成績優異，目標鎖定私中入學或資優鑑定的高年級學生。',
+        features: [
+          '超前學校進度 1-2 個單元',
+          '資優試題與奧數題型專題解析',
+          '強化應用問題的文字解構能力',
+          '系統化筆記教學，建立知識架構'
+        ],
+        roadmap: ['G4：整數四則與幾何進階', 'G5：因倍數與分數應用', 'G6：國中代數與幾何銜接']
+      },
     ]
   },
   {
@@ -31,12 +258,12 @@ const COURSE_DATA = [
     icon: <Languages size={20} />,
     color: 'text-teal-500',
     classes: [
-      { name: '美語程度分班', desc: '依據入學測驗程度能力分班，適性教學成效最佳', age: '小一 ~ 小六', time: '平日/週六' },
-      { name: '外師發音班', desc: '純正口音引導，掌握自然發音 (Phonics) 技巧', age: '小一 ~ 小三', time: '週一/四' },
-      { name: '英文閱讀班', desc: '精選分級繪本與讀本，培養閱讀理解力與語感', age: '小三 ~ 小五', time: '週二/五' },
-      { name: '口說美語班', desc: '全美語情境對話練習，鼓勵孩子大膽開口說英語', age: '小一 ~ 小六', time: '週三/六' },
-      { name: '外師寫作班', desc: '創意寫作引導，建立邏輯思維與正確文法架構', age: '小四 ~ 小六', time: '週六' },
-      { name: 'KET養成班', desc: '針對劍橋英檢 KET 級數，強化聽說讀寫全方位實力', age: '小五 ~ 小六', time: '週三/六' },
+      { name: '美語程度分班', desc: '依據入學測驗程度能力分班，適性教學成效最佳', age: '小一 ~ 小六', time: '平日/週六', objectives: '適性分級教學，讓每個孩子在最適合的難度下學習，循序漸進提升聽說讀寫能力。', target: '所有國小學齡兒童，需透過測驗分班。', features: ['全美語沉浸式教學環境', '主題式情境教學，學以致用', '定期成果發表，展現自信', '結合線上學習資源，延伸學習'], roadmap: ['L1-L2: 啟蒙與發音', 'L3-L4: 生活會話與閱讀', 'L5-L6: 寫作與進階表達'] },
+      { name: '外師發音班', desc: '純正口音引導，掌握自然發音 (Phonics) 技巧', age: '小一 ~ 小三', time: '週一/四', objectives: '建立正確發音嘴型與聽音辨位能力，看到單字能讀，聽到單字能拼。', target: '初學美語或希望矯正發音的孩子。', features: ['專業外師親自授課', '趣味發音遊戲與歌謠', '矯正台式發音習慣', '建立拼讀自信心'], roadmap: ['Level A: 字母與短母音', 'Level B: 長母音與混合音', 'Level C: 特殊發音規則'] },
+      { name: '英文閱讀班', desc: '精選分級繪本與讀本，培養閱讀理解力與語感', age: '小三 ~ 小五', time: '週二/五', objectives: '透過大量閱讀累積單字量，培養語感與閱讀理解策略，養成閱讀英文書籍的習慣。', target: '具備基礎拼讀能力，希望提升閱讀速度與廣度的學生。', features: ['精選國外分級讀本', '引導式閱讀討論', '閱讀理解策略教學', '讀後心得分享與寫作'], roadmap: ['繪本閱讀期', '橋樑書閱讀期', '章節小說閱讀期'] },
+      { name: '口說美語班', desc: '全美語情境對話練習，鼓勵孩子大膽開口說英語', age: '小一 ~ 小六', time: '週三/六', objectives: '打破不敢開口的心理障礙，在模擬情境中自然運用英語溝通，提升口語流利度。', target: '害羞不敢開口或希望增加口語練習機會的學生。', features: ['角色扮演與情境模擬', '小組討論與發表', '生活實用對話練習', '即席演講訓練'], roadmap: ['日常問候與自我介紹', '生活情境應對', '議題討論與表達'] },
+      { name: '外師寫作班', desc: '創意寫作引導，建立邏輯思維與正確文法架構', age: '小四 ~ 小六', time: '週六', objectives: '從句子到段落，從段落到文章，循序漸進培養英文寫作能力與邏輯架構。', target: '已有一定單字量與文法基礎，希望提升寫作能力的學生。', features: ['心智圖構思與大綱擬定', '各種文體寫作指導', '個別化作文批改', '優美句型與修辭運用'], roadmap: ['句型練習期', '段落寫作期', '短文創作期'] },
+      { name: 'KET養成班', desc: '針對劍橋英檢 KET 級數，強化聽說讀寫全方位實力', age: '小五 ~ 小六', time: '週三/六', objectives: '熟悉劍橋英檢 KET 考試題型，強化聽說讀寫綜合能力，順利取得國際認證。', target: '計畫報考 KET 英檢或希望檢視英語學習成效的學生。', features: ['仿真模考實戰演練', '口試技巧個別指導', '聽力解題策略分析', '閱讀寫作重點強化'], roadmap: ['檢定觀念建立', '分項能力強化', '模考衝刺與檢討'] },
     ]
   },
   {
@@ -46,8 +273,8 @@ const COURSE_DATA = [
     icon: <BookOpen size={20} />,
     color: 'text-orange-500',
     classes: [
-      { name: '閱讀寫作班', desc: '結合經典文學導讀與創意寫作，提升表達力與文采', age: '小二 ~ 小六', time: '週六 10:00' },
-      { name: '閱讀素養班', desc: '長文閱讀理解訓練，培養批判性思考與分析能力', age: '小三 ~ 小六', time: '週六 13:30' },
+      { name: '閱讀寫作班', desc: '結合經典文學導讀與創意寫作，提升表達力與文采', age: '小二 ~ 小六', time: '週六 10:00', objectives: '培養閱讀興趣，激發寫作靈感，能流暢表達個人想法與情感。', target: '對寫作感到困難或希望提升文采的學生。', features: ['經典文學作品賞析', '感官摹寫與修辭練習', '創意引導與聯想訓練', '佳作觀摩與互評'], roadmap: ['基礎語句練習', '段落結構鋪陳', '完整篇章創作'] },
+      { name: '閱讀素養班', desc: '長文閱讀理解訓練，培養批判性思考與分析能力', age: '小三 ~ 小六', time: '週六 13:30', objectives: '提升長篇文章閱讀速度與理解力，培養擷取資訊、統整分析與批判思考的能力。', target: '閱讀速度慢、抓不到重點或希望能深入解讀文本的學生。', features: ['多元文本閱讀材料', '閱讀理解策略教學', 'PISA 題型實戰演練', '議題探討與思辨'], roadmap: ['擷取訊息能力', '統整解釋能力', '省思評鑑能力'] },
     ]
   },
   {
@@ -57,8 +284,8 @@ const COURSE_DATA = [
     icon: <FlaskConical size={20} />,
     color: 'text-blue-500',
     classes: [
-      { name: '小小科學家', desc: '生活科學實驗，激發好奇心', age: '小一 ~ 小三', time: '週六 15:30' },
-      { name: '科展培訓班', desc: '專題研究與實驗設計，培養探究精神', age: '小四 ~ 小六', time: '週日 13:30' },
+      { name: '小小科學家', desc: '生活科學實驗，激發好奇心', age: '小一 ~ 小三', time: '週六 15:30', objectives: '透過趣味實驗引發科學興趣，培養觀察力與動手操作的能力。', target: '充滿好奇心，喜歡動手做的低年級學生。', features: ['安全有趣的科學實驗', '生活化科學原理介紹', '觀察記錄與分享', '培養科學探究精神'], roadmap: ['物理現象探索', '化學變化觀察', '生物與環境認識'] },
+      { name: '科展培訓班', desc: '專題研究與實驗設計，培養探究精神', age: '小四 ~ 小六', time: '週日 13:30', objectives: '學習完整的科學研究方法，從選題、實驗設計到數據分析，完成專題研究。', target: '對科學研究有濃厚興趣，有意參加科展的高年級學生。', features: ['專題研究方法指導', '實驗設計與變因控制', '數據分析與圖表製作', '報告撰寫與口頭發表'], roadmap: ['研究主題確立', '實驗執行與記錄', '成果發表與競賽'] },
     ]
   },
   {
@@ -68,80 +295,72 @@ const COURSE_DATA = [
     icon: <Rocket size={20} />,
     color: 'text-purple-500',
     classes: [
-      { name: '超前數學班', desc: '針對資優鑑定需求，深化數學邏輯與難題解析', age: '小四 ~ 小六', time: '週三/五' },
-      { name: '自然實驗班', desc: '實作科學實驗，強化自然科觀念與探究實力', age: '小三 ~ 小六', time: '週六' },
-      { name: '公校黑馬營', desc: '針對公立數理資優班鑑定，全方位衝刺培訓', age: '小六', time: '寒暑假/考前' },
-      { name: '私中黑馬營', desc: '私中入學考全科衝刺，高強度模擬考實戰演練', age: '小六', time: '週六/日' },
+      { name: '超前數學班', desc: '針對資優鑑定需求，深化數學邏輯與難題解析', age: '小四 ~ 小六', time: '週三/五', objectives: '針對資優鑑定數學題型進行深度解析，強化邏輯推理與解題技巧。', target: '目標報考數理資優班或私中入學考的學生。', features: ['歷屆資優試題全解析', '邏輯推理與空間觀念', '難題破解策略教學', '模擬測驗實戰演練'], roadmap: ['基礎資優觀念', '進階題型挑戰', '考前密集衝刺'] },
+      { name: '自然實驗班', desc: '實作科學實驗，強化自然科觀念與探究實力', age: '小三 ~ 小六', time: '週六', objectives: '透過實驗操作加深自然科觀念，培養科學實作能力與應試實力。', target: '目標報考自然資優班或對科學實驗有興趣的學生。', features: ['配合資優鑑定實驗主題', '強調實驗操作與原理', '科學探究能力訓練', '自然科筆試重點複習'], roadmap: ['基礎實驗操作', '進階探究實驗', '術科實作模擬'] },
+      { name: '公校黑馬營', desc: '針對公立數理資優班鑑定，全方位衝刺培訓', age: '小六', time: '寒暑假/考前', objectives: '針對公立資優班鑑定考試進行密集訓練，全面提升數理能力。', target: '目標考取公立國中數理資優班的小六學生。', features: ['性向測驗模擬練習', '數理實作能力強化', '口試面試技巧指導', '考前重點總整理'], roadmap: ['初試性向測驗準備', '複試實作評量準備', '全真模擬演練'] },
+      { name: '私中黑馬營', desc: '私中入學考全科衝刺，高強度模擬考實戰演練', age: '小六', time: '週六/日', objectives: '針對私中入學考試科目進行全方位複習與衝刺，確保金榜題名。', target: '目標考取延平、薇閣、東山等明星私中的小六學生。', features: ['國英數三科重點複習', '私中命題趨勢分析', '高強度模擬考演練', '落點分析與志願選填'], roadmap: ['單元複習期', '綜合演練期', '考前衝刺期'] },
     ]
   },
   {
     id: 'essenjoy-player',
     label: '艾森樂小玩家',
     description: '艾森樂小玩家系列課程，結合寒暑假主題營隊與週末多元工作坊，旨在讓學習延伸至教室之外。透過科學實驗、藝術創作、戶外探索與體能活動，啟發孩子的多元興趣與潛能。我們相信「玩」是最好的學習，在遊戲與團隊合作中，培養解決問題的能力與人際互動技巧，讓孩子在歡笑中快樂成長，玩出屬於自己的競爭力。',
-    icon: <Tent size={20} />,
+    icon: <Clock size={20} />, // Placeholder icon, originals were lucide icons
     color: 'text-pink-500',
     classes: [
-      { name: '艾森樂夏令營', desc: '主題式教學，結合科學、藝術、體能與戶外參訪', age: '升小一 ~ 小六', time: '暑假期間' },
-      { name: '艾森樂冬令營', desc: '短期密集營隊，專注力訓練與多元智能開發', age: '小一 ~ 小六', time: '寒假期間' },
-      { name: '週六多元課程', desc: '科學實驗、創意積木、邏輯桌遊，豐富週末生活', age: '小一 ~ 小六', time: '週六時段' },
+      { name: '艾森樂夏令營', desc: '主題式教學，結合科學、藝術、體能與戶外參訪', age: '升小一 ~ 小六', time: '暑假期間', objectives: '透過多元主題活動，豐富暑假生活，培養團隊合作與探索精神。', target: '希望度過充實快樂暑假的國小學生。', features: ['每週不同主題課程', '戶外教學與參訪', '專業師資帶領活動', '成果發表與展示'], roadmap: ['科學探索週', '藝術創作週', '體能挑戰週'] },
+      { name: '艾森樂冬令營', desc: '短期密集營隊，專注力訓練與多元智能開發', age: '小一 ~ 小六', time: '寒假期間', objectives: '利用寒假時間進行集中式學習與體驗，激發多元智能發展。', target: '希望在寒假期間學習新技能或體驗多元活動的學生。', features: ['專注力與記憶力訓練', '創客 Maker 動手做', '邏輯桌遊挑戰', '情緒管理與人際互動'], roadmap: ['大腦潛能開發', '創客實作體驗', '團隊合作挑戰'] },
+      { name: '週六多元課程', desc: '科學實驗、創意積木、邏輯桌遊，豐富週末生活', age: '小一 ~ 小六', time: '週六時段', objectives: '提供平日課業以外的興趣探索機會，發掘孩子的天賦與熱情。', target: '希望利用週末時間培養興趣或專長的學生。', features: ['多元領域課程選擇', '小班制精緻教學', '著重動手做與體驗', '培養跨領域素養'], roadmap: ['科學實驗班', '創意積木班', '邏輯桌遊班'] },
     ]
   }
 ];
 
-const TIMELINE_DATA = [
-  { 
-    grade: '低年級 (小一~小二)', 
-    subtitle: '興趣啟發期', 
-    goal: '建立學習習慣 × 激發好奇心', 
-    courses: [
-      '【數學】小育豪資優數學啟蒙', 
-      '【美語】ESL 生活會話 / 外師發音', 
-      '【科學】小小科學家動手做',
-      '【營隊】艾森樂主題探索營隊'
-    ] 
-  },
-  { 
-    grade: '中年級 (小三~小四)', 
-    subtitle: '能力養成期', 
-    goal: '奠定學科基礎 × 培養邏輯思考', 
-    courses: [
-      '【數學】資優數學邏輯養成', 
-      '【美語】英語閱讀與寫作起步', 
-      '【國語】閱讀素養與短文創作',
-      '【科學】科學原理探究 / 科展培訓'
-    ] 
-  },
-  { 
-    grade: '高年級 (小五)', 
-    subtitle: '升學準備期', 
-    goal: '深化學科實力 × 探索升學方向', 
-    courses: [
-      '【數學】高年級數學進階 / 資優特訓', 
-      '【美語】GEPT 英檢初級/中級培訓', 
-      '【國語】長篇閱讀理解 / 修辭寫作',
-      '【升學】私中入學 / 資優鑑定準備'
-    ] 
-  },
-  { 
-    grade: '升國中 (小六)', 
-    subtitle: '衝刺關鍵期', 
-    goal: '私中錄取 × 國中課程銜接', 
-    courses: [
-      '【升學】私中入學全科衝刺 (模考實戰)', 
-      '【升學】公校資優班鑑定專題輔導', 
-      '【銜接】國中數學 / 生物先修課程',
-      '【美語】國中英文文法銜接 / KET檢定'
-    ] 
-  },
-];
-
-const CourseRoadmap: React.FC = () => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [isBrochureOpen, setIsBrochureOpen] = useState(false);
-  const [isPlanOpen, setIsPlanOpen] = useState(false);
-  const [selectedClass, setSelectedClass] = useState<any>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
+  const TIMELINE_DATA = [
+    { 
+      grade: '低年級 (小一~小二)', 
+      subtitle: '興趣啟發期', 
+      goal: '建立學習習慣 × 激發好奇心', 
+      courses: [
+        '【數學】小育豪資優數學啟蒙', 
+        '【美語】ESL 生活會話 / 外師發音', 
+        '【科學】小小科學家動手做',
+        '【營隊】艾森樂主題探索營隊'
+      ] 
+    },
+    { 
+      grade: '中年級 (小三~小四)', 
+      subtitle: '能力養成期', 
+      goal: '奠定學科基礎 × 培養邏輯思考', 
+      courses: [
+        '【數學】資優數學邏輯養成', 
+        '【美語】英語閱讀與寫作起步', 
+        '【國語】閱讀素養與短文創作',
+        '【科學】科學原理探究 / 科展培訓'
+      ] 
+    },
+    { 
+      grade: '高年級 (小五)', 
+      subtitle: '升學準備期', 
+      goal: '深化學科實力 × 探索升學方向', 
+      courses: [
+        '【數學】高年級數學進階 / 資優特訓', 
+        '【美語】GEPT 英檢初級/中級培訓', 
+        '【國語】長篇閱讀理解 / 修辭寫作',
+        '【升學】私中入學 / 資優鑑定準備'
+      ] 
+    },
+    { 
+      grade: '升國中 (小六)', 
+      subtitle: '衝刺關鍵期', 
+      goal: '私中錄取 × 國中課程銜接', 
+      courses: [
+        '【升學】私中入學全科衝刺 (模考實戰)', 
+        '【升學】公校資優班鑑定專題輔導', 
+        '【銜接】國中數學 / 生物先修課程',
+        '【美語】國中英文文法銜接 / KET檢定'
+      ] 
+    },
+  ];
 
   const nextTab = () => {
     setActiveTab((prev) => (prev + 1) % COURSE_DATA.length);
@@ -177,6 +396,16 @@ const CourseRoadmap: React.FC = () => {
     setTimeout(() => {
       setIsPlanOpen(false);
     }, 500);
+  };
+
+  const openSchedule = (cls: any) => {
+    setSelectedClass(cls);
+    setModalMode('schedule');
+  };
+
+  const openDetail = (cls: any) => {
+    setSelectedClass(cls);
+    setModalMode('detail');
   };
 
   // Generate Mock Schedule Data
@@ -338,17 +567,17 @@ const CourseRoadmap: React.FC = () => {
                   {/* Action Buttons */}
                   <div className="flex gap-2 mt-auto">
                      <button 
-                       onClick={() => setSelectedClass(cls)}
+                       onClick={() => openSchedule(cls)}
                        className="flex-1 py-2.5 rounded-lg bg-green-50 text-green-700 text-sm font-bold hover:bg-green-100 transition-colors flex items-center justify-center gap-1.5 border border-green-200"
                      >
                         查看課表 <Calendar size={14} />
                      </button>
-                     <a 
-                       href="#contact"
+                     <button 
+                       onClick={() => openDetail(cls)}
                        className="flex-1 py-2.5 rounded-lg bg-green-600 text-white text-sm font-bold hover:bg-green-700 transition-colors text-center flex items-center justify-center gap-1.5 shadow-md shadow-green-200"
                      >
-                        立即報名 <ArrowRight size={14} />
-                     </a>
+                        了解課程 <ArrowRight size={14} />
+                     </button>
                   </div>
                 </div>
               ))}
@@ -500,14 +729,14 @@ const CourseRoadmap: React.FC = () => {
         images={BROCHURE_IMAGES} 
       />
 
-      {/* Schedule Modal */}
+      {/* Modal */}
       <Modal
         isOpen={!!selectedClass}
         onClose={() => setSelectedClass(null)}
-        title={selectedClass ? `${selectedClass.name} - 課程表` : '課程表'}
+        title={selectedClass ? (modalMode === 'schedule' ? `${selectedClass.name} - 課程表` : `${selectedClass.name} - 課程介紹`) : ''}
         maxWidth="max-w-4xl"
       >
-        {selectedClass && (
+        {selectedClass && modalMode === 'schedule' && (
           <div className="space-y-6">
              {/* Info Header */}
              <div className="flex flex-wrap gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
@@ -565,6 +794,82 @@ const CourseRoadmap: React.FC = () => {
                 </ul>
              </div>
           </div>
+        )}
+
+        {selectedClass && modalMode === 'detail' && (
+           <div className="space-y-8 p-2">
+              {/* Header / Summary */}
+              <div className="bg-green-50/50 p-6 rounded-2xl border border-green-100">
+                 <p className="text-lg text-slate-700 leading-relaxed font-medium">
+                   {selectedClass.desc}
+                 </p>
+                 <div className="flex flex-wrap gap-4 mt-6">
+                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-green-100">
+                       <Users size={18} className="text-green-600" />
+                       <span className="text-sm font-bold text-slate-700">對象：{selectedClass.target}</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm border border-green-100">
+                       <Target size={18} className="text-green-600" />
+                       <span className="text-sm font-bold text-slate-700">目標：{selectedClass.objectives}</span>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 {/* Features */}
+                 <div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                       <Lightbulb className="text-yellow-500" />
+                       課程特色
+                    </h4>
+                    <ul className="space-y-3">
+                       {selectedClass.features && selectedClass.features.map((feat: string, i: number) => (
+                          <li key={i} className="flex items-start gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                             <CheckCircle2 className="text-green-500 shrink-0 mt-0.5" size={18} />
+                             <span className="text-slate-700">{feat}</span>
+                          </li>
+                       ))}
+                    </ul>
+                 </div>
+
+                 {/* Roadmap */}
+                 <div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                       <Footprints className="text-blue-500" />
+                       系列課程規劃
+                    </h4>
+                    <div className="space-y-4">
+                       {selectedClass.roadmap && selectedClass.roadmap.map((step: string, i: number) => (
+                          <div key={i} className="flex items-center gap-4 relative group">
+                             {/* Vertical Line */}
+                             {i !== selectedClass.roadmap.length - 1 && (
+                                <div className="absolute left-[19px] top-8 bottom-[-16px] w-0.5 bg-slate-200"></div>
+                             )}
+                             
+                             <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold shrink-0 z-10 border-4 border-white shadow-sm">
+                                {i + 1}
+                             </div>
+                             <div className="flex-1 bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-slate-700 font-medium">
+                                {step}
+                             </div>
+                          </div>
+                       ))}
+                    </div>
+                 </div>
+              </div>
+              
+              {/* Call to Action */}
+              <div className="pt-8 border-t border-slate-100 text-center">
+                 <a 
+                   href="#contact" 
+                   onClick={() => setSelectedClass(null)}
+                   className="inline-flex items-center gap-2 px-8 py-4 bg-green-600 text-white font-bold rounded-xl shadow-lg hover:bg-green-700 hover:shadow-green-500/30 transition-all transform hover:-translate-y-1"
+                 >
+                    立即預約試聽 <ArrowRight size={20} />
+                 </a>
+                 <p className="mt-3 text-sm text-slate-400">名額有限，建議提早預約保留席位</p>
+              </div>
+           </div>
         )}
       </Modal>
     </section>
