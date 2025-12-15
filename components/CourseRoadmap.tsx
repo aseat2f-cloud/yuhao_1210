@@ -1,24 +1,8 @@
 
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Users, BookOpen, Search, Calendar, Map, Target, CheckCircle2, Rocket, ArrowRight, Clock, FileText, Lightbulb, ListChecks, Footprints, Calculator, Languages, FlaskConical, ChevronUp, ChevronsDown } from 'lucide-react';
-import { PageType } from '../types';
+import React, { useState, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Users, BookOpen, Calendar, Map, Target, CheckCircle2, Rocket, ArrowRight, Clock, FileText, Lightbulb, Footprints, Calculator, Languages, FlaskConical, ChevronUp, ChevronsDown } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
 import Modal from './Modal';
-
-interface ProgramPlanningProps {
-  onNavigate: (page: PageType) => void;
-}
-
-interface CourseImage {
-  url: string;
-  caption: string;
-}
-
-interface CourseCategory {
-  id: string;
-  name: string;
-  images: CourseImage[];
-}
 
 interface ClassInfo {
   name: string;
@@ -31,157 +15,10 @@ interface ClassInfo {
   roadmap: string[];
 }
 
-interface ProgramData {
-  id: string;
-  title: string;
-  grade: string;
-  subtitle: string;
-  desc: string;
-  themeColor: string;
-  borderColor: string;
-  sectionBg: string;
-  headerLabelColor: string;
-  activeTabStyle: string;
-  activeButtonClass: string;
-  page: PageType;
-  categories: CourseCategory[];
-  teacherSectionId: string;
-  classes: ClassInfo[];
-}
-
-const convertDropboxLink = (url: string) => url.replace('dl=0', 'raw=1');
-
 const BROCHURE_IMAGES = [
   "https://www.dropbox.com/scl/fi/02bku21xf9kcds9976086/250603_-PO-_-_AH_-A.jpg?rlkey=36lldwmj1t91wp5izhm806m96&raw=1",
   "https://www.dropbox.com/scl/fi/2cxysztok0xjwqflocxf3/250813_-_-PO-_AH_01.jpg?rlkey=we58ed84mufdgg08t1yjkjc4r&raw=1"
 ];
-
-const PROGRAMS_DATA: Record<string, ProgramData> = {
-  elementary: {
-    id: 'elementary',
-    title: '國小部',
-    grade: '幼兒大班 ~ 小六',
-    subtitle: '啟發天賦，快樂成長',
-    desc: '育豪資優國小部打造全方位學習環境，透過具象化教學與遊戲，將抽象概念轉化為孩子易懂的語言。結合艾森樂美語的全美語沉浸環境與小育豪資優數學的啟發式教學，不僅重視學科能力，更強調品格與思考習慣。讓學習成為樂趣，陪伴孩子自信成長，為未來升學奠定堅實基礎。',
-    themeColor: 'text-green-700',
-    borderColor: 'border-green-100',
-    sectionBg: 'bg-green-600',
-    headerLabelColor: 'text-green-100',
-    activeTabStyle: 'bg-white text-green-700 shadow-lg',
-    activeButtonClass: 'bg-green-600 text-white border-green-600 ring-2 ring-green-200',
-    page: 'elementary',
-    teacherSectionId: 'teacher-carousel',
-    classes: [
-      { 
-        name: '進度數學班', 
-        desc: '搭配學校進度，穩紮穩打建立數學觀念與運算基礎', 
-        age: '小一 ~ 小六', 
-        time: '週三/六',
-        objectives: '鞏固學校課堂所學，強化運算準確度，並建立正確的數學解題觀念，培養自信心。',
-        target: '希望跟上學校進度、加強計算能力與基礎概念的學生。',
-        features: [
-          '對應學校版本，重點單元精準複習',
-          '強調計算過程與驗算習慣的養成',
-          '獨家圖解教學，將抽象概念具象化',
-          '定期小考檢測，即時掌握學習成效'
-        ],
-        roadmap: ['低年級：數感啟蒙與運算', '中年級：邏輯思考與應用', '高年級：抽象概念與升學銜接']
-      },
-      { 
-        name: '種子超前數學班', 
-        desc: '啟發數學潛能，培養邏輯思考種子，為資優之路鋪路', 
-        age: '小一 ~ 小三', 
-        time: '週三/六',
-        objectives: '跳脫制式框架，透過操作與遊戲激發數學興趣，提早開發邏輯思維與空間概念。',
-        target: '對數學有濃厚興趣、學習反應快，希望挑戰進階內容的低年級學生。',
-        features: [
-          '引入益智教具與桌遊，寓教於樂',
-          '開放式問題引導，鼓勵多角度思考',
-          '生活情境融入，發現身邊的數學',
-          '小班制互動教學，高頻率師生對話'
-        ],
-        roadmap: ['G1：形狀與空間探索', 'G2：邏輯推理與數列', 'G3：資優數學前導課程']
-      },
-      { 
-        name: '超前數學班', 
-        desc: '超前學校進度，挑戰高階思維題型，訓練解題速度', 
-        age: '小四 ~ 小六', 
-        time: '週三/五',
-        objectives: '針對高年級課程進行加深加廣，訓練複雜問題的分析能力，為國中數理資優班做準備。',
-        target: '校內成績優異，目標鎖定私中入學或資優鑑定的高年級學生。',
-        features: [
-          '超前學校進度 1-2 個單元',
-          '資優試題與奧數題型專題解析',
-          '強化應用問題的文字解構能力',
-          '系統化筆記教學，建立知識架構'
-        ],
-        roadmap: ['G4：整數四則與幾何進階', 'G5：因倍數與分數應用', 'G6：國中代數與幾何銜接']
-      },
-    ],
-    categories: [
-      {
-        id: 'math',
-        name: '數學',
-        images: [
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/r2nuseglslav14h71mm7c/008-705x470.jpg?rlkey=wprqc04pifmsd63wmmbm9r5xj&dl=0'), caption: '獨創圖解教學法，將抽象數學具象化，讓孩子透過操作與觀察，輕鬆理解複雜觀念，建立紮實邏輯基礎。' },
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '透過教具操作與互動討論，引導孩子主動提問，培養多角度思考與邏輯推理能力，激發對數學的熱情。' }
-        ]
-      },
-      {
-        id: 'english',
-        name: '美語',
-        images: [
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '全美語沉浸式環境，專業外師引導，讓孩子在自然情境中開口說英語，建立自信表達能力與國際視野。' },
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/4px2b55be2s0amq614egi/001.jpg?rlkey=ar6i96aujzyr2s1cnuybkpf7r&dl=0'), caption: '結合繪本閱讀與節慶活動，透過生動有趣的故事教學，讓語言學習融入生活，快樂中培養語感。' }
-        ]
-      },
-      {
-        id: 'chinese',
-        name: '國語文',
-        images: [
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/jmiw89xm3x3ssmeu5looh/013-1-705x470.jpg?rlkey=12g0x8zayag3oi5oabwtjsjyy&dl=0'), caption: '精選文學作品導讀，引導孩子深入思考與鑑賞，透過討論分享，提升閱讀素養、理解力與表達能力。' },
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/fqw7ec8xo52m15q54ummf/011-705x470.jpg?rlkey=yixf8ceylh559b0rd1lu66wx1&dl=0'), caption: '心智圖構思與寫作技巧指導，激發想像力，引導孩子觀察生活細節，寫出有溫度、有深度的文章。' }
-        ]
-      },
-      {
-        id: 'science',
-        name: '自然科學',
-        images: [
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '透過趣味科學實驗與觀察活動，引導孩子探索自然奧秘，培養實事求是的科學精神與動手解決問題的能力。' },
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/fqw7ec8xo52m15q54ummf/011-705x470.jpg?rlkey=yixf8ceylh559b0rd1lu66wx1&dl=0'), caption: '結合生活情境的主題式教學，讓孩子從日常生活中發現科學原理，激發好奇心與主動探究的熱情。' }
-        ]
-      },
-      {
-        id: 'gifted',
-        name: '資優升學',
-        images: [
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/kseqyb5rsjz98d8leqbnp/009-705x470.jpg?rlkey=a12jhis4kqn5uf5tzdu18ew84&dl=0'), caption: '針對資優鑑定與私中入學考，提供精準命題分析與解題策略，強化邏輯思維與應試技巧，自信應考。' },
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/2rehhlmcdp02p6s38zj9j/006.jpg?rlkey=bnce7y3hyfoz1bf8rs3g4k74q&dl=0'), caption: '模擬面試與實作演練，透過高強度訓練提升抗壓性，全面提升競爭力，助孩子在升學戰場脫穎而出。' }
-        ]
-      },
-      {
-        id: 'player',
-        name: '小玩家',
-        images: [
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/7ap5ovcaltzp7naqoenyq/010-705x436.jpg?rlkey=6g1knmp2gnk9yxyljct6bbo42&dl=0'), caption: '多元主題營隊，結合科學實驗、藝術創作與體能活動，讓孩子在探索中發現興趣，激發無限潛能。' },
-          { url: convertDropboxLink('https://www.dropbox.com/scl/fi/604adhbbhazralczaxuai/003.jpg?rlkey=eudoz8hqg84pgbgts1ww0gdfi&dl=0'), caption: '寓教於樂的戶外教學與團體活動，透過實際體驗與團隊合作，培養孩子解決問題的能力與人際互動技巧。' }
-        ]
-      }
-    ]
-  },
-  junior: {
-    id: 'junior',
-    title: '國中部',
-    grade: '國七 ~ 國九',
-    subtitle: '', desc: '', themeColor: '', borderColor: '', sectionBg: '', headerLabelColor: '', activeTabStyle: '', activeButtonClass: '', page: 'junior', categories: [], teacherSectionId: '', classes: []
-  },
-  senior: {
-    id: 'senior',
-    title: '高中部',
-    grade: '高一 ~ 高三',
-    subtitle: '', desc: '', themeColor: '', borderColor: '', sectionBg: '', headerLabelColor: '', activeTabStyle: '', activeButtonClass: '', page: 'senior', categories: [], teacherSectionId: '', classes: []
-  }
-};
 
 const CourseRoadmap: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -189,7 +26,7 @@ const CourseRoadmap: React.FC = () => {
   const [isPlanOpen, setIsPlanOpen] = useState(false);
   
   // NEW STATE
-  const [selectedClass, setSelectedClass] = useState<any>(null);
+  const [selectedClass, setSelectedClass] = useState<ClassInfo | null>(null);
   const [modalMode, setModalMode] = useState<'schedule' | 'detail'>('schedule');
 
   const timelineRef = useRef<HTMLDivElement>(null);
