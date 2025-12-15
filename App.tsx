@@ -1,7 +1,7 @@
 
 // ... (imports remain same)
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { ArrowUp, Loader2 } from 'lucide-react';
+import { ArrowUp, Loader2, HelpCircle } from 'lucide-react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -375,6 +375,9 @@ function App() {
               showQuickLinks={true}
               gradeLabel="讀好書.交好友"
               courseLabel="品德優先.成績第一"
+              secondaryBtnLabel="為什麼選擇育豪"
+              secondaryBtnIcon={<HelpCircle size={20} />}
+              secondaryBtnLink="#features"
             />
             <HomeBanner />
             <Features />

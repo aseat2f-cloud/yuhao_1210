@@ -23,6 +23,7 @@ interface HeroProps {
   theme?: 'primary' | 'green' | 'blue' | 'purple';
   secondaryBtnLabel?: string;
   secondaryBtnIcon?: React.ReactNode;
+  secondaryBtnLink?: string;
 }
 
 const Hero: React.FC<HeroProps> = ({ 
@@ -38,7 +39,8 @@ const Hero: React.FC<HeroProps> = ({
   quickLinks,
   theme = 'primary',
   secondaryBtnLabel,
-  secondaryBtnIcon
+  secondaryBtnIcon,
+  secondaryBtnLink
 }) => {
   
   // Default Home Page Links
@@ -138,7 +140,8 @@ const Hero: React.FC<HeroProps> = ({
                   </a>
                   
                   <button 
-                    className={`w-full sm:w-auto px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-xl font-bold shadow-sm hover:bg-slate-50 hover:border-${t}-200 hover:text-${t}-600 transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2`}
+                    onClick={(e) => secondaryBtnLink ? handleScrollTo(e, secondaryBtnLink) : undefined}
+                    className={`w-full sm:w-auto px-6 py-4 bg-white text-${t}-600 border border-${t}-600 rounded-xl font-bold shadow-sm hover:bg-${t}-50 transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2`}
                   >
                     {secLabel}
                     {secIcon}
@@ -178,4 +181,3 @@ const Hero: React.FC<HeroProps> = ({
 };
 
 export default Hero;
-    
