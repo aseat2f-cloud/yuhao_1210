@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Lightbulb, Heart, Target, Trophy, GraduationCap, ShieldCheck, ChevronDown, ChevronUp, Check, X, Play, Sparkles, Youtube } from 'lucide-react';
+import { Lightbulb, Heart, Target, Trophy, GraduationCap, ShieldCheck, ChevronDown, ChevronUp, Check, X, Play, Sparkles, Youtube, Crown } from 'lucide-react';
 import { FeatureItem } from '../types';
 import Modal from './Modal';
 
@@ -183,35 +183,35 @@ const Features: React.FC = () => {
         {isExpanded && (
           <div ref={expandedRef} className="mt-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
             {/* Changed background to white with a soft border instead of gray block */}
-            <div className="bg-white rounded-[2.5rem] p-8 md:p-16 border border-slate-200 shadow-xl relative overflow-hidden">
-              {/* Removed blue gradient decoration line */}
+            <div className="bg-white rounded-[2.5rem] p-6 md:p-16 border border-slate-200 shadow-xl relative overflow-hidden">
               
-              {/* Part 1: Features Deep Dive - Cleaner Design */}
+              {/* Part 1: Features Deep Dive - Cleaner Design & Reduced Sizes (~95%) */}
               <div className="text-center mb-16">
                 <span className="text-slate-900 font-bold tracking-wider uppercase text-xs mb-2 block">Our Core Values</span>
                 <h3 className="text-2xl md:text-3xl font-extrabold text-primary-600 mb-3">超越補習，更是教育</h3>
                 <p className="text-slate-500 max-w-2xl mx-auto">除了成績，我們更在乎孩子的學習態度與未來競爭力</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-20">
                 {[
-                  { title: '量身訂製', desc: '不走大鍋炒路線，針對每個孩子的程度與目標，規劃專屬學習路徑。', icon: <Target className="w-6 h-6 text-primary-600" /> },
-                  { title: '科技輔助', desc: '引進最新 AI 學習診斷系統，精準抓出學習盲點，複習更有效率。', icon: <Sparkles className="w-6 h-6 text-primary-600" /> },
-                  { title: '品格優先', desc: '成績是一時的，品格是一輩子的。我們堅持教書更要育人。', icon: <Heart className="w-6 h-6 text-primary-600" /> },
+                  { title: '量身訂製', desc: '不走大鍋炒路線，針對每個孩子的程度與目標，規劃專屬學習路徑。', icon: <Target className="w-[30px] h-[30px] text-primary-600" /> },
+                  { title: '科技輔助', desc: '引進最新 AI 學習診斷系統，精準抓出學習盲點，複習更有效率。', icon: <Sparkles className="w-[30px] h-[30px] text-primary-600" /> },
+                  { title: '品格優先', desc: '成績是一時的，品格是一輩子的。我們堅持教書更要育人。', icon: <Heart className="w-[30px] h-[30px] text-primary-600" /> },
                 ].map((item, idx) => (
-                  <div key={idx} className="bg-slate-50/50 p-8 rounded-2xl border border-slate-100 text-center hover:border-primary-200 transition-colors group">
-                    <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-300">
+                  <div key={idx} className="bg-slate-50/50 p-6 md:p-8 rounded-2xl border border-slate-100 text-center hover:border-primary-200 transition-colors group">
+                    <div className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center mx-auto mb-5 shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-300">
                       {item.icon}
                     </div>
-                    <h4 className="text-lg font-bold text-slate-900 mb-3">{item.title}</h4>
+                    <h4 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h4>
                     <p className="text-slate-500 leading-relaxed text-sm">{item.desc}</p>
                   </div>
                 ))}
               </div>
 
-              {/* Part 2: Comparison Table - Minimalist Design */}
+              {/* Part 2: Comparison Table - Desktop (Table) & Mobile (Cards) */}
               <div className="mb-20">
-                <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
+                {/* Desktop View */}
+                <div className="hidden md:block overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-slate-50 border-b border-slate-200">
@@ -223,18 +223,19 @@ const Features: React.FC = () => {
                              <span className="px-2 py-0.5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold">Recommended</span>
                            </div>
                         </th>
-                        <th className="p-5 md:p-6 text-slate-400 font-medium w-1/3">一般補習班</th>
+                        <th className="p-5 md:p-6 text-slate-400 font-medium text-base w-1/3">一般補習班</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-slate-100 text-base">
                       {COMPARISON_DATA.map((row, idx) => (
                         <tr key={idx} className="group">
                           <td className="p-5 md:p-6 font-bold text-slate-700 group-hover:bg-slate-50 transition-colors">{row.feature}</td>
                           {/* Highlighted Column */}
                           <td className="p-5 md:p-6 bg-white border-x border-primary-100 group-hover:shadow-inner transition-shadow">
                             <div className="flex items-center gap-3 text-slate-800 font-bold">
-                              <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                                 <Check size={14} className="text-green-600" strokeWidth={3} />
+                              {/* Victory Icon: Crown (皇冠) instead of Trophy */}
+                              <div className="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center shrink-0">
+                                 <Crown size={16} className="text-yellow-600" strokeWidth={2} />
                               </div>
                               {row.yuhao}
                             </div>
@@ -249,6 +250,49 @@ const Features: React.FC = () => {
                       ))}
                     </tbody>
                   </table>
+                </div>
+
+                {/* Mobile View - Card-based Comparison */}
+                <div className="md:hidden space-y-4">
+                  {COMPARISON_DATA.map((row, idx) => (
+                    <div key={idx} className="bg-slate-50 rounded-xl p-5 border border-slate-100 shadow-sm">
+                      <div className="text-center mb-4">
+                         <span className="inline-block px-3 py-1 bg-white border border-slate-200 rounded-full text-sm font-bold text-slate-600 shadow-sm">
+                           {row.feature}
+                         </span>
+                      </div>
+                      
+                      <div className="flex flex-col gap-3">
+                         {/* Yuhao */}
+                         <div className="bg-white p-4 rounded-xl border border-primary-100 shadow-sm relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-primary-500"></div>
+                            <div className="flex items-start gap-3">
+                               {/* Victory Icon: Crown (皇冠) instead of Trophy */}
+                               <div className="mt-0.5 w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center shrink-0">
+                                  <Crown size={14} className="text-yellow-600" strokeWidth={2} />
+                               </div>
+                               <div>
+                                  <div className="text-[10px] font-bold text-primary-600 uppercase tracking-wider mb-0.5">育豪資優</div>
+                                  <div className="text-slate-800 font-bold text-sm leading-snug">{row.yuhao}</div>
+                               </div>
+                            </div>
+                         </div>
+
+                         {/* Others */}
+                         <div className="px-4 py-2">
+                            <div className="flex items-start gap-3">
+                               <div className="mt-0.5 w-5 h-5 flex items-center justify-center shrink-0">
+                                  <X size={16} className="text-slate-300" />
+                               </div>
+                               <div>
+                                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">一般補習班</div>
+                                  <div className="text-slate-500 text-sm leading-snug">{row.others}</div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
