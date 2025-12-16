@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Rocket, TrendingUp, Crown, Zap, ArrowRight, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, ChevronsDown, Lightbulb, Footprints } from 'lucide-react';
+import { Rocket, TrendingUp, Crown, Zap, ArrowRight, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, ChevronsDown, Lightbulb, Waypoints } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
 import Modal from './Modal';
 
@@ -600,7 +600,7 @@ const SeniorCourseRoadmap: React.FC = () => {
                  {/* Roadmap */}
                  <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                       <Footprints className="text-blue-500" />
+                       <Waypoints className="text-purple-600" />
                        系列課程規劃
                     </h4>
                     <div className="space-y-4">

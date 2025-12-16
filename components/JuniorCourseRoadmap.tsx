@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, ChevronsDown, Lightbulb, Footprints } from 'lucide-react';
+import { Calculator, Languages, BookOpen, Rocket, ArrowRight, FlaskConical, ChevronLeft, ChevronRight, FileText, Clock, Users, Calendar, Map, Target, CheckCircle2, ChevronUp, ChevronsDown, Lightbulb, Waypoints } from 'lucide-react';
 import BrochureViewer from './BrochureViewer';
 import Modal from './Modal';
 
@@ -601,7 +601,7 @@ const JuniorCourseRoadmap: React.FC = () => {
                  {/* Roadmap */}
                  <div>
                     <h4 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                       <Footprints className="text-green-500" />
+                       <Waypoints className="text-blue-600" />
                        系列課程規劃
                     </h4>
                     <div className="space-y-4">
