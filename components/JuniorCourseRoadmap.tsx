@@ -276,7 +276,7 @@ const JuniorCourseRoadmap: React.FC = () => {
               className="mt-4 flex items-center justify-center gap-2 px-6 py-4 rounded-xl transition-all bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
             >
               <FileText size={20} />
-              <span className="text-lg">查閱簡章</span>
+              <span className="text-lg">熱門課程</span>
             </button>
 
             <button
@@ -357,7 +357,7 @@ const JuniorCourseRoadmap: React.FC = () => {
                 className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 shadow-sm"
               >
                 <FileText size={18} />
-                <span>查閱簡章</span>
+                <span>熱門課程</span>
               </button>
               <button
                 onClick={handleTogglePlan}
