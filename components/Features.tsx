@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { Lightbulb, Heart, Target, Trophy, GraduationCap, ShieldCheck, ChevronDown, ChevronUp, Check, X, Play, Sparkles, Youtube, Crown } from 'lucide-react';
+import { Lightbulb, Heart, Target, Trophy, GraduationCap, ShieldCheck, ChevronDown, ChevronUp, X, Play, Sparkles, Youtube, Crown } from 'lucide-react';
 import { FeatureItem } from '../types';
 import Modal from './Modal';
 
