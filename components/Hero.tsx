@@ -110,17 +110,12 @@ const Hero: React.FC<HeroProps> = ({
                   </div>
                 )}
 
-                {/* Main Title - Responsive sizing */}
-                <h1 className="text-[4.5rem] md:text-[5.8rem] lg:text-[5.5vw] xl:text-[6.5rem] font-extrabold text-slate-900 tracking-tight leading-[1.05] mb-6">
+                {/* Main Title - Responsive sizing & Alignment Updated */}
+                <h1 className="text-5xl sm:text-6xl md:text-[5.8rem] lg:text-[5.5vw] xl:text-[6.5rem] font-extrabold text-slate-900 tracking-tight leading-[1.1] md:leading-[1.05] mb-6 text-center lg:text-left whitespace-nowrap">
                   {title}
                 </h1>
                 
                 {/* Subtitle */}
-                {/* 
-                   Desktop: Reduce width to ~95% of previous 90% -> w-[85%]
-                   Tablet (md): Reduce width to ~80% of previous 72% -> w-[58%]
-                   Mobile: text-center
-                */}
                 <p className="text-lg md:text-xl text-slate-500 mb-8 w-[90%] md:w-[58%] lg:w-[85%] mx-auto lg:mx-0 leading-relaxed whitespace-pre-line font-medium text-center lg:text-left">
                   {subtitle}
                 </p>

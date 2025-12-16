@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Users, BookOpen, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Users, BookOpen, Calendar, Map, Target, CheckCircle2, Rocket, ArrowRight, Clock, FileText, Lightbulb, Footprints, Calculator, Languages, FlaskConical, ChevronUp, ChevronsDown, Search } from 'lucide-react';
 import { PageType } from '../types';
 
 interface ProgramPlanningProps {
@@ -42,8 +42,8 @@ const PROGRAMS_DATA: Record<string, ProgramData> = {
     id: 'elementary',
     title: '國小部',
     grade: '幼兒大班 ~ 小六',
-    subtitle: '啟發天賦，快樂成長',
-    desc: '育豪資優國小部打造全方位學習環境，透過具象化教學與遊戲，將抽象概念轉化為孩子易懂的語言。結合艾森樂美語的全美語沉浸環境與小育豪資優數學的啟發式教學，不僅重視學科能力，更強調品格與思考習慣。讓學習成為樂趣，陪伴孩子自信成長，為未來升學奠定堅實基礎。',
+    subtitle: '用愛灌溉，快樂成長',
+    desc: '在育豪國小部，我們最珍視的是孩子眼中那份對世界的好奇光芒。結合艾森樂美語的全美語環境與小育豪資優數學的啟發式教學，我們將抽象的知識化為有趣的遊戲與體驗。這裡不只是教室，更是孩子探索世界的遊樂場。我們承諾用耐心與愛心，保護孩子的學習熱情，陪伴他們建立自信，為未來紮下最穩固、最快樂的根基。',
     themeColor: 'text-green-700',
     borderColor: 'border-green-100',
     sectionBg: 'bg-green-600',
@@ -107,8 +107,8 @@ const PROGRAMS_DATA: Record<string, ProgramData> = {
     id: 'junior',
     title: '國中部',
     grade: '國七 ~ 國九',
-    subtitle: '關鍵三年，會考制勝',
-    desc: '面對會考挑戰，育豪國中部提供專業全科輔導。針對命題趨勢分析，結合個別化弱點診斷，幫助學生突破盲點。強調觀念理解與舉一反三的解題力，而非死背。從數理資優培訓到考前衝刺規劃，我們有完整課程體系，陪伴青春期的孩子度過升學難關，建立自信，成就非凡佳績。',
+    subtitle: '陪伴青春，穩健前行',
+    desc: '青春期的孩子，需要的不再是單向的管教，而是雙向的理解與引導。育豪國中部團隊扮演著亦師亦友的角色，除了提供精準的會考命題趨勢分析與個別化學科診斷，我們更重視孩子的心理素質與學習態度。在面對升學壓力時，我們是孩子最強的後盾，陪伴他們度過迷惘，找到奮鬥的目標，將潛力轉化為實力。',
     themeColor: 'text-blue-700',
     borderColor: 'border-blue-100',
     sectionBg: 'bg-blue-600',
@@ -164,8 +164,8 @@ const PROGRAMS_DATA: Record<string, ProgramData> = {
     id: 'senior',
     title: '高中部',
     grade: '高一 ~ 高三',
-    subtitle: '素養導向，前進頂大',
-    desc: '育豪菁英高中部提供學測與分科測驗雙軌規劃，強化新課綱素養導向的觀念深度。提供一對一學習歷程指導與科系探索諮詢，從高一銜接、高二選組到高三衝刺，以強大師資團隊協助學生精準掌握考試重點，發掘個人優勢。全力輔導學生錄取理想頂尖大學，開啟璀璨未來。',
+    subtitle: '夢想推手，展翅高飛',
+    desc: '高中是通往夢想大學的最後一哩路，但我們知道，這也是孩子探索未來方向的重要時刻。育豪菁英高中部提供的不僅是學測與分科測驗的精準戰略，更包含一對一的學習歷程輔導與科系探索諮詢。我們的老師願意花時間傾聽孩子的志向，協助他們發掘優勢，讓每個孩子都能自信地選擇最適合自己的未來。',
     themeColor: 'text-purple-700',
     borderColor: 'border-purple-100',
     sectionBg: 'bg-purple-600',
@@ -483,10 +483,10 @@ const ProgramPlanning: React.FC<ProgramPlanningProps> = ({ onNavigate }) => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12">
-          <h2 className={`${currentProgram.headerLabelColor} font-bold tracking-wide uppercase text-sm mb-3 transition-colors duration-300`}>學程規劃</h2>
+          <h2 className={`${currentProgram.headerLabelColor} font-bold tracking-wide uppercase text-sm mb-3 transition-colors duration-300`}>完整學程規劃</h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-white transition-colors duration-300">分齡分級 • 系統化學習</h3>
           <p className="mt-6 text-white/90 max-w-3xl mx-auto text-lg leading-relaxed transition-opacity duration-300 text-justify md:text-center">
-            針對各年齡層學習需求，量身打造專屬成長地圖。從興趣啟發、習慣養成到升學衝刺，每階段皆有明確目標，讓孩子在最適時機獲得有效引導，穩健邁向卓越。
+            我們針對不同年齡層孩子的心理與學習需求，量身打造專屬的成長地圖。不僅是知識的傳授，更重視興趣啟發、習慣養成與生涯探索，讓孩子在每個階段都能自信前行。
           </p>
         </div>
 

@@ -204,10 +204,16 @@ const OutstandingResults: React.FC<OutstandingResultsProps> = ({ theme = 'primar
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-3`}>辦學績效</h2>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900">亮眼成績 • 實力見證</h3>
-          <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-lg">
-            數據會說話，每一份榜單背後，都是師生共同努力的汗水結晶。
+          <h2 className={`text-${t}-600 font-bold tracking-wide uppercase text-sm mb-3`}>亮眼成績 • 實力見證</h2>
+          
+          {/* Changed style to match "家長五星見證" */}
+          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
+            不是奇蹟，只是傳統
+          </h3>
+
+          {/* Reduced text length by removing "每一年" */}
+          <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
+            在育豪，優秀是一種習慣。榜單的刷新，不單是運氣，更是師生共同堅持的成果。
           </p>
         </div>
 

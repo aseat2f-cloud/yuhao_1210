@@ -6,43 +6,43 @@ import Modal from './Modal';
 
 const FEATURES: FeatureItem[] = [
   {
-    title: '育豪的理念',
-    description: '注重學生差異，鼓勵學生成功',
+    title: '育豪的初心',
+    description: '40年來，我們堅持「沒有教不會的孩子，只有還沒被懂的心」。',
     icon: <Lightbulb className="w-6 h-6 text-white" />,
   },
   {
-    title: '育豪的特色',
-    description: '一份愛心，使我們與眾不同',
+    title: '有溫度的教育',
+    description: '嚴管勤教的背後，是我們對孩子無微不至的關懷與理解。',
     icon: <Heart className="w-6 h-6 text-white" />,
   },
   {
-    title: '育豪的目標',
-    description: '每個孩子都是寶，每個孩子都要好',
+    title: '看見獨特性',
+    description: '每個孩子都是獨一無二的種子，我們提供適合的土壤讓他發芽。',
     icon: <Target className="w-6 h-6 text-white" />,
   },
   {
-    title: '育豪的成果',
-    description: '在這裡，每個孩子都在創造奇蹟',
+    title: '卓越是種習慣',
+    description: '成績優異只是結果，我們更重視培養孩子面對挑戰的勇氣。',
     icon: <Trophy className="w-6 h-6 text-white" />,
   },
   {
-    title: '育豪的師資',
-    description: '用情授課、用心解惑、口碑最佳',
+    title: '亦師亦友',
+    description: '老師不只是知識的傳遞者，更是孩子迷惘時的引路人。',
     icon: <GraduationCap className="w-6 h-6 text-white" />,
   },
   {
-    title: '育豪的承諾',
-    description: '陪伴成長，見證蛻變，成就未來',
+    title: '家長的夥伴',
+    description: '與您站在同一陣線，共同分擔教養的焦慮，分享成長的喜悅。',
     icon: <ShieldCheck className="w-6 h-6 text-white" />,
   }
 ];
 
 const COMPARISON_DATA = [
-  { feature: '班級人數', yuhao: '精緻小班 (8-12人)', others: '大班制 (30-50人)' },
-  { feature: '教學模式', yuhao: '觀念導向，理解重於死背', others: '填鴨式教學，瘋狂刷題' },
-  { feature: '輔導機制', yuhao: '課後專職導師一對一解惑', others: '僅提供解答本自行訂正' },
-  { feature: '學習追蹤', yuhao: '數位化診斷系統，弱點分析', others: '僅看考試分數排名' },
-  { feature: '升學規劃', yuhao: '六年一貫，量身打造學習地圖', others: '單點式課程，缺乏長遠規劃' },
+  { feature: '對待孩子', yuhao: '深度了解個性，差異化引導', others: '統一標準，忽略個別差異' },
+  { feature: '班級氛圍', yuhao: '溫暖互助，良性競爭', others: '冷漠疏離，僅在意排名' },
+  { feature: '教學模式', yuhao: '啟發思考，讓孩子聽得懂', others: '填鴨灌輸，死記硬背' },
+  { feature: '輔導機制', yuhao: '導師貼身陪伴，解惑也談心', others: '僅提供解答，缺乏關懷' },
+  { feature: '親師溝通', yuhao: '主動回報，共同解決問題', others: '僅通知成績與繳費' },
 ];
 
 const SUCCESS_VIDEOS = [
@@ -129,14 +129,14 @@ const Features: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-slate-900 font-bold tracking-wide uppercase text-sm mb-6">為什麼選擇我們</h2>
+          <h2 className="text-slate-900 font-bold tracking-wide uppercase text-sm mb-6">關於育豪</h2>
           <div className="mb-8">
             <h3 className="inline-block text-3xl md:text-4xl font-extrabold text-primary-600 border border-primary-600 bg-white px-8 py-4 rounded-full">
-              育豪的六大堅持
+              對孩子的愛與堅持
             </h3>
           </div>
           <p className="max-w-2xl mx-auto text-slate-500 text-lg leading-relaxed">
-            我們不僅僅是補習班，更是孩子學習路上的引路人。透過系統化的教學與個別化的關懷，激發潛能，成就非凡。
+            我們相信，教育的本質是「陪伴」與「喚醒」。在育豪，孩子學到的不只是知識，更是對自己的信心。
           </p>
         </div>
 
@@ -194,8 +194,8 @@ const Features: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-20">
                 {[
-                  { title: '量身訂製', desc: '不走大鍋炒路線，針對每個孩子的程度與目標，規劃專屬學習路徑。', icon: <Target className="w-[30px] h-[30px] text-primary-600" /> },
-                  { title: '科技輔助', desc: '引進最新 AI 學習診斷系統，精準抓出學習盲點，複習更有效率。', icon: <Sparkles className="w-[30px] h-[30px] text-primary-600" /> },
+                  { title: '量身訂製', desc: '不走大鍋炒路線，針對每個孩子的程度與特質，規劃專屬學習路徑。', icon: <Target className="w-[30px] h-[30px] text-primary-600" /> },
+                  { title: '科技輔助', desc: '引進最新 AI 學習診斷系統，精準抓出學習盲點，讓努力更有效率。', icon: <Sparkles className="w-[30px] h-[30px] text-primary-600" /> },
                   { title: '品格優先', desc: '成績是一時的，品格是一輩子的。我們堅持教書更要育人。', icon: <Heart className="w-[30px] h-[30px] text-primary-600" /> },
                 ].map((item, idx) => (
                   <div key={idx} className="bg-slate-50/50 p-6 md:p-8 rounded-2xl border border-slate-100 text-center hover:border-primary-200 transition-colors group">

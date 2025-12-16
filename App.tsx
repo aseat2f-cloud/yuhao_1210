@@ -85,7 +85,6 @@ const SENIOR_IMAGES = [
 
 // Helper to create page-specific news items
 const createPageHighlights = (images: string[], prefix: string): NewsItem[] => {
-// ... (rest of the file remains same)
   return images.map((img, index) => ({
     ...MOCK_NEWS_BASE[index % MOCK_NEWS_BASE.length],
     id: `${prefix}-${index}`,
@@ -365,17 +364,17 @@ function App() {
             <Hero 
               title={
                 <>
-                  <span className="block mb-2">啟發潛能</span>
-                  <span className="text-primary-600 block">成就未來</span>
+                  <span className="block mb-2">懂孩子的心</span>
+                  <span className="text-primary-600 block">才能帶他們飛</span>
                 </>
               } 
-              subtitle="從國小到高中的完整規劃，陪伴孩子每個成長階段！讓學習成為一種享受，讓進步看得見！"
+              subtitle="因為理解，所以包容；因為專業，所以卓越。我們不只是補習班，更是孩子成長路上最堅強的後盾。"
               newsItems={HOME_HIGHLIGHTS}
               onNavigate={setCurrentPage}
               showQuickLinks={true}
-              gradeLabel="讀好書.交好友"
-              courseLabel="品德優先.成績第一"
-              secondaryBtnLabel="為什麼選擇育豪"
+              gradeLabel="讀好書 • 交好友"
+              courseLabel="品德優先 • 成績第一"
+              secondaryBtnLabel="為什麼選育豪"
               secondaryBtnIcon={<HelpCircle size={20} />}
               secondaryBtnLink="#features"
             />

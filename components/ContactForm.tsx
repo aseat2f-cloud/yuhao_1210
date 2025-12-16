@@ -50,23 +50,23 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
     switch (theme) {
       case 'green': // Elementary
         return {
-          title: <>啟發天賦，快樂學習，<br className="md:hidden" />從這裡開始！</>,
-          subtitle: "現在預約試聽，即可獲得「兒童優勢潛能評量」一份。名額有限，額滿為止！"
+          title: <>讓我們成為<br className="md:hidden" />孩子最強的後盾</>,
+          subtitle: "給我們一個機會，深度了解您的孩子。現在預約，即可獲得「兒童學習特質評量」與專業諮詢。"
         };
       case 'blue': // Junior
         return {
-          title: <>關鍵三年，<br className="md:hidden" />打造會考滿分實力！</>,
-          subtitle: "現在預約試聽，即可獲得「學科弱點診斷分析」一份。名額有限，額滿為止！"
+          title: <>青春期的迷惘<br className="md:hidden" />我們陪孩子一起走過</>,
+          subtitle: "面對升學壓力，孩子需要的是懂他的夥伴。立即預約「學科弱點診斷」，為孩子找到自信。"
         };
       case 'purple': // Senior
         return {
-          title: <>目標頂大，學測分科<br className="md:hidden" />精準領航！</>,
-          subtitle: "現在預約試聽，即可獲得「學習歷程規劃諮詢」一次。名額有限，額滿為止！"
+          title: <>夢想的路上<br className="md:hidden" />我們是最專業的導航員</>,
+          subtitle: "探索未來不孤單。預約「學習歷程健檢」與升學諮詢，讓我們一起規劃最適合孩子的未來。"
         };
       default: // Primary / Home
         return {
-          title: <>準備好讓成績<br className="md:hidden" />突飛猛進了嗎？</>,
-          subtitle: "現在排隊預約試聽，即可獲得「個人學習診斷報告」一份。名額有限，額滿為止！"
+          title: <>懂孩子的心<br className="md:hidden" />才能帶領他們飛得更高</>,
+          subtitle: "教育不只是教書，更是教人。預約免費試聽與診斷，體驗育豪「有溫度」的專業教學。"
         };
     }
   };
@@ -83,7 +83,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
             </div>
             <h3 className="text-2xl font-bold text-slate-800 mb-4">預約申請已送出！</h3>
             <p className="text-slate-600 mb-8">
-              感謝您的填寫，我們的課程顧問將於 24 小時內與您聯繫，安排免費試聽與解說。
+              感謝您的信任，我們的課程顧問將於 24 小時內與您聯繫，傾聽您的需求並安排體驗。
             </p>
             <button 
               onClick={() => setStatus('idle')}
@@ -186,16 +186,16 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
           {/* Left Side */}
           <div className={`bg-${t}-50 p-10 md:w-2/5 flex flex-col justify-between relative overflow-hidden`}>
             <div className="relative z-10">
-              <h3 className={`text-2xl font-bold text-${t}-900 mb-4`}>排隊預約試聽</h3>
+              <h3 className={`text-2xl font-bold text-${t}-900 mb-4`}>預約體驗與諮詢</h3>
               <p className={`text-${t}-700 mb-8 leading-relaxed`}>
-                填寫下方表單，我們將為您的孩子安排最適合的學習診斷與試聽課程。
+                填寫下方表單，讓我們有機會認識您的孩子，為他安排最適合的學習規劃。
               </p>
               
               <div className="space-y-6">
                 {[
-                  { id: 1, title: '填寫表單', desc: '留下聯絡資訊與學生年級' },
-                  { id: 2, title: '專人聯繫', desc: '顧問致電確認試聽時間' },
-                  { id: 3, title: '到班體驗', desc: '實際感受上課氛圍' }
+                  { id: 1, title: '填寫表單', desc: '簡單留下聯絡資訊' },
+                  { id: 2, title: '專人聯繫', desc: '顧問致電了解孩子狀況' },
+                  { id: 3, title: '適性安排', desc: '安排參訪、檢測或試聽' }
                 ].map(step => (
                   <div key={step.id} className="flex items-start gap-4">
                     <div className={`w-8 h-8 rounded-lg bg-${t}-200 flex items-center justify-center shrink-0 text-${t}-800 shadow-sm`}>
@@ -276,7 +276,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-semibold text-slate-700">備註或需求</label>
+                <label htmlFor="message" className="text-sm font-semibold text-slate-700">孩子的狀況或需求</label>
                 <textarea
                   id="message"
                   name="message"
@@ -284,7 +284,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ theme = 'primary' }) => {
                   onChange={handleChange}
                   rows={3}
                   className={`w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-${t}-500 focus:ring-2 focus:ring-${t}-200 transition-all outline-none bg-slate-50/50 focus:bg-white resize-none`}
-                  placeholder="例如：數學需要加強、希望安排週六試聽..."
+                  placeholder="例如：孩子對數學較沒自信、希望加強英文口說、需要升學建議..."
                 ></textarea>
               </div>
 
