@@ -76,11 +76,11 @@ const Hero: React.FC<HeroProps> = ({
   const secIcon = secondaryBtnIcon || <Download size={20} />;
 
   // Determine Title Size based on Theme (Home vs Departments)
-  // Home (primary): lg:text-[70px], xl:text-[78px]
+  // Home (primary): lg:text-[70px], xl:text-[80px]
   // Departments (others): lg:text-[90px], xl:text-[95px]
   const isHome = theme === 'primary';
   const titleSizeClass = isHome 
-    ? "text-[50px] md:text-[75px] lg:text-[70px] xl:text-[78px]" 
+    ? "text-[50px] md:text-[75px] lg:text-[70px] xl:text-[80px]" 
     : "text-[50px] md:text-[75px] lg:text-[90px] xl:text-[95px]";
 
   return (
