@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Users, BookOpen, Calendar, Map, Target, CheckCircle2, Rocket, ArrowRight, Clock, FileText, Lightbulb, Footprints, Calculator, Languages, FlaskConical, ChevronUp, ChevronsDown, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Users, BookOpen, Search } from 'lucide-react';
 import { PageType } from '../types';
 
 interface ProgramPlanningProps {
