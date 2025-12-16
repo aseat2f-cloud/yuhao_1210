@@ -75,6 +75,14 @@ const Hero: React.FC<HeroProps> = ({
   const secLabel = secondaryBtnLabel || "下載教材試閱";
   const secIcon = secondaryBtnIcon || <Download size={20} />;
 
+  // Determine Title Size based on Theme (Home vs Departments)
+  // Home (primary): lg:text-[70px], xl:text-[75px]
+  // Departments (others): lg:text-[90px], xl:text-[95px]
+  const isHome = theme === 'primary';
+  const titleSizeClass = isHome 
+    ? "text-[50px] md:text-[75px] lg:text-[70px] xl:text-[75px]" 
+    : "text-[50px] md:text-[75px] lg:text-[90px] xl:text-[95px]";
+
   return (
     <section className="relative pt-[40px] pb-16 lg:pt-0 lg:pb-0 lg:h-[97vh] lg:min-h-[684px] overflow-hidden bg-white bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:24px_24px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-auto lg:h-full">
@@ -84,8 +92,8 @@ const Hero: React.FC<HeroProps> = ({
           {/* Text Content Column */}
           <div className="flex-1 w-full flex flex-col justify-center lg:items-start items-center self-center lg:self-stretch">
             
-            {/* 85% Height Wrapper for Desktop Vertical Alignment (Adjusted: Aligned with News at -3%) */}
-            <div className="w-full h-auto lg:h-[85%] my-auto flex flex-col justify-center items-center lg:items-start lg:pl-[5%] lg:-translate-y-[3%]">
+            {/* 85% Height Wrapper for Desktop Vertical Alignment */}
+            <div className="w-full h-auto lg:h-[85%] my-auto flex flex-col justify-center items-center lg:items-start lg:pl-[5%]">
               
               <div className="w-full flex flex-col items-center lg:items-start">
                 {/* Top Label */}
@@ -110,8 +118,8 @@ const Hero: React.FC<HeroProps> = ({
                   </div>
                 )}
 
-                {/* Main Title - Responsive sizing & Alignment Updated */}
-                <h1 className="text-5xl sm:text-6xl md:text-[5.8rem] lg:text-[5.5vw] xl:text-[6.5rem] font-extrabold text-slate-900 tracking-tight leading-[1.1] md:leading-[1.05] mb-6 text-center lg:text-left whitespace-nowrap">
+                {/* Main Title - Updated Sizing */}
+                <h1 className={`${titleSizeClass} font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6 text-center lg:text-left whitespace-nowrap`}>
                   {title}
                 </h1>
                 
@@ -164,8 +172,8 @@ const Hero: React.FC<HeroProps> = ({
             </div>
           </div>
 
-          {/* Right Side: News Carousel - Adjusted to move up by 2% on desktop */}
-          <div className="flex-1 w-full flex items-center justify-center lg:justify-end h-auto lg:h-full lg:-translate-y-[2%]">
+          {/* Right Side: News Carousel */}
+          <div className="flex-1 w-full flex items-center justify-center lg:justify-end h-auto lg:h-full">
             <NewsCarousel news={newsItems} onNavigate={onNavigate} />
           </div>
 
